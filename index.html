@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head></head>
+<body>
+<div id="container"></div>
+<script src="kinetic-v4.7.1.js"></script>
+<script src="link.js"></script>
+<script defer="defer">
+    var stage = new Kinetic.Stage({
+        container: 'container',
+        width: 578,
+        height: 200
+    });
+
+    var layer = new Kinetic.Layer();
+
+    var link = new Kinetic.Link({
+        x: stage.getWidth() / 2,
+        y: 15,
+        fontSize: 18,
+        fontFamily: 'Calibri',
+        fontStyle: 'bold',
+        color: 'turquoise',
+        draggable: true
+    });
+
+    // add the shape to the layer
+    layer.add(link);
+    // add the layer to the stage
+    stage.add(layer);
+</script>
+</body>
+</html>
