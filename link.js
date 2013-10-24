@@ -51,6 +51,11 @@ myExtend = function ()
             Kinetic.Group.call(this, config);
             this.add(new Kinetic.Text(myExtend(config, {id: "text", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
             this.add(new Kinetic.Line(myExtend(config, {id: "line", x: 0, y: 0, draggable: false, stroke: config.color})));
+            //noinspection JSUnusedLocalSymbols
+            this.add = function (ignore)
+            {
+                throw new Error("Cannot add children to Link");
+            }
         }, drawScene: function (canvas)
         {
             var textChild = this.find("#text")[0];
