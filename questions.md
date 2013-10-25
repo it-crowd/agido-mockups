@@ -15,3 +15,5 @@ instead of
 I want my Link component to contain Text and Line below text.
 I don't want user to interact with Text or Line, just with Link (i.e. link.setText).
 When should I update Text and Line children? In drawScene (Link extends Group)?
+
+#Nesting components is so cool, cause it takes rendering off of me, but I don't want it in toJSON

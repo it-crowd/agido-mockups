@@ -19,13 +19,39 @@
         y: 15,
         fontSize: 18,
         fontFamily: 'Calibri',
-        fontStyle: 'bold',
+        fontStyle: 'normal',
         color: 'turquoise',
+        text: "Sialala",
         draggable: true
     });
 
+
+    var radio = new Kinetic.RadioItem({
+        fontSize: 40,
+        color: '#000',
+//        text: "Sialala",
+        draggable: true
+    });
+    var radio2 = new Kinetic.RadioItem({
+        fontSize: 14,
+        y: 40,
+        selected: true,
+        color: '#000',
+        text: "Sialala",
+        draggable: true
+    });
+    var radioGroup = new Kinetic.RadioGroup({
+        fontSize: 20,
+        color: '#555',
+        y: 60,
+        text: "() Radio item A\n(o) Radio item B\n(x) Radio item B\ns(o) Radio item B\n(o) Radio item B",
+        draggable: true
+    });
     // add the shape to the layer
     layer.add(link);
+    layer.add(radio);
+    layer.add(radio2);
+    layer.add(radioGroup);
     // add the layer to the stage
     stage.add(layer);
 </script>
