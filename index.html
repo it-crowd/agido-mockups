@@ -47,6 +47,15 @@
         text: "() Radio item A\n(o) Radio item B\n(x) Radio item B\ns(o) Radio item B\n(o) Radio item B",
         draggable: true
     });
+    /**
+     * Snap to grid 20x20
+     */
+    radioGroup.on("dragend", function ()
+    {
+        this.setAttr("x", parseInt(this.attrs.x / 20) * 20);
+        this.setAttr("y", parseInt(this.attrs.y / 20) * 20);
+        this.getStage().draw()
+    });
     // add the shape to the layer
     layer.add(link);
     layer.add(radio);
