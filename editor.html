@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html ng-app="AgidoMockupsApp">
+<head>
+    <style>
+        #container canvas {
+            border: 1px solid #555 !important;
+        }
+
+        .palette span {
+            z-index: 999;
+        }
+    </style>
+</head>
+<body ng-controller="EditorCtrl">
+<div class="palette">
+    <span ng-click="addToStage('RadioItem')">Radio item</span>
+    <span ng-click="addToStage('RadioGroup')">Radio group</span>
+</div>
+<div id="container" class="stage"></div>
+<!--TODO probably those imputs should be moved to directive template-->
+<input ng-model="componentSource" ng-show="editSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle"/>
+<textarea ng-model="componentSource" ng-show="editSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle"></textarea>
+<script src="kinetic-v4.7.1.js"></script>
+<script src="link.js"></script>
+<script src="vendor/angular/angular.js"></script>
+<script src="editorApp.js"></script>
+<script src="editorCtrl.js"></script>
+</body>
+</html>
