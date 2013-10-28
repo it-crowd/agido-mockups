@@ -1,3 +1,4 @@
+//noinspection JSUnusedGlobalSymbols
 function EditorCtrl($scope, $timeout)
 {
     $scope.editSource = false;
@@ -30,40 +31,58 @@ function EditorCtrl($scope, $timeout)
         }
         var component = new scheme.constructor(scheme.options);
         component.mockupComponent = scheme;
-        component.on("click", function (event)
-        {
-            $scope.selectedComponent = getComponent(event);
-            if (null != $scope.selectedComponent) {
-                $timeout(function ()
-                {
-                    $scope.editSource = true;
-                    $scope.componentSource = $scope.selectedComponent.getText();
-                    $scope.editorStyle = {position: "absolute", top: $scope.selectedComponent.getAttr('y') + 'px', left: $scope.selectedComponent.getAttr('x') + 'px'};
-                });
-            }
-
-        });
         $scope.stage.getLayers()[0].add(component);
         $scope.stage.draw();
     };
 
-    $scope.$watch("componentSource", function (newValue)
+
+    $scope.saveSource = function ()
     {
-        if (undefined != $scope.selectedComponent) {
-            $scope.selectedComponent.setText(newValue);
+        if (applyComponentSource()) {
+            $scope.editSource = false;
+        }
+    };
+
+    $scope.$on("mockupComponentSelected", function (event, component)
+    {
+        $scope.selectedComponent = component;
+        $timeout(function ()
+        {
+            $scope.editSource = true;
+            $scope.componentSource = $scope.selectedComponent.getText();
+            $scope.editorStyle = {position: "absolute", top: $scope.selectedComponent.getAttr('y') + 'px', left: $scope.selectedComponent.getAttr('x') + 'px'};
+        });
+    });
+    function applyComponentSource()
+    {
+        if (null != $scope.componentSource && "" != $scope.componentSource.trim()) {
+            $scope.selectedComponent.setText($scope.componentSource);
             $scope.stage.draw();
+            return true;
+        }
+        return false;
+    }
+
+    $scope.$on("stageClicked", function ()
+    {
+        if ($scope.editSource && null != $scope.selectedComponent) {
+            $scope.editSource = false;
+            $scope.$apply();
+            if ($scope.selectedComponent.mockupComponent.multilineSource) {
+                applyComponentSource();
+            }
         }
     });
-
-    function getComponent(event)
+    var KEY_ENTER = 13;
+    var KEY_ESC = 27;
+    $scope.onComponentSourceKeyPress = function (event)
     {
-        var node = event.targetNode;
-        while (null != node.getParent()) {
-            if (node.mockupComponent != null) {
-                break;
+        if (KEY_ENTER == event.keyCode) {
+            if (!$scope.selectedComponent.mockupComponent.multilineSource) {
+                $scope.saveSource();
             }
-            node = node.getParent();
+        } else if (KEY_ESC == event.keyCode) {
+            $scope.editSource = false;
         }
-        return node.mockupComponent ? node : null;
     }
 }

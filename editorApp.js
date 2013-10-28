@@ -27,8 +27,14 @@ app.directive('stage', function ()
             scope.stage.add(layer);
             element.bind("click", function ()
             {
-                scope.editSource = false;
-                scope.$apply();
+                scope.$emit("stageClicked");
+            });
+            scope.stage.on("click", function (event)
+            {
+                var component = getComponent(event);
+                if (null != component) {
+                    scope.$emit("mockupComponentSelected", component);
+                }
             });
         }
     }
