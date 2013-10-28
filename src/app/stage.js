@@ -1,5 +1,4 @@
-var app = angular.module('AgidoMockupsApp', [], null);
-app.directive('stage', function ($timeout)
+agidoMockups.directive('stage', function ($timeout)
 {
     function getComponent(event, isMockupComponent)
     {

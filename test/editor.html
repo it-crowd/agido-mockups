@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
-<html ng-app="AgidoMockupsApp">
+<html ng-app="AgidoMockups">
 <head>
     <style>
-        #container canvas {
+        .stage canvas {
             border: 1px solid #555 !important;
         }
     </style>
@@ -24,10 +24,9 @@
 
 <div>{{ stage.toJSON() }}</div>
 
-<script src="kinetic-v4.7.1.js"></script>
-<script src="link.js"></script>
-<script src="vendor/angular/angular.js"></script>
-<script src="editorApp.js"></script>
-<script src="editorCtrl.js"></script>
+<script src="../vendor/kineticjs/kinetic-v4.7.1.js"></script>
+<script src="../dist/agido-mockups-dev.kintetic.js"></script>
+<script src="../vendor/angular/angular.js"></script>
+<script src="../dist/agido-mockups-dev.angular.js"></script>
 </body>
 </html>

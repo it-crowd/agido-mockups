@@ -1,5 +1,4 @@
-//noinspection JSUnusedGlobalSymbols
-function EditorCtrl($scope)
+agidoMockups.controller("EditorCtrl", function ($scope)
 {
     $scope.selectedComponent = null;
 
@@ -87,4 +86,4 @@ function EditorCtrl($scope)
         }})
     };
 
-}
+});
