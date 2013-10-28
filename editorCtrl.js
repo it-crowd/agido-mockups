@@ -4,6 +4,13 @@ function EditorCtrl($scope)
     $scope.selectedComponent = null;
 
     var components = {
+        "Link": {constructor: Kinetic.Link,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: false
+        },
         "RadioItem": {constructor: Kinetic.RadioItem,
             options: {
                 color: '#000',
