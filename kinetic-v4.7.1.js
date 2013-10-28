@@ -3179,7 +3179,11 @@ var Kinetic = {};
             for(key in attrs) {
                 val = attrs[key];
                 if(!type._isFunction(val) && !type._isElement(val) && !(type._isObject(val) && type._hasMethods(val))) {
-                    obj.attrs[key] = val;
+                    var getter = this[GET + Kinetic.Util._capitalize(key)];
+                    var defaultValue = null == getter ? null : getter.call({attrs: {}});
+                    if (defaultValue != val) {
+                        obj.attrs[key] = val;
+                    }
                 }
             }
 
