@@ -90,13 +90,15 @@
         <span class="label label-default">{{ property.name }}</span>
         <span>
             <!--suppress HtmlFormInputWithoutLabel -->
-            <input ng-model="selectedComponentProperties[property.name]" ng-show="'text'==property.type"/>
+            <input type="text" ng-model="selectedComponentProperties[property.name]" ng-show="'text'==property.type"/>
             <!--suppress HtmlFormInputWithoutLabel -->
             <select ng-model="selectedComponentProperties[property.name]" ng-show="'enum'==property.type">
                 <option ng-repeat="option in property.options" value="{{ option }}" ng-selected="option==selectedComponentProperties[property.name]">
                     {{ option }}
                 </option>
             </select>
+            <!--suppress HtmlFormInputWithoutLabel -->
+            <input type="checkbox" ng-model="selectedComponentProperties[property.name]" ng-show="'boolean'==property.type"/>
         </span>
     </div>
 </form>

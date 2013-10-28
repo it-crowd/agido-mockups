@@ -24,14 +24,27 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 color: '#000',
                 draggable: true
             },
-            multilineSource: false
+            multilineSource: false,
+            properties: [
+                {name: "selected", type: "boolean", options: [true, false]},
+                {name: "x", hidden: true},
+                {name: "y", hidden: true}  ,
+                {name: "width", hidden: true},
+                {name: "height", hidden: true}
+            ]
         },
         "RadioGroup": {constructor: Kinetic.RadioGroup,
             options: {
                 color: '#000',
                 draggable: true
             },
-            multilineSource: true
+            multilineSource: true,
+            properties: [
+                {name: "x", hidden: true},
+                {name: "y", hidden: true}  ,
+                {name: "width", hidden: true},
+                {name: "height", hidden: true}
+            ]
         }
     };
 
