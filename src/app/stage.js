@@ -23,6 +23,7 @@ agidoMockups.directive('stage', function ($timeout)
             width: '@',
             height: '@',
             stage: '=',
+            editingSource: '=',
             isMockupComponent: '&',
             saveSource: '&',
             stageClicked: '&',
@@ -43,6 +44,7 @@ agidoMockups.directive('stage', function ($timeout)
             /**
              * Invoke stageClicked callback if stage is clicked in editingSource mode
              */
+//            TODO this is getting in the way of kinetic.click; introduce new layer with white rectangle so that clicking can be fully serviced by kinetic
             element.bind("click", scope.$apply.bind(scope, function ()
             {
                 if (scope.editingSource) {
@@ -103,7 +105,7 @@ agidoMockups.directive('stage', function ($timeout)
             scope.onComponentSourceKeyPress = function (event)
             {
                 if (KEY_ENTER == event.keyCode) {
-                    if (!scope.selectedComponent.mockupComponent.multilineSource) {
+                    if (null != scope.selectedComponent && !scope.selectedComponent.mockupComponent.multilineSource) {
                         if (scope.saveSource({source: scope.componentSource})) {
                             scope.editingSource = false;
                         }

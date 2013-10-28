@@ -1,14 +1,21 @@
 (function ()
 {
-    function updateChildren(item)
+    function updateChildren(item, config)
     {
         var textChild = item.find(".text")[0];
         textChild.setText(item.getText());
         //noinspection JSUnresolvedFunction
-        item.find(".line")[0].setPoints([
+        var color = "disabled" == item.getState() ? '#aaa' : config.color;
+        //noinspection JSUnresolvedFunction
+        textChild.setFill(color);
+        var line = item.find(".line")[0];
+        //noinspection JSUnresolvedFunction
+        line.setPoints([
             {x: 0, y: textChild.getTextHeight()},
             {x: textChild.getWidth(), y: textChild.getTextHeight()}
         ]);
+        //noinspection JSUnresolvedFunction
+        line.setStroke(color);
     }
 
     Kinetic.Link = function (config)
@@ -22,18 +29,15 @@
             Kinetic.Group.call(this, config);
             this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "text", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
             this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "line", x: 0, y: 0, draggable: false, stroke: config.color})));
-            //noinspection JSUnusedLocalSymbols
-            this.add = function (ignore)
-            {
-                throw new Error("Cannot add children to Link");
-            };
-            this.on("textChange", function (event)
+            var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {
-                    updateChildren(this);
+                    updateChildren(this, config);
                 }
-            });
-            updateChildren(this);
+            };
+            this.on("textChange", propertyChangeListener);
+            this.on("stateChange", propertyChangeListener);
+            updateChildren(this, config);
         },
         toObject: function ()
         {
@@ -41,5 +45,6 @@
         }
     };
     Kinetic.Util.extend(Kinetic.Link, Kinetic.Group);
+    Kinetic.Factory.addGetterSetter(Kinetic.Link, 'state', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'text', "The link");
 })();

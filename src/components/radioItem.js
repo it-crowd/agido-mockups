@@ -41,11 +41,6 @@
             this.add(new Kinetic.Circle(AgidoMockups.extend(config,
                     {name: "outerCircle", x: 0, y: 0, draggable: false, fill: null, stroke: config.color, strokeWidth: .5})));
             this.add(new Kinetic.Circle(AgidoMockups.extend(config, {name: "innerCircle", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
-            //noinspection JSUnusedLocalSymbols
-            this.add = function (ignore)
-            {
-                throw new Error("Cannot add children to RadioItem");
-            };
             this.on("textChange", function (event)
             {
                 if (event.newVal != event.oldVal) {

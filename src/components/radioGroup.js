@@ -29,11 +29,6 @@
         {
             Kinetic.Group.call(this, config);
             this.className = "RadioGroup";
-            //noinspection JSUnusedLocalSymbols
-            this.add = function (ignore)
-            {
-                throw new Error("Cannot add children to RadioGroup");
-            };
             this.on("textChange", function (event)
             {
                 if (event.newVal != event.oldVal) {
