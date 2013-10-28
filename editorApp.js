@@ -1,41 +1,118 @@
-var app = angular.module('AgidoMockupsApp', []);
-app.directive('stage', function ()
+var app = angular.module('AgidoMockupsApp', [], null);
+app.directive('stage', function ($timeout)
 {
-    function getComponent(event)
+    function getComponent(event, isMockupComponent)
     {
         var node = event.targetNode;
         while (null != node.getParent()) {
-            if (node.mockupComponent != null) {
-                break;
+            if (isMockupComponent({component: node})) {
+                return node;
             }
             node = node.getParent();
         }
-        return node.mockupComponent ? node : null;
+        return isMockupComponent(node) ? node : null;
+    }
+
+    function cancelBubble(event)
+    {
+        event.cancelBubble = true;
     }
 
     return {
-        restrict: 'C',
-        link: function (scope, element, attrs)
+        restrict: 'E',
+        scope: {
+            width: '@',
+            height: '@',
+            stage: '=',
+            isMockupComponent: '&',
+            saveSource: '&',
+            stageClicked: '&',
+            mockupComponentSelected: '&',
+            selectedComponent: '='
+        },
+        template: '<div class="stageContainer"><div class="stage"></div><form ng-submit = "saveSource()"><input ng-model="componentSource" ng-show="editingSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"/><textarea ng-model="componentSource" ng-show="editingSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"></textarea></form></div>',
+        replace: true,
+        link: function (scope, element)
         {
             scope.stage = new Kinetic.Stage({
-                container: element[0],
-//                TODO use scope attributes for width and height
-                width: 578,
-                height: 200
+                container: element[0].firstChild,
+                width: scope["width"],
+                height: scope["height"]
             });
-            var layer = new Kinetic.Layer();
-            scope.stage.add(layer);
-            element.bind("click", function ()
+            scope.stage.add(new Kinetic.Layer({}));
+
+            /**
+             * Invoke stageClicked callback if stage is clicked in editingSource mode
+             */
+            element.bind("click", scope.$apply.bind(scope, function ()
             {
-                scope.$emit("stageClicked");
-            });
+                if (scope.editingSource) {
+                    scope.editingSource = false;
+                    scope.stageClicked({source: scope.componentSource});
+
+                }
+            }));
+
+            var sourceTextearea = element.find("textarea");
+            var sourceInput = element.find("input");
+            /**
+             * Do not allow stage.click (thus stageClicked callback) in source inputs are clicked
+             */
+            sourceTextearea.bind("click", cancelBubble);
+            sourceInput.bind("click", cancelBubble);
+
+            /**
+             * Focus source textarea on show
+             */
+            scope.$watch("editingSource && selectedComponent.mockupComponent.multilineSource", function (newValue)
+            {
+                if (newValue) {
+                    sourceTextearea[0].focus();
+                    sourceTextearea[0].select(sourceTextearea[0]);
+                }
+            }, true);
+            /**
+             * Focus source input on show
+             */
+            scope.$watch("editingSource && !selectedComponent.mockupComponent.multilineSource", function (newValue)
+            {
+                if (newValue) {
+                    sourceInput[0].focus();
+                    sourceInput[0].select(sourceInput[0]);
+                }
+            }, true);
+
+            /**
+             * Invoke mockupComponentSelected callback when mockup element gets clicked
+             */
             scope.stage.on("click", function (event)
             {
-                var component = getComponent(event);
+                var component = getComponent(event, scope.isMockupComponent);
                 if (null != component) {
-                    scope.$emit("mockupComponentSelected", component);
+                    scope.mockupComponentSelected({component: component});
+                    scope.editorStyle = {position: "absolute", top: component.getAttr('y') + 'px', left: component.getAttr('x') + 'px'};
+                    scope.componentSource = component.getText();
+                    $timeout(function ()
+                    {
+                        scope.editingSource = true;
+                    });
+                    scope.$apply();
                 }
             });
+            var KEY_ENTER = 13;
+            var KEY_ESC = 27;
+            scope.onComponentSourceKeyPress = function (event)
+            {
+                if (KEY_ENTER == event.keyCode) {
+                    if (!scope.selectedComponent.mockupComponent.multilineSource) {
+                        if (scope.saveSource({source: scope.componentSource})) {
+                            scope.editingSource = false;
+                        }
+                    }
+                } else if (KEY_ESC == event.keyCode) {
+                    scope.editingSource = false;
+                }
+            };
         }
     }
 });

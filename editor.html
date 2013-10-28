@@ -5,29 +5,24 @@
         #container canvas {
             border: 1px solid #555 !important;
         }
-
-        .palette span {
-            z-index: 999;
-        }
     </style>
 </head>
 <body ng-controller="EditorCtrl">
 <div class="palette">
-    <span ng-click="addToStage('RadioItem')">Radio item</span>
-    <span ng-click="addToStage('RadioGroup')">Radio group</span>
+    <button ng-click="addToStage('RadioItem')">Radio item</button>
+    <button ng-click="addToStage('RadioGroup')">Radio group</button>
 </div>
-<div id="container" class="stage"></div>
-<!--TODO probably those imputs should be moved to directive template-->
-<form ng-submit="saveSource()">
-    <input ng-model="componentSource" ng-show="editSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle"
-           ng-keyup="onComponentSourceKeyPress($event)"/>
-    <textarea ng-model="componentSource" ng-show="editSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle"
-              ng-keyup="onComponentSourceKeyPress($event)"></textarea>
-</form>
+
+<stage width="500" height="300" stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)"
+       mockup-component-selected="mockupComponentSelected(component)" selected-component="selectedComponent"
+       is-mockup-component=isMockupComponent(component)></stage>
+
 <button class="btn" ng-click="downloadImage()">Download image</button>
+
 <h1>Stage source</h1>
 
 <div>{{ stage.toJSON() }}</div>
+
 <script src="kinetic-v4.7.1.js"></script>
 <script src="link.js"></script>
 <script src="vendor/angular/angular.js"></script>

@@ -1,10 +1,7 @@
 //noinspection JSUnusedGlobalSymbols
-function EditorCtrl($scope, $timeout)
+function EditorCtrl($scope)
 {
-    $scope.editSource = false;
     $scope.selectedComponent = null;
-    $scope.componentSource = "";
-    $scope.event = "";
 
     var components = {
         "RadioItem": {constructor: Kinetic.RadioItem,
@@ -36,54 +33,40 @@ function EditorCtrl($scope, $timeout)
     };
 
 
-    $scope.saveSource = function ()
+    function applyComponentSource(source)
     {
-        if (applyComponentSource()) {
-            $scope.editSource = false;
-        }
-    };
-
-    $scope.$on("mockupComponentSelected", function (event, component)
-    {
-        $scope.selectedComponent = component;
-        $timeout(function ()
-        {
-            $scope.editSource = true;
-            $scope.componentSource = $scope.selectedComponent.getText();
-            $scope.editorStyle = {position: "absolute", top: $scope.selectedComponent.getAttr('y') + 'px', left: $scope.selectedComponent.getAttr('x') + 'px'};
-        });
-    });
-    function applyComponentSource()
-    {
-        if (null != $scope.componentSource && "" != $scope.componentSource.trim()) {
-            $scope.selectedComponent.setText($scope.componentSource);
+        if (null != source && "" != source.trim()) {
+            $scope.selectedComponent.setText(source);
             $scope.stage.draw();
             return true;
         }
         return false;
     }
 
-    $scope.$on("stageClicked", function ()
+    $scope.saveSource = function (source)
     {
-        if ($scope.editSource && null != $scope.selectedComponent) {
-            $scope.editSource = false;
-            $scope.$apply();
+        return applyComponentSource(source);
+
+    };
+
+    $scope.mockupComponentSelected = function (component)
+    {
+        $scope.selectedComponent = component;
+        $scope.componentSource = $scope.selectedComponent.getText();
+    };
+
+    $scope.stageClicked = function (source)
+    {
+        if (null != $scope.selectedComponent) {
             if ($scope.selectedComponent.mockupComponent.multilineSource) {
-                applyComponentSource();
+                applyComponentSource(source);
             }
         }
-    });
-    var KEY_ENTER = 13;
-    var KEY_ESC = 27;
-    $scope.onComponentSourceKeyPress = function (event)
+    };
+
+    $scope.isMockupComponent = function (comopnent)
     {
-        if (KEY_ENTER == event.keyCode) {
-            if (!$scope.selectedComponent.mockupComponent.multilineSource) {
-                $scope.saveSource();
-            }
-        } else if (KEY_ESC == event.keyCode) {
-            $scope.editSource = false;
-        }
+        return comopnent.mockupComponent != null;
     };
 
     $scope.downloadImage = function ()
