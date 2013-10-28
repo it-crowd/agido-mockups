@@ -84,5 +84,17 @@ function EditorCtrl($scope, $timeout)
         } else if (KEY_ESC == event.keyCode) {
             $scope.editSource = false;
         }
-    }
+    };
+
+    $scope.downloadImage = function ()
+    {
+        $scope.stage.toDataURL({callback: function (data)
+        {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', data);
+            pom.setAttribute('download', "AgidoMockup.png");
+            pom.click();
+        }})
+    };
+
 }
