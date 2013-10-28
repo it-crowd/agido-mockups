@@ -99,6 +99,8 @@
             </select>
             <!--suppress HtmlFormInputWithoutLabel -->
             <input type="checkbox" ng-model="selectedComponentProperties[property.name]" ng-show="'boolean'==property.type"/>
+            <!--suppress HtmlFormInputWithoutLabel -->
+            <input type="number" ng-model="selectedComponentProperties[property.name]" ng-show="'number'==property.type" class="input-xs"/>
         </span>
     </div>
 </form>
@@ -110,7 +112,6 @@
 <div>{{ stage.toJSON() }}</div>
 
 <script src="../vendor/kineticjs/kinetic-v4.7.1.js"></script>
-<script src="../dist/agido-mockups-dev.kintetic.js"></script>
 <script src="../src/components/_util.js"></script>
 <script src="../src/components/link.js"></script>
 <script src="../src/components/radioGroup.js"></script>

@@ -12,6 +12,9 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: [
+                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
+                {name: "fontSize", type: "number"},
+                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
                 {name: "state", type: "enum", options: ["normal", "disabled"]},
                 {name: "x", hidden: true},
                 {name: "y", hidden: true}  ,
@@ -26,6 +29,9 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: [
+                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
+                {name: "fontSize", type: "number"},
+                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
                 {name: "selected", type: "boolean", options: [true, false]},
                 {name: "x", hidden: true},
                 {name: "y", hidden: true}  ,
@@ -40,6 +46,9 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: true,
             properties: [
+                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
+                {name: "fontSize", type: "number"},
+                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
                 {name: "x", hidden: true},
                 {name: "y", hidden: true}  ,
                 {name: "width", hidden: true},

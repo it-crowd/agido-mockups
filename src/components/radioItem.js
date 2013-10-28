@@ -6,6 +6,12 @@
         var outerCircle = item.find(".outerCircle")[0];
         var innerCircle = item.find(".innerCircle")[0];
         label.setText(item.getText());
+        //noinspection JSUnresolvedFunction
+        label.setFontFamily(item.getFontFamily());
+        //noinspection JSUnresolvedFunction
+        label.setFontStyle(item.getFontStyle());
+        //noinspection JSUnresolvedFunction
+        label.setFontSize(item.getFontSize());
         var strokeWidth = 1;
         var outerRadius = (label.getHeight() - 2 * strokeWidth) / 4;
         //noinspection JSUnresolvedFunction
@@ -41,18 +47,17 @@
             this.add(new Kinetic.Circle(AgidoMockups.extend(config,
                     {name: "outerCircle", x: 0, y: 0, draggable: false, fill: null, stroke: config.color, strokeWidth: .5})));
             this.add(new Kinetic.Circle(AgidoMockups.extend(config, {name: "innerCircle", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
-            this.on("textChange", function (event)
+            var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {
                     updateChildren(this);
                 }
-            });
-            this.on("selectedChange", function (event)
-            {
-                if (event.newVal != event.oldVal) {
-                    updateChildren(this);
-                }
-            });
+            };
+            this.on("fontFamilyChange", propertyChangeListener);
+            this.on("fontSizeChange", propertyChangeListener);
+            this.on("fontStyleChange", propertyChangeListener);
+            this.on("textChange", propertyChangeListener);
+            this.on("selectedChange", propertyChangeListener);
             updateChildren(this);
         },
         toObject: function ()
@@ -64,6 +69,9 @@
         }
     };
     Kinetic.Util.extend(Kinetic.RadioItem, Kinetic.Group);
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'fontFamily', "Arial");
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'fontSize', 18);
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'fontStyle', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'text', "The radio item");
     Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'selected', false);
 })();

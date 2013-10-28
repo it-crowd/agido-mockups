@@ -1,9 +1,9 @@
 (function ()
 {
-    function updateChildren(group)
+    function updateChildren(item)
     {
-        group.removeChildren();
-        var lines = group.getText().split("\n");
+        item.removeChildren();
+        var lines = item.getText().split("\n");
         var height = 0;
         for (var i = 0; i < lines.length; i++) {
             var match = lines[i].match(/^\s*\(\s*(o|-)?\s*\)\s*(.*)/);
@@ -15,7 +15,13 @@
             } else {
                 component = new Kinetic.Text({text: lines[i], fill: '#000', fontSize: 14, y: height});
             }
-            Kinetic.Group.prototype.add.call(group, component);
+            //noinspection JSUnresolvedFunction
+            component.setFontFamily(item.getFontFamily());
+            //noinspection JSUnresolvedFunction
+            component.setFontStyle(item.getFontStyle());
+            //noinspection JSUnresolvedFunction
+            component.setFontSize(item.getFontSize());
+            Kinetic.Group.prototype.add.call(item, component);
             height += component.getHeight()
         }
     }
@@ -29,12 +35,16 @@
         {
             Kinetic.Group.call(this, config);
             this.className = "RadioGroup";
-            this.on("textChange", function (event)
+            var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {
                     updateChildren(this);
                 }
-            });
+            };
+            this.on("fontFamilyChange", propertyChangeListener);
+            this.on("fontSizeChange", propertyChangeListener);
+            this.on("fontStyleChange", propertyChangeListener);
+            this.on("textChange", propertyChangeListener);
             updateChildren(this);
         }, toObject: function ()
         {
@@ -42,5 +52,8 @@
         }
     };
     Kinetic.Util.extend(Kinetic.RadioGroup, Kinetic.Group);
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'fontFamily', "Arial");
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'fontSize', 18);
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'fontStyle', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'text', "() Radio item A\n(o) Radio item B");
 })();

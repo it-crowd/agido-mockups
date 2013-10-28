@@ -5,6 +5,12 @@
         var textChild = item.find(".text")[0];
         textChild.setText(item.getText());
         //noinspection JSUnresolvedFunction
+        textChild.setFontFamily(item.getFontFamily());
+        //noinspection JSUnresolvedFunction
+        textChild.setFontStyle(item.getFontStyle());
+        //noinspection JSUnresolvedFunction
+        textChild.setFontSize(item.getFontSize());
+        //noinspection JSUnresolvedFunction
         var color = "disabled" == item.getState() ? '#aaa' : config.color;
         //noinspection JSUnresolvedFunction
         textChild.setFill(color);
@@ -35,6 +41,9 @@
                     updateChildren(this, config);
                 }
             };
+            this.on("fontFamilyChange", propertyChangeListener);
+            this.on("fontSizeChange", propertyChangeListener);
+            this.on("fontStyleChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
             this.on("stateChange", propertyChangeListener);
             updateChildren(this, config);
@@ -45,6 +54,9 @@
         }
     };
     Kinetic.Util.extend(Kinetic.Link, Kinetic.Group);
+    Kinetic.Factory.addGetterSetter(Kinetic.Link, 'fontFamily', "Arial");
+    Kinetic.Factory.addGetterSetter(Kinetic.Link, 'fontSize', 18);
+    Kinetic.Factory.addGetterSetter(Kinetic.Link, 'fontStyle', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'state', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'text', "The link");
 })();
