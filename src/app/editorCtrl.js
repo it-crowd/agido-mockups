@@ -19,6 +19,35 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]}
     ];
     var components = {
+        "Label": {constructor: Kinetic.Text,
+            options: {
+                text: "Label",
+                fill: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties)
+        },
+        "Title": {constructor: Kinetic.Text,
+            options: {
+                fontSize: 48,
+                text: "Title",
+                fill: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties)
+        },
+        "Subtitle": {constructor: Kinetic.Text,
+            options: {
+                fontSize: 32,
+                text: "Subtitle",
+                fill: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties)
+        },
         "Link": {constructor: Kinetic.Link,
             options: {
                 color: '#000',
@@ -28,7 +57,8 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             properties: fontProperties.concat(dimensionProperties, [
                 {name: "disabled", type: "boolean"}
             ])
-        }, "RadioItem": {
+        },
+        "RadioItem": {
             constructor: Kinetic.RadioItem, options: {
                 color: '#000', draggable: true
             },
