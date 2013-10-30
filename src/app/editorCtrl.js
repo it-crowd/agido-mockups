@@ -15,7 +15,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     ];
     var fontProperties = [
         {name: "fontFamily", type: "enum", options: availableFonts},
-        {name: "fontSize", type: "number"},
+        {name: "fontSize", type: "number", min: 8},
         {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]}
     ];
     var components = {
@@ -124,13 +124,16 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {
                     return null == $scope.selectedComponent ? null : $scope.selectedComponent["get" + Kinetic.Util._capitalize(propertyName)]();
                 }.bind(null, property.name));
-                $scope.selectedComponentProperties.__defineSetter__(property.name, function (propertyName, value)
+                $scope.selectedComponentProperties.__defineSetter__(property.name, function (property, value)
                 {
                     if (null != $scope.selectedComponent) {
-                        $scope.selectedComponent["set" + Kinetic.Util._capitalize(propertyName)](value);
+                        if ("number" == property.type && property.min && property.min > value) {
+                            return;
+                        }
+                        $scope.selectedComponent["set" + Kinetic.Util._capitalize(property.name)](value);
                     }
                     $scope.stage.draw();
-                }.bind(null, property.name));
+                }.bind(null, property));
             }
         }
     };
