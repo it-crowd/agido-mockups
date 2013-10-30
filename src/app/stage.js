@@ -24,6 +24,7 @@ agidoMockups.directive('stage', function ($timeout)
             height: '@',
             stage: '=',
             editingSource: '=',
+            hasText: '&',
             isMockupComponent: '&',
             saveSource: '&',
             stageClicked: '&',
@@ -92,11 +93,13 @@ agidoMockups.directive('stage', function ($timeout)
                 if (null != component) {
                     scope.mockupComponentSelected({component: component});
                     scope.editorStyle = {position: "absolute", top: component.getAttr('y') + 'px', left: component.getAttr('x') + 'px'};
-                    scope.componentSource = component.getText();
-                    $timeout(function ()
-                    {
-                        scope.editingSource = true;
-                    });
+                    if (scope.hasText({component: component})) {
+                        scope.componentSource = component.getText();
+                        $timeout(function ()
+                        {
+                            scope.editingSource = true;
+                        });
+                    }
                     scope.$apply();
                 }
             });

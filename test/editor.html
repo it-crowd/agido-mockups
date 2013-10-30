@@ -17,6 +17,7 @@
 <body ng-controller="EditorCtrl">
 <div class="palette">
     <div class="btn-group">
+        <button class="btn btn-default" ng-click="addToStage('Arrow')">Arrow</button>
         <button class="btn btn-default" ng-click="addToStage('Label')">Label</button>
         <button class="btn btn-default" ng-click="addToStage('Title')">Title</button>
         <button class="btn btn-default" ng-click="addToStage('Subtitle')">Subtitle</button>
@@ -57,7 +58,7 @@
 
 <stage width="700" height="500" stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)"
        mockup-component-selected="mockupComponentSelected(component)" selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)"
-       editing-source="editingSource"></stage>
+       has-text="hasSource(component)" editing-source="editingSource"></stage>
 
 <form ng-show="selectedComponent" class="panel panel-default">
     <div class="panel-heading">{{ getComponentType(selectedComponent) }}</div>
@@ -146,6 +147,7 @@
 <script src="../src/icons/arrowRight.icon.js"></script>
 <script src="../src/icons/arrowLeft.icon.js"></script>
 <script src="../src/components/_util.js"></script>
+<script src="../src/components/arrow.js"></script>
 <script src="../src/components/checkbox.js"></script>
 <script src="../src/components/checkboxGroup.js"></script>
 <script src="../src/components/link.js"></script>

@@ -19,6 +19,16 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]}
     ];
     var components = {
+        "Arrow": {
+            constructor: Kinetic.Arrow, options: {
+                stroke: '#000', draggable: true, width: 200, height: 50
+            },
+            multilineSource: false,
+            hasText: false,
+            properties: dimensionProperties.concat([
+                {name: "leftDown", type: "boolean"}
+            ])
+        },
         "Checkbox": {
             constructor: Kinetic.Checkbox, options: {
                 color: '#000', draggable: true
@@ -236,9 +246,14 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         }
     };
 
-    $scope.isMockupComponent = function (comopnent)
+    $scope.isMockupComponent = function (component)
     {
-        return comopnent.mockupComponent != null;
+        return component.mockupComponent != null;
+    };
+
+    $scope.hasSource = function (component)
+    {
+        return null != component.mockupComponent && !(component.mockupComponent.hasText === false);
     };
 
     $scope.downloadImage = function ()
