@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html ng-app="AgidoMockups">
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Prosto+One|Cherry+Swash:400,700|Bigelow+Rules|Stint+Ultra+Expanded&subset=latin,latin-ext'
+          rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <style>
         .stage canvas {
@@ -113,6 +115,15 @@
 <h1>Stage source</h1>
 
 <div>{{ stage.toJSON() }}</div>
+
+<!--Google fonts need to be preloaded. Otherwise KineticJS cannot render them for the first time.-->
+<div ng-repeat="font in availableFonts" ng-init="style={'font-family':font,'font-size':0,'line-height':0}" ng-style="style">{{ font }}</div>
+<div ng-repeat="font in availableFonts" ng-init="style={'font-family':font,'font-style':'italic','font-size':0,'line-height':0}" ng-style="style">
+    {{ font }}
+</div>
+<div ng-repeat="font in availableFonts" ng-init="style={'font-family':font,'font-weight':'bold','font-size':0,'line-height':0}" ng-style="style">
+    {{ font }}
+</div>
 
 <script src="../vendor/kineticjs/kinetic-v4.7.1.js"></script>
 <script src="../src/components/_util.js"></script>

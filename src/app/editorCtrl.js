@@ -4,6 +4,20 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     $scope.editingSource = false;
 
     var clipboard;
+    var availableFonts = $scope.availableFonts =
+            ["Arial", "Bigelow Rules", "Georgia", "Cherry Swash", "Comic Sans MS", "Helvetica", "Lucida Console", "Prosto One", "Stint Ultra Expanded",
+                "Times New Roman"];
+    var dimensionProperties = [
+        {name: "x", hidden: true},
+        {name: "y", hidden: true}  ,
+        {name: "width", hidden: true},
+        {name: "height", hidden: true}
+    ];
+    var fontProperties = [
+        {name: "fontFamily", type: "enum", options: availableFonts},
+        {name: "fontSize", type: "number"},
+        {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]}
+    ];
     var components = {
         "Link": {constructor: Kinetic.Link,
             options: {
@@ -11,49 +25,24 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
-            properties: [
-                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
-                {name: "fontSize", type: "number"},
-                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
-                {name: "state", type: "enum", options: ["normal", "disabled"]},
-                {name: "x", hidden: true},
-                {name: "y", hidden: true}  ,
-                {name: "width", hidden: true},
-                {name: "height", hidden: true}
-            ]
-        },
-        "RadioItem": {constructor: Kinetic.RadioItem,
-            options: {
-                color: '#000',
-                draggable: true
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "state", type: "enum", options: ["normal", "disabled"]}
+            ])
+        }, "RadioItem": {
+            constructor: Kinetic.RadioItem, options: {
+                color: '#000', draggable: true
             },
             multilineSource: false,
-            properties: [
-                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
-                {name: "fontSize", type: "number"},
-                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
-                {name: "selected", type: "boolean", options: [true, false]},
-                {name: "x", hidden: true},
-                {name: "y", hidden: true}  ,
-                {name: "width", hidden: true},
-                {name: "height", hidden: true}
-            ]
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "selected", type: "boolean"}
+            ])
         },
-        "RadioGroup": {constructor: Kinetic.RadioGroup,
-            options: {
-                color: '#000',
-                draggable: true
+        "RadioGroup": {
+            constructor: Kinetic.RadioGroup, options: {
+                color: '#000', draggable: true
             },
             multilineSource: true,
-            properties: [
-                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
-                {name: "fontSize", type: "number"},
-                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
-                {name: "x", hidden: true},
-                {name: "y", hidden: true}  ,
-                {name: "width", hidden: true},
-                {name: "height", hidden: true}
-            ]
+            properties: fontProperties.concat(dimensionProperties)
         },
         "Input": {constructor: Kinetic.Input,
             options: {
@@ -61,17 +50,10 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
-            properties: [
-                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
-                {name: "fontSize", type: "number"},
-                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
-                {name: "disabled", type: "boolean", options: [true, false]},
-                {name: "datepicker", type: "boolean", options: [true, false]},
-                {name: "x", hidden: true},
-                {name: "y", hidden: true}  ,
-                {name: "width", hidden: true},
-                {name: "height", hidden: true}
-            ]
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"},
+                {name: "datepicker", type: "boolean"}
+            ])
         },
         "Button": {constructor: Kinetic.Button,
             options: {
@@ -79,16 +61,9 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
-            properties: [
-                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
-                {name: "fontSize", type: "number"},
-                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
-                {name: "disabled", type: "boolean", options: [true, false]},
-                {name: "x", hidden: true},
-                {name: "y", hidden: true}  ,
-                {name: "width", hidden: true},
-                {name: "height", hidden: true}
-            ]
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"}
+            ])
         },
         "Select": {constructor: Kinetic.Select,
             options: {
@@ -96,17 +71,10 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: true,
-            properties: [
-                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
-                {name: "fontSize", type: "number"},
-                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
-                {name: "disabled", type: "boolean", options: [true, false]},
-                {name: "opened", type: "boolean", options: [true, false]},
-                {name: "x", hidden: true},
-                {name: "y", hidden: true}  ,
-                {name: "width", hidden: true},
-                {name: "height", hidden: true}
-            ]
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"},
+                {name: "opened", type: "boolean"}
+            ])
         }
     };
 
