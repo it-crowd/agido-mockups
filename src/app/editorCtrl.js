@@ -138,6 +138,14 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "disabled", type: "boolean"}
             ])
         },
+        "Comment": {constructor: Kinetic.Comment,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: true,
+            properties: fontProperties.concat(dimensionProperties)
+        },
         "Select": {constructor: Kinetic.Select,
             options: {
                 color: '#000',
