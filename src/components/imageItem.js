@@ -4,7 +4,6 @@
     {
         var text = item.find(".text")[0];
         var background = item.find(".background")[0];
-        var image = item.find(".image")[0];
         var textContent = item.getText();
         text.setText(textContent);
         var backgroundWidth = background.getWidth();
@@ -12,19 +11,6 @@
         var textY = (backgroundHeight - text.getHeight()) / 2;
         text.setAttr('y', textY);
         text.setWidth(backgroundWidth);
-        image.setWidth(backgroundWidth);
-        image.setHeight(backgroundHeight);
-        if (null != textContent.match(/\.(jpeg|jpg|gif|png)$/)) {
-            var imageObj = new Image();
-//            imageObj.crossOrigin = "Anonymous";
-            imageObj.src = textContent;
-            image.getData()
-            //noinspection JSUnresolvedFunction
-            image.setImage(imageObj);
-            image.show();
-        } else {
-            image.hide();
-        }
         //noinspection JSUnresolvedFunction
         item.setClip([0, 0, 80, 80]);
     }
@@ -38,7 +24,7 @@
         {
             Kinetic.Group.call(this, config);
             this.className = "ImageItem";
-            this.add(new Kinetic.Shape({name: "background", width: 80, height: 80, stroke: '#000', strokeWidth: 2,
+            this.add(new Kinetic.Shape({name: "background", width: 80, height: 80, fill: '#fff', stroke: '#000', strokeWidth: 2,
                 drawFunc: function (context)
                 {
                     context.beginPath();
@@ -56,7 +42,6 @@
             }));
             this.add(new Kinetic.Text(AgidoMockups.extend(config,
                     {name: "text", x: 0, y: 0, align: 'center', draggable: false, fill: '#000', fontSize: 14, stroke: null})));
-            this.add(new Kinetic.Image({name: 'image', x: 0, y: 0, image: null, width: 0, height: 0}));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

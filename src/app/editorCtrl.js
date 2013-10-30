@@ -181,6 +181,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: dimensionProperties
+        },
+        "MenuBar": {constructor: Kinetic.MenuBar,
+            options: {
+                draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties)
         }
     };
 
