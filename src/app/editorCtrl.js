@@ -19,6 +19,22 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]}
     ];
     var components = {
+        "Checkbox": {
+            constructor: Kinetic.Checkbox, options: {
+                color: '#000', draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "selected", type: "boolean"},
+                {name: "disabled", type: "boolean"}
+            ])
+        },
+        "CheckboxGroup": {
+            constructor: Kinetic.CheckboxGroup, options: {
+                color: '#000', draggable: true
+            },
+            multilineSource: true, properties: fontProperties.concat(dimensionProperties)
+        },
         "Label": {constructor: Kinetic.Text,
             options: {
                 text: "Label",
