@@ -80,7 +80,8 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: fontProperties.concat(dimensionProperties, [
-                {name: "selected", type: "boolean"}
+                {name: "selected", type: "boolean"},
+                {name: "disabled", type: "boolean"}
             ])
         },
         "RadioGroup": {
@@ -121,6 +122,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "disabled", type: "boolean"},
                 {name: "opened", type: "boolean"}
             ])
+        },
+        "Window": {
+            constructor: Kinetic.Window, options: {
+                draggable: true
+            },
+            multilineSource: true,
+            properties: dimensionProperties
         }
     };
 

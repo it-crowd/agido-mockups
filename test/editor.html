@@ -28,6 +28,7 @@
         <button class="btn btn-default" ng-click="addToStage('Input')">Input</button>
         <button class="btn btn-default" ng-click="addToStage('Button')">Button</button>
         <button class="btn btn-default" ng-click="addToStage('Select')">Select</button>
+        <button class="btn btn-default" ng-click="addToStage('Window')">Window</button>
     </div>
 </div>
 <span>
@@ -50,7 +51,7 @@
    </button>
 </span>
 
-<stage width="500" height="300" stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)"
+<stage width="700" height="500" stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)"
        mockup-component-selected="mockupComponentSelected(component)" selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)"
        editing-source="editingSource"></stage>
 
@@ -140,6 +141,7 @@
 <script src="../src/components/input.js"></script>
 <script src="../src/components/select.js"></script>
 <script src="../src/components/button.js"></script>
+<script src="../src/components/window.js"></script>
 <script src="../vendor/angular/angular.js"></script>
 <script src="../src/app/_agidoMockups.js"></script>
 <script src="../src/app/stage.js"></script>
