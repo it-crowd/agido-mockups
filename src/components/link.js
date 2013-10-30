@@ -11,7 +11,7 @@
         //noinspection JSUnresolvedFunction
         textChild.setFontSize(item.getFontSize());
         //noinspection JSUnresolvedFunction
-        var color = "disabled" == item.getState() ? '#aaa' : config.color;
+        var color = true === item.getDisabled() ? '#aaa' : config.color;
         //noinspection JSUnresolvedFunction
         textChild.setFill(color);
         var line = item.find(".line")[0];
@@ -44,8 +44,8 @@
             this.on("fontFamilyChange", propertyChangeListener);
             this.on("fontSizeChange", propertyChangeListener);
             this.on("fontStyleChange", propertyChangeListener);
+            this.on("disabledChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
-            this.on("stateChange", propertyChangeListener);
             updateChildren(this, config);
         },
         toObject: function ()
@@ -57,6 +57,6 @@
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'fontFamily', "Arial");
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'fontSize', 18);
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'fontStyle', "normal");
-    Kinetic.Factory.addGetterSetter(Kinetic.Link, 'state', "normal");
+    Kinetic.Factory.addGetterSetter(Kinetic.Link, 'disabled', false);
     Kinetic.Factory.addGetterSetter(Kinetic.Link, 'text', "The link");
 })();

@@ -6,12 +6,13 @@
         var lines = item.getText().split("\n");
         var height = 0;
         for (var i = 0; i < lines.length; i++) {
-            var match = lines[i].match(/^\s*\(\s*(o|-)?\s*\)\s*(.*)/);
+            var match = lines[i].match(/^\s*(-?)\s*\(\s*(o|-)?\s*\)\s*(.*)/);
             var component;
             if (match) {
-                var selected = "o" == match[1];
-                var text = match[2];
-                component = new Kinetic.RadioItem({text: text, color: '#000', fontSize: 14, selected: selected, y: height});
+                var disabled = "-" == match[1];
+                var selected = "o" == match[2];
+                var text = match[3];
+                component = new Kinetic.RadioItem({text: text, color: '#000', fontSize: 14, selected: selected, y: height, disabled: disabled});
             } else {
                 component = new Kinetic.Text({text: lines[i], fill: '#000', fontSize: 14, y: height});
             }
@@ -55,5 +56,5 @@
     Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'fontFamily', "Arial");
     Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'fontSize', 18);
     Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'fontStyle', "normal");
-    Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'text', "() Radio item A\n(o) Radio item B");
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioGroup, 'text', "() Radio item A\n(o) Radio item B\n-() Radio item C\n-(o) Radio item D\nFree text");
 })();

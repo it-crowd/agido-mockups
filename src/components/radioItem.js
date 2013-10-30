@@ -1,10 +1,12 @@
 (function ()
 {
-    function updateChildren(item)
+    function updateChildren(item, config)
     {
         var label = item.find(".label")[0];
         var outerCircle = item.find(".outerCircle")[0];
         var innerCircle = item.find(".innerCircle")[0];
+        //noinspection JSUnresolvedFunction
+        var color = true === item.getDisabled() ? '#aaa' : config.color;
         label.setText(item.getText());
         //noinspection JSUnresolvedFunction
         label.setFontFamily(item.getFontFamily());
@@ -12,15 +14,21 @@
         label.setFontStyle(item.getFontStyle());
         //noinspection JSUnresolvedFunction
         label.setFontSize(item.getFontSize());
+        //noinspection JSUnresolvedFunction
+        label.setFill(color);
         var strokeWidth = 1;
         var outerRadius = (label.getHeight() - 2 * strokeWidth) / 4;
         //noinspection JSUnresolvedFunction
         outerCircle.setRadius(outerRadius);
         outerCircle.setAttr("x", outerRadius + strokeWidth);
         outerCircle.setAttr("y", outerRadius * 2 + strokeWidth);
+        //noinspection JSUnresolvedFunction
+        outerCircle.setStroke(color);
 
         label.setAttr("x", outerRadius * 3);
 
+        //noinspection JSUnresolvedFunction
+        innerCircle.setFill(color);
         //noinspection JSUnresolvedFunction
         if (item.getSelected()) {
             innerCircle.show();
@@ -50,15 +58,16 @@
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {
-                    updateChildren(this);
+                    updateChildren(this, config);
                 }
             };
             this.on("fontFamilyChange", propertyChangeListener);
             this.on("fontSizeChange", propertyChangeListener);
             this.on("fontStyleChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
+            this.on("disabledChange", propertyChangeListener);
             this.on("selectedChange", propertyChangeListener);
-            updateChildren(this);
+            updateChildren(this, config);
         },
         toObject: function ()
         {
@@ -73,5 +82,6 @@
     Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'fontSize', 18);
     Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'fontStyle', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'text', "The radio item");
+    Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'disabled', false);
     Kinetic.Factory.addGetterSetter(Kinetic.RadioItem, 'selected', false);
 })();

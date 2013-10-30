@@ -26,7 +26,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: fontProperties.concat(dimensionProperties, [
-                {name: "state", type: "enum", options: ["normal", "disabled"]}
+                {name: "disabled", type: "boolean"}
             ])
         }, "RadioItem": {
             constructor: Kinetic.RadioItem, options: {
