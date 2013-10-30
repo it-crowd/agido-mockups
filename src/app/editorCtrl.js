@@ -54,6 +54,59 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "width", hidden: true},
                 {name: "height", hidden: true}
             ]
+        },
+        "Input": {constructor: Kinetic.Input,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: [
+                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
+                {name: "fontSize", type: "number"},
+                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
+                {name: "disabled", type: "boolean", options: [true, false]},
+                {name: "datepicker", type: "boolean", options: [true, false]},
+                {name: "x", hidden: true},
+                {name: "y", hidden: true}  ,
+                {name: "width", hidden: true},
+                {name: "height", hidden: true}
+            ]
+        },
+        "Button": {constructor: Kinetic.Button,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: [
+                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
+                {name: "fontSize", type: "number"},
+                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
+                {name: "disabled", type: "boolean", options: [true, false]},
+                {name: "x", hidden: true},
+                {name: "y", hidden: true}  ,
+                {name: "width", hidden: true},
+                {name: "height", hidden: true}
+            ]
+        },
+        "Select": {constructor: Kinetic.Select,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: true,
+            properties: [
+                {name: "fontFamily", type: "enum", options: ["Arial", "Georgia", "Comic Sans MS", "Helvetica", "Lucida Console", "Times New Roman"]},
+                {name: "fontSize", type: "number"},
+                {name: "fontStyle", type: "enum", options: ["normal", "bold", "italic"]},
+                {name: "disabled", type: "boolean", options: [true, false]},
+                {name: "opened", type: "boolean", options: [true, false]},
+                {name: "x", hidden: true},
+                {name: "y", hidden: true}  ,
+                {name: "width", hidden: true},
+                {name: "height", hidden: true}
+            ]
         }
     };
 

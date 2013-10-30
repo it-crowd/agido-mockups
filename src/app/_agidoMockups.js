@@ -1,1 +1,1 @@
-var agidoMockups = angular.module('AgidoMockups', [], null);
+var agidoMockups = angular.module('AgidoMockups', ['ui.bootstrap'], null);
