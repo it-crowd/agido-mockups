@@ -11,7 +11,7 @@
         //noinspection JSUnresolvedFunction
         textChild.setFontSize(item.getFontSize());
         //noinspection JSUnresolvedFunction
-        var color = true === item.getDisabled() ? '#aaa' : config.color;
+        var color = true === item.getDisabled() ? '#aaa' : item.color;
         //noinspection JSUnresolvedFunction
         textChild.setFill(color);
         var line = item.find(".line")[0];
@@ -51,6 +51,14 @@
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
+        },
+        getHeight: function ()
+        {
+            return this.find(".text")[0].getHeight();
+        },
+        getWidth: function ()
+        {
+            return this.find(".text")[0].getWidth();
         }
     };
     Kinetic.Util.extend(Kinetic.Link, Kinetic.Group);

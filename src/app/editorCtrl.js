@@ -66,7 +66,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         },
         "Link": {constructor: Kinetic.Link,
             options: {
-                color: '#000',
+                color: '#5df',
                 draggable: true
             },
             multilineSource: false,
@@ -80,6 +80,16 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: dimensionProperties
+        },
+        "Paragraph": {
+            constructor: Kinetic.Paragraph, options: {
+                draggable: true
+            },
+            multilineSource: true,
+            properties: [
+                {name: "fontFamily", type: "enum", options: availableFonts},
+                {name: "fontSize", type: "number", min: 8}
+            ].concat(dimensionProperties)
         },
         "RadioItem": {
             constructor: Kinetic.RadioItem, options: {
