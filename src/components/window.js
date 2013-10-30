@@ -10,6 +10,7 @@
         var title = item.find(".title")[0];
         var url = item.find(".url")[0];
         var search = item.find(".search")[0];
+        var searchIcon = item.find(".searchIcon")[0];
         frame.setAttr("width", item.getWidth());
         frame.setAttr("height", item.getHeight());
         //noinspection JSUnresolvedFunction
@@ -38,8 +39,11 @@
 
         var controlPadding = 20;
         var searchX = toolbar.getWidth() - 50 - controlPadding;
-        search.setAttr("x", searchX);
-        search.setAttr("y", title.getHeight());
+        var searchY = title.getHeight();
+        search.setAttr("x", searchX - 5);
+        search.setAttr("y", searchY - 8);
+        searchIcon.setAttr("x", searchX);
+        searchIcon.setAttr("y", searchY);
 
         var urlX = frameStrokeWidth + 110;
         url.setAttr("x", urlX);
@@ -69,37 +73,10 @@
                 {x: 50, y: 20},
                 {x: 0, y: 20}
             ], tension: .3})));
-            this.add(new Kinetic.Blob(AgidoMockups.extend(config, {name: "backButton", x: 20, y: 20, draggable: false, fill: '#fff', stroke: '#000', points: [
-                {x: 0, y: 10},
-                {x: 10, y: 0},
-                {x: 10, y: 5},
-                {x: 20, y: 5},
-                {x: 20, y: 15},
-                {x: 10, y: 15},
-                {x: 10, y: 20}
-            ], tension: .3})));
-            this.add(new Kinetic.Blob(AgidoMockups.extend(config, {name: "nextButton", x: 50, y: 20, draggable: false, fill: '#fff', stroke: '#000', points: [
-                {x: 20, y: 10},
-                {x: 10, y: 0},
-                {x: 10, y: 5},
-                {x: 0, y: 5},
-                {x: 0, y: 15},
-                {x: 10, y: 15},
-                {x: 10, y: 20}
-            ], tension: .3})));
-            this.add(new Kinetic.Blob(AgidoMockups.extend(config, {name: "homeButton", x: 80, y: 20, draggable: false, fill: '#fff', stroke: '#000', points: [
-                {x: 0, y: 10},
-                {x: 10, y: 0},
-                {x: 20, y: 10},
-                {x: 17, y: 10},
-                {x: 17, y: 20},
-                {x: 12, y: 20},
-                {x: 12, y: 15},
-                {x: 8, y: 15},
-                {x: 8, y: 20},
-                {x: 3, y: 20},
-                {x: 3, y: 10}
-            ], tension: .3})));
+            this.add(AgidoMockups.icons.search.clone());
+            this.add(AgidoMockups.icons.backButton.clone({x: 20, y: 20}));
+            this.add(AgidoMockups.icons.nextButton.clone({x: 50, y: 20}));
+            this.add(AgidoMockups.icons.home.clone({x: 80, y: 20}));
             this.add(new Kinetic.Text(AgidoMockups.extend(config,
                     {name: "title", padding: 5, draggable: false, fill: '#000', stroke: null, fontFamily: 'Comic Sans MS'})));
             this.add(new Kinetic.Input(AgidoMockups.extend(config, {name: "url", draggable: false, color: '#000', fontFamily: 'Comic Sans MS', fontSize: 10})));

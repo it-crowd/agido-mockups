@@ -1,4 +1,4 @@
-var AgidoMockups = AgidoMockups || {};
+window.AgidoMockups = window.AgidoMockups || {};
 AgidoMockups.extend = function ()
 {
     var result = {};
