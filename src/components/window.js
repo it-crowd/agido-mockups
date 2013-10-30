@@ -45,9 +45,9 @@
         url.setAttr("x", urlX);
         url.setAttr("y", frameStrokeWidth + title.getHeight());
 
+        url.setText(lines.length > 0 ? lines[1] : "");
         url.setWidth(searchX - urlX - controlPadding);
         url.setHeight(frameStrokeWidth + title.getHeight());
-        url.setText(lines.length > 0 ? lines[1] : "");
     }
 
     Kinetic.Window = function (config)
@@ -102,7 +102,7 @@
             ], tension: .3})));
             this.add(new Kinetic.Text(AgidoMockups.extend(config,
                     {name: "title", padding: 5, draggable: false, fill: '#000', stroke: null, fontFamily: 'Comic Sans MS'})));
-            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "url", draggable: false, fill: '#000', stroke: null, fontFamily: 'Comic Sans MS'})));
+            this.add(new Kinetic.Input(AgidoMockups.extend(config, {name: "url", draggable: false, color: '#000', fontFamily: 'Comic Sans MS', fontSize: 10})));
             this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "toolbarBorder", draggable: false, stroke: '#000'})));
             this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "statusbarBorder", draggable: false, stroke: '#000'})));
             var propertyChangeListener = function (event)
