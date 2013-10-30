@@ -4,7 +4,7 @@
     {
         var border = item.find(".border")[0];
         var arrowBorder = item.find(".arrowBorder")[0];
-        var arrow = item.find(".arrow")[0];
+        var arrow = item.find(".arrowDown")[0];
         var expansion = item.find(".expansion")[0];
         var linesGroup = item.find(".linesGroup")[0];
         var lineOffset = 5;
@@ -56,8 +56,6 @@
         arrow.setAttr("x", arrowX);
         arrow.setAttr("y", arrowY);
         //noinspection JSUnresolvedFunction
-        arrow.setRotationDeg(180);
-        //noinspection JSUnresolvedFunction
         arrow.setFill(color);
         //noinspection JSUnresolvedFunction
         if (item.getOpened()) {
@@ -86,8 +84,7 @@
                     {name: "border", x: 0, y: 0, width: 125, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "arrowBorder", x: 125, y: 0, width: 25, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
-            this.add(new Kinetic.RegularPolygon(AgidoMockups.extend(config,
-                    {name: "arrow", x: 138, y: 13, sides: 3, radius: 7, draggable: false, fill: config.color, stroke: null})));
+            this.add(AgidoMockups.icons.arrowDown.clone());
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "expansion", x: 0, y: 0, width: 125, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
             this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "linesGroup", draggable: false})));

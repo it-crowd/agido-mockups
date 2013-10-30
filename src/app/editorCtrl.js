@@ -115,8 +115,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: fontProperties.concat(dimensionProperties, [
-                {name: "disabled", type: "boolean"},
-                {name: "datepicker", type: "boolean"}
+                {name: "disabled", type: "boolean"}
             ])
         },
         "Button": {constructor: Kinetic.Button,
@@ -145,6 +144,24 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: true,
+            properties: dimensionProperties
+        },
+        "Datepicker": {constructor: Kinetic.Datepicker,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"},
+                {name: "inline", type: "boolean"}
+            ])
+        },
+        "ImageItem": {constructor: Kinetic.ImageItem,
+            options: {
+                draggable: true
+            },
+            multilineSource: false,
             properties: dimensionProperties
         }
     };

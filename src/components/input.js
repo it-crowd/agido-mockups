@@ -4,7 +4,6 @@
     {
         var text = item.find(".text")[0];
         var border = item.find(".border")[0];
-        var datepicker = item.find(".datepicker")[0];
         text.setText(item.getText());
         //noinspection JSUnresolvedFunction
         text.setFontFamily(item.getFontFamily());
@@ -24,17 +23,6 @@
         border.setHeight(borderHeight);
         //noinspection JSUnresolvedFunction
         border.setStroke(color);
-        //noinspection JSUnresolvedFunction
-        if (item.getDatepicker()) {
-            //noinspection JSUnresolvedFunction
-            datepicker.show();
-            datepicker.setAttr("x", borderWidth + 4);
-            datepicker.setAttr("y", 2);
-            datepicker.setWidth(borderHeight - 4);
-            datepicker.setHeight(borderHeight - 4);
-        } else {
-            datepicker.hide();
-        }
     }
 
     Kinetic.Input = function (config)
@@ -49,10 +37,6 @@
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
             this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "text", x: 5, y: 5, draggable: false, fill: config.color, stroke: null})));
-            var imageObj = new Image();
-            imageObj.src = '../assets/datepicker.png';
-            this.add(new Kinetic.Image(AgidoMockups.extend(config,
-                    {name: "datepicker", x: 0, y: 0, image: imageObj, draggable: false, fill: 'white', stroke: null})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {
@@ -64,7 +48,6 @@
             this.on("fontStyleChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
             this.on("disabledChange", propertyChangeListener);
-            this.on("datepickerChange", propertyChangeListener);
             updateChildren(this, config);
         },
         toObject: function ()
@@ -81,5 +64,4 @@
     Kinetic.Factory.addGetterSetter(Kinetic.Input, 'fontStyle', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.Input, 'text', "");
     Kinetic.Factory.addGetterSetter(Kinetic.Input, 'disabled', false);
-    Kinetic.Factory.addGetterSetter(Kinetic.Input, 'datepicker', false);
 })();

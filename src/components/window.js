@@ -39,11 +39,11 @@
 
         var controlPadding = 20;
         var searchX = toolbar.getWidth() - 50 - controlPadding;
-        var searchY = title.getHeight();
+        var searchY = frameStrokeWidth + title.getHeight();
         search.setAttr("x", searchX - 5);
-        search.setAttr("y", searchY - 8);
+        search.setAttr("y", searchY);
         searchIcon.setAttr("x", searchX);
-        searchIcon.setAttr("y", searchY);
+        searchIcon.setAttr("y", searchY + 9);
 
         var urlX = frameStrokeWidth + 110;
         url.setAttr("x", urlX);
