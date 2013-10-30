@@ -74,6 +74,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "disabled", type: "boolean"}
             ])
         },
+        "Panel": {
+            constructor: Kinetic.Panel, options: {
+                draggable: true
+            },
+            multilineSource: false,
+            properties: dimensionProperties
+        },
         "RadioItem": {
             constructor: Kinetic.RadioItem, options: {
                 color: '#000', draggable: true
