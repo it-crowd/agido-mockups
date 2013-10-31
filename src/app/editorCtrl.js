@@ -214,6 +214,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "showHeader", type: "boolean"},
                 {name: "padding", type: "number"}
             ])
+        },
+        "Menu": {constructor: Kinetic.Menu,
+            options: {
+                draggable: true
+            },
+            multilineSource: true,
+            properties: fontProperties.concat(dimensionProperties)
         }
     };
 
