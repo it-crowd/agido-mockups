@@ -128,6 +128,16 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "disabled", type: "boolean"}
             ])
         },
+        "TextArea": {constructor: Kinetic.TextArea,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: true,
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"}
+            ])
+        },
         "Button": {constructor: Kinetic.Button,
             options: {
                 color: '#000',

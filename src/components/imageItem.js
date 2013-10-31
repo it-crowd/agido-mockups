@@ -6,11 +6,9 @@
         var background = item.find(".background")[0];
         var textContent = item.getText();
         text.setText(textContent);
-        var backgroundWidth = background.getWidth();
-        var backgroundHeight = background.getHeight();
-        var textY = (backgroundHeight - text.getHeight()) / 2;
+        var textY = (background.getWidth() - text.getHeight()) / 2;
         text.setAttr('y', textY);
-        text.setWidth(backgroundWidth);
+        text.setWidth(background.getHeight());
         //noinspection JSUnresolvedFunction
         item.setClip([0, 0, 80, 80]);
     }
