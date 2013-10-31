@@ -23,7 +23,6 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             constructor: Kinetic.Arrow, options: {
                 stroke: '#000', draggable: true, width: 200, height: 50
             },
-            multilineSource: false,
             hasText: false,
             properties: dimensionProperties.concat([
                 {name: "leftDown", type: "boolean"}
@@ -100,6 +99,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 {name: "fontFamily", type: "enum", options: availableFonts},
                 {name: "fontSize", type: "number", min: 8}
             ].concat(dimensionProperties)
+        },
+        "Pagination": {
+            constructor: Kinetic.Pagination, options: {
+                draggable: true
+            },
+            hasText: false,
+            properties: dimensionProperties
         },
         "RadioItem": {
             constructor: Kinetic.RadioItem, options: {
