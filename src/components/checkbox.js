@@ -40,6 +40,8 @@
         } else {
             innerRect.hide();
         }
+        item.setWidth(label.getAttr("x") + label.getWidth());
+        item.setHeight(label.getHeight());
     }
 
     Kinetic.Checkbox = function (config)
@@ -72,9 +74,6 @@
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        }, getHeight: function ()
-        {
-            return this.find(".label")[0].getHeight();
         }
     };
     Kinetic.Util.extend(Kinetic.Checkbox, Kinetic.Group);

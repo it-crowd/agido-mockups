@@ -51,7 +51,6 @@ agidoMockups.directive('stage', function ($timeout)
                 if (scope.editingSource) {
                     scope.editingSource = false;
                     scope.stageClicked({source: scope.componentSource});
-
                 }
             }));
 

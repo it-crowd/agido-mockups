@@ -204,12 +204,23 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             },
             multilineSource: false,
             properties: fontProperties.concat(dimensionProperties)
+        },
+        "Table": {constructor: Kinetic.Table,
+            options: {
+                draggable: true
+            },
+            multilineSource: true,
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "showHeader", type: "boolean"},
+                {name: "padding", type: "number"}
+            ])
         }
     };
 
     function addToStage(component)
     {
         $scope.stage.getLayers()[0].add(component);
+        $scope.mockupComponentSelected(component);
         $scope.stage.draw();
     }
 
