@@ -5,9 +5,10 @@
     {
         item.removeChildren();
         var tokenizedLines = AgidoMockups.tokenizeFormattedText(item.getText());
-        var height = 0, y = 0;
+        var height = 0, y = 0, maxRowWidth;
         for (var i = 0; i < tokenizedLines.length; i++) {
             var x = 0;
+            var rowWidth = 0;
             for (var j = 0; j < tokenizedLines[i].length; j++) {
                 var component;
                 var token = tokenizedLines[i][j];
@@ -30,6 +31,7 @@
                 component.setFontSize(item.getFontSize());
                 item.add(component);
                 height = component.getHeight();
+                rowWidth += component.getWidth();
                 x += component.getWidth();
                 if (AgidoMockups.FORMATTED_TOKEN_TYPE_STRIKETHROUGH == token.type) {
                     item.add(new Kinetic.Line({stroke: '#000', points: [
@@ -43,8 +45,12 @@
                     ]}));
                 }
             }
+            //noinspection JSValidateTypes
+            maxRowWidth = Math.max(undefined == maxRowWidth ? rowWidth : maxRowWidth, rowWidth);
             y += height;
         }
+        item.setHeight(y);
+        item.setWidth(maxRowWidth);
     }
 
     Kinetic.Paragraph = function (config)

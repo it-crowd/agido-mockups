@@ -15,20 +15,19 @@
         for (var i = 0; i < items.length; i++) {
             totalBarWidth += itemXOffset;
             component = new Kinetic.Text({text: items[i], fill: '#000', fontSize: 18, x: totalBarWidth, y: itemYOffset});
-            //noinspection JSUnresolvedFunction
             component.setFontFamily(item.getFontFamily());
-            //noinspection JSUnresolvedFunction
             component.setFontStyle(item.getFontStyle());
-            //noinspection JSUnresolvedFunction
             component.setFontSize(item.getFontSize());
-            Kinetic.Group.prototype.add.call(itemsGroup, component);
+            itemsGroup.add(component);
             totalBarWidth += component.getWidth() + itemXOffset;
             borderHeight = component.getHeight() + 2 * itemYOffset;
         }
-        //noinspection JSUnresolvedFunction
-        var borderWidth = totalBarWidth < 250 ? 250 : totalBarWidth;
-        border.setWidth(borderWidth);
+        border.setWidth(item.getWidth());
         border.setHeight(borderHeight);
+        item.setHeight(borderHeight);
+        if (totalBarWidth > item.getWidth()) {
+            item.setWidth(totalBarWidth);
+        }
     }
 
     Kinetic.MenuBar = function (config)
@@ -38,7 +37,7 @@
     Kinetic.MenuBar.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, config);
+            Kinetic.Group.call(this, angular.extend({width: 300}, config));
             this.className = "MenuBar";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: '#000', strokeWidth: 2})));
@@ -53,14 +52,12 @@
             this.on("fontSizeChange", propertyChangeListener);
             this.on("fontStyleChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
+            this.on("widthChange", propertyChangeListener);
             updateChildren(this);
         },
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        }, getHeight: function ()
-        {
-            return this.find(".border")[0].getHeight();
         }
     };
     Kinetic.Util.extend(Kinetic.MenuBar, Kinetic.Group);

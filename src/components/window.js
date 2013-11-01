@@ -89,6 +89,8 @@
                 }
             };
             this.on("textChange", propertyChangeListener);
+            this.on("widthChange", propertyChangeListener);
+            this.on("heightChange", propertyChangeListener);
             updateChildren(this);
         },
         toObject: function ()

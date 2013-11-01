@@ -14,8 +14,9 @@
         text.setFontSize(item.getFontSize());
         //noinspection JSUnresolvedFunction
         text.setFill(config.color);
-        card.setWidth(text.getWidth());
-        card.setHeight(text.getHeight());
+        text.setWidth(item.getWidth());
+        card.setWidth(item.getWidth());
+        card.setHeight(item.getHeight());
         tape.setAttr("x", (card.getWidth() - tape.getWidth()) / 2);
         //noinspection JSUnresolvedFunction
         item.setRotationDeg(3);
@@ -28,7 +29,7 @@
     Kinetic.Comment.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, config);
+            Kinetic.Group.call(this, angular.extend({width: 300, height: 200}, config));
             this.className = "Comment";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config, {name: "card", x: 0, y: 10, draggable: false, fill: 'yellow', stroke: null})));
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
@@ -45,6 +46,8 @@
             this.on("fontSizeChange", propertyChangeListener);
             this.on("fontStyleChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
+            this.on("widthChange", propertyChangeListener);
+            this.on("heightChange", propertyChangeListener);
             updateChildren(this, config);
         },
         toObject: function ()

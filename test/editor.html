@@ -64,7 +64,7 @@
 
 <stage width="700" height="500" stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)"
        mockup-component-selected="mockupComponentSelected(component)" selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)"
-       has-text="hasSource(component)" editing-source="editingSource"></stage>
+       is-component-resizable="isComponentResizable(component)" has-text="hasSource(component)" editing-source="editingSource"></stage>
 
 <form ng-show="selectedComponent" class="panel panel-default">
     <div class="panel-heading">{{ getComponentType(selectedComponent) }}</div>

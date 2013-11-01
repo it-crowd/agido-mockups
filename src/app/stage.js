@@ -1,4 +1,4 @@
-agidoMockups.directive('stage', function ($timeout)
+agidoMockups.directive('stage', function ($timeout, $window)
 {
     function getComponent(event, isMockupComponent)
     {
@@ -9,12 +9,272 @@ agidoMockups.directive('stage', function ($timeout)
             }
             node = node.getParent();
         }
-        return isMockupComponent(node) ? node : null;
+        return isMockupComponent({component: node}) ? node : null;
     }
 
     function cancelBubble(event)
     {
         event.cancelBubble = true;
+    }
+
+    function ungroup(node)
+    {
+        if (node instanceof Kinetic.Group && node.attrs.selectionGroup === true) {
+            var children = [];
+            var nodeZIndex = node.getZIndex();
+            while (node.getChildren().length > 0) {
+                var child = node.getChildren()[0];
+                if (child.attrs.selectionBorder === true || child.attrs.resizeAnchor === true) {
+                    child.destroy();
+                } else {
+                    child.remove();
+                    child.setAttr("x", (child.getAttr("x") || 0) + node.getAttr("x"));
+                    child.setAttr("y", (child.getAttr("y") || 0) + node.getAttr("y"));
+                    child.setAttr("draggable", true);
+                    node.getParent().add(child);
+                    children.push(child);
+                    child.originalZIndex = Math.max(0, child.originalZIndex + nodeZIndex - node.originalZIndex);
+                }
+            }
+            node.destroy();
+            Kinetic.Collection.toCollection(children).each(function (child)
+            {
+                child.setZIndex(child.originalZIndex);
+                delete child.originalZIndex;
+            });
+        }
+    }
+
+    function startSelection(selectionRect, componentsLayer, event)
+    {
+        var startX = event.layerX, startY = event.layerY;
+        var selectionLayer = selectionRect.getLayer();
+        var stage = selectionRect.getStage();
+        selectionRect.setAttr("x", startX);
+        selectionRect.setAttr("y", startY);
+        selectionRect.setWidth(0);
+        selectionRect.setHeight(0);
+        selectionRect.show();
+        function mousemoveHandler(event)
+        {
+            selectionRect.setWidth(event.layerX - startX);
+            selectionRect.setHeight(event.layerY - startY);
+            selectionLayer.draw();
+        }
+
+        function mouseupHandler()
+        {
+            /**
+             * No need to listen to mouse up or mousemove anymore
+             */
+            stage.off("mousemove");
+            stage.off("mouseup");
+            selectionRect.off("mousemove");
+            selectionRect.off("mouseup");
+            /**
+             * If there has any selection been created, let's unselect it so that we operate on mockup components rather than groups.
+             */
+            componentsLayer.getChildren().each(ungroup);
+            /**
+             * Calculate which components to include in selection and actual selection boundries.
+             */
+            var sx = selectionRect.getAttr("x");
+            var sy = selectionRect.getAttr("y");
+            var ex = sx + selectionRect.getWidth();
+            var ey = sy + selectionRect.getHeight();
+            var tmpxy;
+            if (sx > ex) {
+                tmpxy = ex;
+                ex = sx;
+                sx = tmpxy;
+            }
+            if (sy > ey) {
+                tmpxy = ey;
+                ey = sy;
+                sy = tmpxy;
+            }
+            var minx = undefined, miny = undefined, maxx = undefined, maxy = undefined;
+            var selectedComponents = [];
+            componentsLayer.getChildren().each(function (node)
+            {
+                var nsx = node.getAttr("x");
+                var nsy = node.getAttr("y");
+                var nex = nsx + node.getWidth();
+                var ney = nsy + node.getHeight();
+                if (sx <= nsx && nsx <= ex && sy <= nsy && nsy <= ey) {
+                    if (sx <= nex && nex <= ex && sy <= ney && ney <= ey) {
+                        selectedComponents.push(node);
+                        if (undefined == minx || minx > nsx) {
+                            minx = nsx;
+                        }
+                        if (undefined == miny || miny > nsy) {
+                            miny = nsy;
+                        }
+                        if (undefined == maxx || maxx < nex) {
+                            maxx = nex;
+                        }
+                        if (undefined == maxy || maxy < ney) {
+                            maxy = ney;
+                        }
+                    }
+                }
+            });
+
+            if (1 == selectedComponents.length) {
+                select(selectedComponents[0]);
+            } else if (undefined != minx && undefined != miny && undefined != maxx && undefined != maxy) {
+                //noinspection JSValidateTypes
+                /**
+                 * Create selection group and move all selected components inside it for better performance when dragging group.
+                 */
+                var selectionGroup = new Kinetic.Group({draggable: true, x: minx, y: miny, selectionGroup: true});
+                var selectedComponentsCollection = Kinetic.Collection.toCollection(selectedComponents);
+                selectedComponentsCollection.each(function (node)
+                {
+                    node.originalZIndex = node.getZIndex();
+                });
+                selectedComponentsCollection.each(function (node)
+                {
+                    node.remove();
+                    node.setAttr("draggable", false);
+                    node.setAttr("x", node.getAttr("x") - minx);
+                    node.setAttr("y", node.getAttr("y") - miny);
+                    selectionGroup.add(node);
+                });
+                selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, selectionBorder: true}));
+                selectionGroup.originalZIndex = selectionGroup.getZIndex();
+                componentsLayer.add(selectionGroup);
+            }
+            selectionRect.hide();
+            selectionLayer.getParent().draw();
+            $timeout(function ()
+            {
+            });
+        }
+
+        stage.on("mousemove", mousemoveHandler);
+        selectionRect.on("mousemove", mousemoveHandler);
+        stage.on("mouseup", mouseupHandler);
+        selectionRect.on("mouseup", mouseupHandler);
+    }
+
+    function select(node, resizable)
+    {
+        var componentsLayer = node.getLayer();
+        componentsLayer.getChildren().each(ungroup);
+        function update(activeAnchor)
+        {
+            var group = activeAnchor.getParent();
+
+            var topLeft = group.get('.topLeft')[0];
+            var topRight = group.get('.topRight')[0];
+            var bottomRight = group.get('.bottomRight')[0];
+            var bottomLeft = group.get('.bottomLeft')[0];
+
+            var anchorX = activeAnchor.getX();
+            var anchorY = activeAnchor.getY();
+
+            // update anchor positions
+            switch (activeAnchor.getName()) {
+                case 'topLeft':
+                    topRight.setY(anchorY);
+                    bottomLeft.setX(anchorX);
+                    break;
+                case 'topRight':
+                    topLeft.setY(anchorY);
+                    bottomRight.setX(anchorX);
+                    break;
+                case 'bottomRight':
+                    bottomLeft.setY(anchorY);
+                    topRight.setX(anchorX);
+                    break;
+                case 'bottomLeft':
+                    bottomRight.setY(anchorY);
+                    topLeft.setX(anchorX);
+                    break;
+            }
+
+            group.mainComponent.setPosition(topLeft.getPosition());
+
+            var width = topRight.getX() - topLeft.getX();
+            var height = bottomLeft.getY() - topLeft.getY();
+            if (width && height) {
+                group.mainComponent.setSize(width, height);
+            }
+            group.getStage().draw()
+        }
+
+        function addAnchor(group, x, y, name)
+        {
+            var layer = group.getLayer();
+            var anchor = new Kinetic.Circle({
+                x: x,
+                y: y,
+                stroke: '#777',
+                fill: '#ddd',
+                strokeWidth: 2,
+                radius: 8,
+                name: name,
+                draggable: true,
+                dragOnTop: false,
+                resizeAnchor: true
+            });
+            anchor.on('dragmove', function ()
+            {
+                update(this);
+                layer.draw();
+            });
+            anchor.on('mousedown touchstart', function ()
+            {
+                //noinspection JSValidateTypes
+                group.setDraggable(false);
+                this.moveToTop();
+            });
+            anchor.on('dragend', function ()
+            {
+                //noinspection JSValidateTypes
+                group.setDraggable(true);
+                layer.draw();
+            });
+            // add hover styling
+            anchor.on('mouseover', function ()
+            {
+                var layer = this.getLayer();
+                $window.document.body.style.cursor = 'pointer';
+                this.setStrokeWidth(4);
+                layer.draw();
+            });
+            anchor.on('mouseout', function ()
+            {
+                var layer = this.getLayer();
+                $window.document.body.style.cursor = 'default';
+                this.setStrokeWidth(2);
+                layer.draw();
+            });
+            group.add(anchor);
+        }
+
+        if (!(node.getParent() instanceof Kinetic.Group)) {
+            var selectionGroup = new Kinetic.Group({draggable: true, x: node.getAttr("x"), y: node.getAttr("y"), selectionGroup: true});
+            selectionGroup.mainComponent = node;
+            node.originalZIndex = node.getZIndex();
+            node.remove();
+            node.setAttr("draggable", false);
+            node.setAttr("x", 0);
+            node.setAttr("y", 0);
+            selectionGroup.add(node);
+            componentsLayer.add(selectionGroup);
+            selectionGroup.setZIndex(node.originalZIndex);
+            selectionGroup.originalZIndex = selectionGroup.getZIndex();
+            if (resizable) {
+                addAnchor(selectionGroup, 0, 0, 'topLeft');
+                addAnchor(selectionGroup, node.getWidth(), 0, 'topRight');
+                addAnchor(selectionGroup, node.getWidth(), node.getHeight(), 'bottomRight');
+                addAnchor(selectionGroup, 0, node.getHeight(), 'bottomLeft');
+            }
+        }
+        componentsLayer.draw();
+        node.fire("nodeSelected", node, true);
     }
 
     return {
@@ -26,33 +286,34 @@ agidoMockups.directive('stage', function ($timeout)
             editingSource: '=',
             hasText: '&',
             isMockupComponent: '&',
+            isComponentResizable: '&',
             saveSource: '&',
             stageClicked: '&',
             mockupComponentSelected: '&',
             selectedComponent: '='
         },
-        template: '<div class="stageContainer"><div class="stage"></div><form ng-submit = "saveSource()"><input ng-model="componentSource" ng-show="editingSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"/><textarea ng-model="componentSource" ng-show="editingSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"></textarea></form></div>',
+        template: '<div class="stageContainer"><div class="stage"></div><form ng-submit = "saveSource()"><input ng-model="componentSource" ng-show="editingSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"/><textarea ng-model="componentSource" ng-show="editingSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)" rows="5" cols="50"></textarea></form></div>',
         replace: true,
         link: function (scope, element)
         {
-            scope.stage = new Kinetic.Stage({
+            var stage = new Kinetic.Stage({
                 container: element[0].firstChild,
                 width: scope["width"],
                 height: scope["height"]
             });
-            scope.stage.add(new Kinetic.Layer({}));
+            var backgroundLayer = new Kinetic.Layer({});
+            stage.add(backgroundLayer);
+            var backgroundRect = new Kinetic.Rect({fill: "#fff", width: stage.getWidth(), height: stage.getHeight()});
+            backgroundLayer.add(backgroundRect);
+            var componentsLayer = new Kinetic.Layer({name: "componentsLayer"});
+            stage.add(componentsLayer);
+            var selectionLayer = new Kinetic.Layer({});
+            stage.add(selectionLayer);
+            var selectionRect = new Kinetic.Rect({stroke: "#f00", draggable: true, visible: false});
+            selectionLayer.add(selectionRect);
+            stage.draw();
 
-            /**
-             * Invoke stageClicked callback if stage is clicked in editingSource mode
-             */
-//            TODO this is getting in the way of kinetic.click; introduce new layer with white rectangle so that clicking can be fully serviced by kinetic
-            element.bind("click", scope.$apply.bind(scope, function ()
-            {
-                if (scope.editingSource) {
-                    scope.editingSource = false;
-                    scope.stageClicked({source: scope.componentSource});
-                }
-            }));
+            backgroundRect.on("mousedown", startSelection.bind(null, selectionRect, componentsLayer));
 
             var sourceTextearea = element.find("textarea");
             var sourceInput = element.find("input");
@@ -82,26 +343,35 @@ agidoMockups.directive('stage', function ($timeout)
                     sourceInput[0].select(sourceInput[0]);
                 }
             }, true);
-
             /**
-             * Invoke mockupComponentSelected callback when mockup element gets clicked
+             * Invoke mockupComponentSelected callback when mockup element gets clicked or stageClicked
              */
-            scope.stage.on("click", function (event)
+            stage.on("click", function (event)
             {
                 var component = getComponent(event, scope.isMockupComponent);
                 if (null != component) {
-                    scope.mockupComponentSelected({component: component});
-                    scope.editorStyle = {position: "absolute", top: component.getAttr('y') + 'px', left: component.getAttr('x') + 'px'};
-                    if (scope.hasText({component: component})) {
-                        scope.componentSource = component.getText();
-                        $timeout(function ()
-                        {
-                            scope.editingSource = true;
-                        });
-                    }
-                    scope.$apply();
+                    select(component, scope.isComponentResizable({component: component}));
+                } else if (scope.editingSource) {
+                    scope.editingSource = false;
+                    scope.stageClicked({source: scope.componentSource});
+                }
+                scope.$apply();
+            });
+            stage.on("nodeSelected", function (node)
+            {
+                scope.mockupComponentSelected({component: node});
+                scope.editorStyle = {position: "absolute", top: node.getParent().getAttr('y') + 'px', left: node.getParent().getAttr('x') + 'px'};
+                if (scope.hasText({component: node})) {
+                    scope.componentSource = node.getText();
+                    $timeout(function ()
+                    {
+                        scope.editingSource = true;
+                    });
                 }
             });
+            /**
+             * Handle Escape and Enter keys.
+             */
             var KEY_ENTER = 13;
             var KEY_ESC = 27;
             scope.onComponentSourceKeyPress = function (event)
@@ -116,7 +386,23 @@ agidoMockups.directive('stage', function ($timeout)
                     scope.editingSource = false;
                 }
             };
+            /**
+             * Expose stage proxy. We do not want external controllers to mess with stage internals directly.
+             */
+            scope.stage = {
+                draw: stage.draw.bind(stage),
+                add: function (node)
+                {
+                    componentsLayer.add(node);
+                    select(node, scope.isComponentResizable({component: node}));
+                },
+                unselectAll: function ()
+                {
+                    componentsLayer.getChildren().each(ungroup);
+                },
+                toDataURL: stage.toDataURL.bind(stage),
+                toJSON: stage.toJSON.bind(stage)
+            }
         }
     }
 });
-

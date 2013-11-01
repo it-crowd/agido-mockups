@@ -1,28 +1,21 @@
 (function ()
 {
-    function updateChildren(item, config)
+    function updateChildren(item)
     {
         var text = item.find(".text")[0];
         var border = item.find(".border")[0];
         text.setText(item.getText());
-        //noinspection JSUnresolvedFunction
         text.setFontFamily(item.getFontFamily());
-        //noinspection JSUnresolvedFunction
         text.setFontStyle(item.getFontStyle());
-        //noinspection JSUnresolvedFunction
         text.setFontSize(item.getFontSize());
-        //noinspection JSUnresolvedFunction
-        var color = item.getDisabled() ? '#aaa' : config.color;
-        //noinspection JSUnresolvedFunction
+        var color = item.getDisabled() ? '#aaa' : item.getColor();
         text.setFill(color);
         var textWidth = text.getWidth() + 10;
-        var borderWidth = textWidth < 150 ? 150 : textWidth;
         var borderHeight = text.getHeight() + 10;
-        //noinspection JSUnresolvedFunction
-        border.setWidth(borderWidth);
+        border.setWidth(item.getWidth());
         border.setHeight(borderHeight);
-        //noinspection JSUnresolvedFunction
         border.setStroke(color);
+        item.setHeight(borderHeight);
     }
 
     Kinetic.Input = function (config)
@@ -32,15 +25,16 @@
     Kinetic.Input.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, config);
+            Kinetic.Group.call(this, angular.extend({width: 150}, config));
             this.className = "Input";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
-            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "text", x: 5, y: 5, draggable: false, fill: config.color, stroke: null})));
+            this.add(new Kinetic.Text(AgidoMockups.extend(config,
+                    {name: "text", x: 5, y: 5, width: "auto", height: "auto", draggable: false, fill: config.color, stroke: null})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {
-                    updateChildren(this, config);
+                    updateChildren(this);
                 }
             };
             this.on("fontFamilyChange", propertyChangeListener);
@@ -48,7 +42,9 @@
             this.on("fontStyleChange", propertyChangeListener);
             this.on("textChange", propertyChangeListener);
             this.on("disabledChange", propertyChangeListener);
-            updateChildren(this, config);
+            this.on("widthChange", propertyChangeListener);
+            this.on("heightChange", propertyChangeListener);
+            updateChildren(this);
         },
         toObject: function ()
         {
@@ -64,4 +60,5 @@
     Kinetic.Factory.addGetterSetter(Kinetic.Input, 'fontStyle', "normal");
     Kinetic.Factory.addGetterSetter(Kinetic.Input, 'text', "");
     Kinetic.Factory.addGetterSetter(Kinetic.Input, 'disabled', false);
+    Kinetic.Factory.addColorGetterSetter(Kinetic.Input, 'color');
 })();

@@ -7,11 +7,8 @@
         var lineXOffsetLeft = 20;
         var lineXOffsetRight = 5;
         var lineYOffset = 5;
-        //noinspection JSUnresolvedFunction
         var fontFamily = item.getFontFamily();
-        //noinspection JSUnresolvedFunction
         var fontStyle = item.getFontStyle();
-        //noinspection JSUnresolvedFunction
         var fontSize = item.getFontSize();
 
         var component;
@@ -62,9 +59,10 @@
             component = rightAlignedComponents[i];
             component.setAttr('x', maxLineWidth - component.getWidth() - lineXOffsetRight);
         }
-        //noinspection JSUnresolvedFunction
         border.setWidth(maxLineWidth);
         border.setHeight(borderHeight + lineYOffset);
+        item.setHeight(border.getHeight());
+        item.setWidth(border.getWidth());
     }
 
     Kinetic.Menu = function (config)
@@ -94,9 +92,6 @@
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        }, getHeight: function ()
-        {
-            return this.find(".border")[0].getHeight();
         }
     };
     Kinetic.Util.extend(Kinetic.Menu, Kinetic.Group);

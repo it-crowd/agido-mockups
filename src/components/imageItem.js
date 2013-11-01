@@ -5,12 +5,14 @@
         var text = item.find(".text")[0];
         var background = item.find(".background")[0];
         var textContent = item.getText();
+        background.setWidth(item.getWidth());
+        background.setHeight(item.getHeight());
         text.setText(textContent);
-        var textY = (background.getWidth() - text.getHeight()) / 2;
+        var textY = (background.getHeight() - text.getHeight()) / 2;
         text.setAttr('y', textY);
-        text.setWidth(background.getHeight());
+        text.setWidth(background.getWidth());
         //noinspection JSUnresolvedFunction
-        item.setClip([0, 0, 80, 80]);
+        item.setClip([0, 0, item.getWidth(), item.getHeight()]);
     }
 
     Kinetic.ImageItem = function (config)
@@ -20,20 +22,20 @@
     Kinetic.ImageItem.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, config);
+            Kinetic.Group.call(this, angular.extend({width: 80, height: 80}, config));
             this.className = "ImageItem";
-            this.add(new Kinetic.Shape({name: "background", width: 80, height: 80, fill: '#fff', stroke: '#000', strokeWidth: 2,
+            this.add(new Kinetic.Shape({name: "background", fill: '#fff', stroke: '#000', strokeWidth: 2,
                 drawFunc: function (context)
                 {
                     context.beginPath();
                     context.moveTo(0, 0);
-                    context.lineTo(80, 0);
-                    context.lineTo(80, 80);
-                    context.lineTo(0, 80);
+                    context.lineTo(this.getWidth(), 0);
+                    context.lineTo(this.getWidth(), this.getHeight());
+                    context.lineTo(0, this.getHeight());
                     context.lineTo(0, 0);
-                    context.lineTo(80, 80);
-                    context.moveTo(80, 0);
-                    context.lineTo(0, 80);
+                    context.lineTo(this.getWidth(), this.getHeight());
+                    context.moveTo(this.getWidth(), 0);
+                    context.lineTo(0, this.getHeight());
                     context.closePath();
                     context.fillStrokeShape(this);
                 }
@@ -47,14 +49,13 @@
                 }
             };
             this.on("textChange", propertyChangeListener);
+            this.on("widthChange", propertyChangeListener);
+            this.on("heightChange", propertyChangeListener);
             updateChildren(this);
         },
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        }, getHeight: function ()
-        {
-            return this.find(".background")[0].getHeight();
         }
     };
     Kinetic.Util.extend(Kinetic.ImageItem, Kinetic.Group);

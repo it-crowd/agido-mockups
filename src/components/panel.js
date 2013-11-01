@@ -25,7 +25,7 @@
     Kinetic.Panel.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, config);
+            Kinetic.Group.call(this, angular.extend({width: 300, height: 200}, config));
             this.className = "Panel";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "frame", x: 0, y: 0, draggable: false, fill: '#fff', stroke: '#000', strokeWidth: 1})));
@@ -39,6 +39,8 @@
                 }
             };
             this.on("textChange", propertyChangeListener);
+            this.on("widthChange", propertyChangeListener);
+            this.on("heightChange", propertyChangeListener);
             updateChildren(this);
         },
         toObject: function ()
@@ -48,6 +50,4 @@
     };
     Kinetic.Util.extend(Kinetic.Panel, Kinetic.Group);
     Kinetic.Factory.addGetterSetter(Kinetic.Panel, 'text', "Panel");
-    Kinetic.Factory.addGetterSetter(Kinetic.Panel, 'height', 400);
-    Kinetic.Factory.addGetterSetter(Kinetic.Panel, 'width', 400);
 })();

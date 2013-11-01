@@ -4,8 +4,8 @@
     AgidoMockups.icons = AgidoMockups.icons || {};
     AgidoMockups.icons.datepicker = new Kinetic.Shape({
         name: "datepickerIcon",
-        width: 20,
-        height: 20,
+        width: 24,
+        height: 24,
         stroke: '#000',
         strokeWidth: 2,
         drawFunc: function (context)

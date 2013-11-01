@@ -33,6 +33,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 color: '#000', draggable: true
             },
             multilineSource: false,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties, [
                 {name: "selected", type: "boolean"},
                 {name: "disabled", type: "boolean"}
@@ -42,7 +43,9 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             constructor: Kinetic.CheckboxGroup, options: {
                 color: '#000', draggable: true
             },
-            multilineSource: true, properties: fontProperties.concat(dimensionProperties)
+            multilineSource: true,
+            resizable: false,
+            properties: fontProperties.concat(dimensionProperties)
         },
         "Label": {constructor: Kinetic.Text,
             options: {
@@ -51,6 +54,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties)
         },
         "Title": {constructor: Kinetic.Text,
@@ -61,6 +65,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties)
         },
         "Subtitle": {constructor: Kinetic.Text,
@@ -71,6 +76,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties)
         },
         "Link": {constructor: Kinetic.Link,
@@ -79,6 +85,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: false,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties, [
                 {name: "disabled", type: "boolean"}
             ])
@@ -95,6 +102,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: true,
+            resizable: false,
             properties: [
                 {name: "fontFamily", type: "enum", options: availableFonts},
                 {name: "fontSize", type: "number", min: 8}
@@ -105,6 +113,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             hasText: false,
+            resizable: false,
             properties: dimensionProperties
         },
         "RadioItem": {
@@ -112,6 +121,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 color: '#000', draggable: true
             },
             multilineSource: false,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties, [
                 {name: "selected", type: "boolean"},
                 {name: "disabled", type: "boolean"}
@@ -122,6 +132,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 color: '#000', draggable: true
             },
             multilineSource: true,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties)
         },
         "Input": {constructor: Kinetic.Input,
@@ -220,15 +231,14 @@ agidoMockups.controller("EditorCtrl", function ($scope)
                 draggable: true
             },
             multilineSource: true,
+            resizable: false,
             properties: fontProperties.concat(dimensionProperties)
         }
     };
 
     function addToStage(component)
     {
-        $scope.stage.getLayers()[0].add(component);
-        $scope.mockupComponentSelected(component);
-        $scope.stage.draw();
+        $scope.stage.add(component);
     }
 
     $scope.addToStage = function (type)
@@ -295,6 +305,11 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         }
     };
 
+    $scope.isComponentResizable = function (component)
+    {
+        return component.mockupComponent.resizable !== false;
+    };
+
     $scope.isMockupComponent = function (component)
     {
         return component.mockupComponent != null;
@@ -343,8 +358,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         if (null != $scope.selectedComponent) {
             //noinspection JSValidateTypes
             var clone = new $scope.selectedComponent.mockupComponent.constructor($scope.selectedComponent.attrs);
-            clone.setAttr("x", clone.getAttr("x") + 15);
-            clone.setAttr("y", clone.getAttr("y") + 15);
+            if ($scope.selectedComponent.getParent() instanceof Kinetic.Layer) {
+                clone.setAttr("x", clone.getAttr("x") + 15);
+                clone.setAttr("y", clone.getAttr("y") + 15);
+            } else {
+                clone.setAttr("x", $scope.selectedComponent.getParent().getAttr("x") + 15);
+                clone.setAttr("y", $scope.selectedComponent.getParent().getAttr("y") + 15);
+            }
             clone.mockupComponent = $scope.selectedComponent.mockupComponent;
             $scope.selectedComponent = clone;
             addToStage(clone);
@@ -378,7 +398,11 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     $scope.delete = function ()
     {
         if (null != $scope.selectedComponent) {
-            $scope.selectedComponent.remove();
+            if ($scope.selectedComponent.getParent() instanceof Kinetic.Layer) {
+                $scope.selectedComponent.destroy();
+            } else {
+                $scope.selectedComponent.getParent().destroy();
+            }
             $scope.selectedComponent = null;
             $scope.editingSource = false;
             $scope.stage.draw();
@@ -394,7 +418,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     $scope.moveToTop = function ()
     {
         if (null != $scope.selectedComponent) {
-            $scope.selectedComponent.moveToTop();
+            $scope.selectedComponent.getParent().moveToTop();
             $scope.stage.draw();
         }
     };
@@ -402,7 +426,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     $scope.moveUp = function ()
     {
         if (null != $scope.selectedComponent) {
-            $scope.selectedComponent.moveUp();
+            $scope.selectedComponent.getParent().moveUp();
             $scope.stage.draw();
         }
     };
@@ -410,7 +434,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     $scope.moveDown = function ()
     {
         if (null != $scope.selectedComponent) {
-            $scope.selectedComponent.moveDown();
+            $scope.selectedComponent.getParent().moveDown();
             $scope.stage.draw();
         }
     };
@@ -418,7 +442,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
     $scope.moveToBottom = function ()
     {
         if (null != $scope.selectedComponent) {
-            $scope.selectedComponent.moveToBottom();
+            $scope.selectedComponent.getParent().moveToBottom();
             $scope.stage.draw();
         }
     };
