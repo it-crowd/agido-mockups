@@ -280,8 +280,6 @@ agidoMockups.directive('stage', function ($timeout, $window)
     return {
         restrict: 'E',
         scope: {
-            width: '@',
-            height: '@',
             stage: '=',
             editingSource: '=',
             hasText: '&',
@@ -298,8 +296,19 @@ agidoMockups.directive('stage', function ($timeout, $window)
         {
             var stage = new Kinetic.Stage({
                 container: element[0].firstChild,
-                width: scope["width"],
-                height: scope["height"]
+                width: $window.document.body.offsetWidth,
+                height: 700
+            });
+
+            var windowResizeHandler = scope.$apply.bind(scope, function ()
+            {
+                stage.setWidth($window.document.body.offsetWidth);
+            });
+            angular.element($window).bind("resize", windowResizeHandler);
+
+            scope.$on("$destroy", function ()
+            {
+                angular.element($window).unbind("resize", windowResizeHandler);
             });
             var backgroundLayer = new Kinetic.Layer({});
             stage.add(backgroundLayer);

@@ -15,31 +15,49 @@
     </style>
 </head>
 <body ng-controller="EditorCtrl">
+<nav class="navbar navbar-default" role="navigation">
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
+                <li><a href="#" ng-click="downloadImage()">Download PNG</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">View <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a ng-click="toggleSnapToGrid()">Snap to grid</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
 <div class="palette">
     <div class="btn-group">
         <button class="btn btn-default" ng-click="addToStage('Arrow')">Arrow</button>
-        <button class="btn btn-default" ng-click="addToStage('Comment')">Comment</button>
-        <button class="btn btn-default" ng-click="addToStage('Label')">Label</button>
-        <button class="btn btn-default" ng-click="addToStage('Title')">Title</button>
-        <button class="btn btn-default" ng-click="addToStage('Subtitle')">Subtitle</button>
-        <button class="btn btn-default" ng-click="addToStage('Link')">Link</button>
+        <button class="btn btn-default" ng-click="addToStage('Button')">Button</button>
         <button class="btn btn-default" ng-click="addToStage('Checkbox')">Checkbox</button>
         <button class="btn btn-default" ng-click="addToStage('CheckboxGroup')">Checkbox group</button>
+        <button class="btn btn-default" ng-click="addToStage('Comment')">Comment</button>
+        <button class="btn btn-default" ng-click="addToStage('Datepicker')">Datepicker</button>
+        <button class="btn btn-default" ng-click="addToStage('ImageItem')">Image</button>
+        <button class="btn btn-default" ng-click="addToStage('Input')">Input</button>
+        <button class="btn btn-default" ng-click="addToStage('Label')">Label</button>
+        <button class="btn btn-default" ng-click="addToStage('Link')">Link</button>
+        <button class="btn btn-default" ng-click="addToStage('Menu')">Menu</button>
+        <button class="btn btn-default" ng-click="addToStage('MenuBar')">Menu bar</button>
+        <button class="btn btn-default" ng-click="addToStage('Pagination')">Pagination</button>
         <button class="btn btn-default" ng-click="addToStage('Panel')">Panel</button>
         <button class="btn btn-default" ng-click="addToStage('Paragraph')">Paragraph</button>
-        <button class="btn btn-default" ng-click="addToStage('Pagination')">Pagination</button>
         <button class="btn btn-default" ng-click="addToStage('RadioItem')">Radio item</button>
         <button class="btn btn-default" ng-click="addToStage('RadioGroup')">Radio group</button>
-        <button class="btn btn-default" ng-click="addToStage('Input')">Input</button>
-        <button class="btn btn-default" ng-click="addToStage('Datepicker')">Datepicker</button>
-        <button class="btn btn-default" ng-click="addToStage('TextArea')">Text area</button>
-        <button class="btn btn-default" ng-click="addToStage('Button')">Button</button>
         <button class="btn btn-default" ng-click="addToStage('Select')">Select</button>
+        <button class="btn btn-default" ng-click="addToStage('Subtitle')">Subtitle</button>
         <button class="btn btn-default" ng-click="addToStage('Table')">Table</button>
+        <button class="btn btn-default" ng-click="addToStage('TextArea')">Text area</button>
+        <button class="btn btn-default" ng-click="addToStage('Title')">Title</button>
         <button class="btn btn-default" ng-click="addToStage('Window')">Window</button>
-        <button class="btn btn-default" ng-click="addToStage('ImageItem')">Image</button>
-        <button class="btn btn-default" ng-click="addToStage('MenuBar')">Menu bar</button>
-        <button class="btn btn-default" ng-click="addToStage('Menu')">Menu</button>
     </div>
 </div>
 <span>
@@ -62,9 +80,9 @@
    </button>
 </span>
 
-<stage width="700" height="500" stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)"
-       mockup-component-selected="mockupComponentSelected(component)" selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)"
-       is-component-resizable="isComponentResizable(component)" has-text="hasSource(component)" editing-source="editingSource"></stage>
+<stage stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)" mockup-component-selected="mockupComponentSelected(component)"
+       selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)" is-component-resizable="isComponentResizable(component)"
+       has-text="hasSource(component)" editing-source="editingSource"></stage>
 
 <form ng-show="selectedComponent" class="panel panel-default">
     <div class="panel-heading">{{ getComponentType(selectedComponent) }}</div>
@@ -127,11 +145,22 @@
     </div>
 </form>
 
-<button class="btn btn-default" ng-click="downloadImage()">Download image</button>
-
-<h1>Stage source</h1>
-
-<div>{{ stage.toJSON() }}</div>
+<div class="modal fade" id="stageSourceModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Stage source</h4>
+            </div>
+            <div class="modal-body">
+                {{ stageSource }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--Google fonts need to be preloaded. Otherwise KineticJS cannot render them for the first time.-->
 <div ng-repeat="font in availableFonts" ng-init="style={'font-family':font,'font-size':0,'line-height':0}" ng-style="style">{{ font }}</div>
@@ -179,5 +208,7 @@
 <script src="../src/app/stage.js"></script>
 <script src="../src/app/editorCtrl.js"></script>
 <script src="js/ui-bootstrap-tpls-0.6.0.js"></script>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.js"></script>
 </body>
 </html>

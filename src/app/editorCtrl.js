@@ -322,6 +322,7 @@ agidoMockups.controller("EditorCtrl", function ($scope)
 
     $scope.downloadImage = function ()
     {
+//        TODO export only part of stage
         $scope.stage.toDataURL({callback: function (data)
         {
             var pom = document.createElement('a');
@@ -329,6 +330,17 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             pom.setAttribute('download', "AgidoMockup.png");
             pom.click();
         }})
+    };
+
+    $scope.exportToJSON = function ()
+    {
+        $scope.stageSource = $scope.stage.toJSON();
+    };
+
+    $scope.toggleSnapToGrid = function ()
+    {
+//        TODO implement this method
+        alert("Not implemented yet")
     };
 
     $scope.getComponentType = function (component)
