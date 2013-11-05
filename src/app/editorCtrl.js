@@ -1,4 +1,4 @@
-agidoMockups.controller("EditorCtrl", function ($scope, $window)
+agidoMockups.controller("EditorCtrl", ["$scope", "$window", function ($scope, $window)
 {
     $scope.selectedComponent = null;
     $scope.editingSource = false;
@@ -547,4 +547,4 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
         }
     };
 
-});
+}]);

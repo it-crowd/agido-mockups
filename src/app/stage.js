@@ -1,4 +1,4 @@
-agidoMockups.directive('stage', function ($timeout, $window)
+agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $window)
 {
     function getComponent(event, isMockupComponent)
     {
@@ -479,4 +479,4 @@ agidoMockups.directive('stage', function ($timeout, $window)
             }
         }
     }
-});
+}]);
