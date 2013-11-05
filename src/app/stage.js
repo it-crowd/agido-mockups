@@ -471,6 +471,10 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 toJSON: function ()
                 {
                     return JSON.stringify(componentsLayer.toObject().children);
+                },
+                select: function (component)
+                {
+                    select(component, scope.isComponentResizable({component: component}));
                 }
             }
         }

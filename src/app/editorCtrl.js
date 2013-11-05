@@ -244,11 +244,15 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
 
     function markForUndo()
     {
+        var selectedComponent = $scope.selectedComponent;
         $scope.exportToJSON();
         undoStack.push($scope.stageSource);
         redoStack.length = 0;
         while (undoStack.length > 30) {
             undoStack.shift();
+        }
+        if (undefined != selectedComponent) {
+            $scope.stage.select(selectedComponent);
         }
     }
 
