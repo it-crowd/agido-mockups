@@ -78,10 +78,10 @@
             this.add(AgidoMockups.icons.nextButton.clone({x: 50, y: 20}));
             this.add(AgidoMockups.icons.home.clone({x: 80, y: 20}));
             this.add(new Kinetic.Text(AgidoMockups.extend(config,
-                    {name: "title", padding: 5, draggable: false, fill: '#000', stroke: null, fontFamily: 'Comic Sans MS'})));
+                    {name: "title", x: 0, y: 0, width: "auto", height: "auto", padding: 5, draggable: false, fill: '#000', stroke: null, fontFamily: 'Comic Sans MS'})));
             this.add(new Kinetic.Input(AgidoMockups.extend(config, {name: "url", draggable: false, color: '#000', fontFamily: 'Comic Sans MS', fontSize: 10})));
-            this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "toolbarBorder", draggable: false, stroke: '#000'})));
-            this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "statusbarBorder", draggable: false, stroke: '#000'})));
+            this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "toolbarBorder", x: 0, y: 0, draggable: false, stroke: '#000'})));
+            this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "statusbarBorder", x: 0, y: 0, draggable: false, stroke: '#000'})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

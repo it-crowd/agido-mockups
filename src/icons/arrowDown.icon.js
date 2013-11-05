@@ -9,8 +9,8 @@
         sides: 3,
         radius: 7,
         fill: '#000',
-        stroke: null
+        stroke: null,
+        rotationDeg: 180,
+        offset: [0, 0]
     });
-    //noinspection JSUnresolvedFunction
-    AgidoMockups.icons.arrowDown.setRotationDeg(180);
 })();

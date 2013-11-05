@@ -29,13 +29,13 @@
     Kinetic.Comment.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, angular.extend({width: 300, height: 200}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 300, height: 200}, config));
             this.className = "Comment";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config, {name: "card", x: 0, y: 10, draggable: false, fill: 'yellow', stroke: null})));
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
-                    {name: "tape", rotationDeg: -1, width: 50, height: 20, draggable: false, fill: 'red', stroke: null})));
+                    {name: "tape", x: 0, y: 0, rotationDeg: -1, width: 50, height: 20, draggable: false, fill: 'red', stroke: null})));
             this.add(new Kinetic.Text(AgidoMockups.extend(config,
-                    {name: "text", x: 0, y: 10, padding: 30, draggable: false, fill: config.color, stroke: null})));
+                    {name: "text", x: 0, y: 10, width: "auto", height: "auto", padding: 30, draggable: false, fill: config.color, stroke: null})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

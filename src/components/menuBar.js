@@ -37,11 +37,11 @@
     Kinetic.MenuBar.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, angular.extend({width: 300}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 300}, config));
             this.className = "MenuBar";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: '#000', strokeWidth: 2})));
-            this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "itemsGroup", draggable: false})));
+            this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "itemsGroup", x: 0, y: 0, draggable: false})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

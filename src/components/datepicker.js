@@ -45,7 +45,7 @@
     Kinetic.Datepicker.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, angular.extend({width: 150}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 150}, config));
             this.className = "Datepicker";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));

@@ -4,7 +4,7 @@
     {
         item.removeChildren();
         var lines = item.getText().split("\n");
-        var height = 0;
+        var height = 0, maxWidth;
         for (var i = 0; i < lines.length; i++) {
             var match = lines[i].match(/^\s*(-?)\s*\(\s*(o)?\s*\)\s*(.*)/);
             var component;
@@ -23,8 +23,14 @@
             //noinspection JSUnresolvedFunction
             component.setFontSize(item.getFontSize());
             item.add(component);
-            height += component.getHeight()
+            //noinspection JSUnusedAssignment
+            if (undefined == maxWidth || maxWidth < component.getWidth()) {
+                maxWidth = component.getWidth();
+            }
+            height += component.getHeight();
         }
+        item.setHeight(height);
+        item.setWidth(maxWidth);
     }
 
     Kinetic.RadioGroup = function (config)

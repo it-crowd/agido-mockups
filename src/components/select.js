@@ -34,7 +34,6 @@
                 }
             }
         }
-        item.setHeight(totalLinesHeight);
         var firstLineHeightWithOffset = lineHeight + doubleLineOffset;
         var borderWidth = item.getWidth() - 4;
         border.setWidth(borderWidth - arrow.getWidth());
@@ -54,8 +53,10 @@
             expansion.setWidth(item.getWidth());
             expansion.setHeight(totalLinesHeight - firstLineHeightWithOffset + lineOffset);
             expansion.setStroke(color);
+            item.setHeight(totalLinesHeight + lineOffset);
         } else {
             expansion.hide();
+            item.setHeight(totalLinesHeight);
         }
     }
 
@@ -66,7 +67,7 @@
     Kinetic.Select.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, angular.extend({width: 150}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 150}, config));
             this.className = "Select";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
@@ -75,7 +76,7 @@
             this.add(AgidoMockups.icons.arrowDown.clone());
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "expansion", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
-            this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "linesGroup", draggable: false})));
+            this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "linesGroup", x: 0, y: 0, draggable: false})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

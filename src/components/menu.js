@@ -76,7 +76,7 @@
             this.className = "Menu";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
-            this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "itemsGroup", draggable: false})));
+            this.add(new Kinetic.Group(AgidoMockups.extend(config, {name: "itemsGroup", x: 0, y: 0, draggable: false})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

@@ -20,11 +20,11 @@
     Kinetic.TextArea.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, angular.extend({width: 200, height: 100}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 200, height: 100}, config));
             this.className = "TextArea";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "border", x: 0, y: 0, draggable: false, fill: 'white', stroke: config.color, strokeWidth: 2})));
-            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "text", x: 0, y: 0, padding: 5, draggable: false})));
+            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "text", x: 0, y: 0, width: "auto", height: "auto", padding: 5, draggable: false})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

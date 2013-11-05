@@ -22,7 +22,7 @@
     Kinetic.ImageItem.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, angular.extend({width: 80, height: 80}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 80, height: 80}, config));
             this.className = "ImageItem";
             this.add(new Kinetic.Shape({name: "background", fill: '#fff', stroke: '#000', strokeWidth: 2,
                 drawFunc: function (context)
@@ -41,7 +41,7 @@
                 }
             }));
             this.add(new Kinetic.Text(AgidoMockups.extend(config,
-                    {name: "text", x: 0, y: 0, align: 'center', draggable: false, fill: '#000', fontSize: 14, stroke: null})));
+                    {name: "text", x: 0, y: 0, width: "auto", height: "auto", align: 'center', draggable: false, fill: '#000', fontSize: 14, stroke: null})));
             var propertyChangeListener = function (event)
             {
                 if (event.newVal != event.oldVal) {

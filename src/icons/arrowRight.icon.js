@@ -4,13 +4,11 @@
     AgidoMockups.icons = AgidoMockups.icons || {};
     AgidoMockups.icons.arrowRight = new Kinetic.RegularPolygon({
         name: "arrowRight",
-        width: 20,
-        height: 20,
         sides: 3,
         radius: 7,
         fill: '#000',
-        stroke: null
+        stroke: null,
+        rotationDeg: 90,
+        offset: [-5, -5]
     });
-    //noinspection JSUnresolvedFunction
-    AgidoMockups.icons.arrowRight.setRotationDeg(90);
 })();

@@ -53,7 +53,8 @@
         {
             Kinetic.Group.call(this, config);
             this.className = "Checkbox";
-            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "label", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
+            this.add(new Kinetic.Text(AgidoMockups.extend(config,
+                    {name: "label", x: 0, y: 0, width: "auto", height: "auto", draggable: false, fill: config.color, stroke: null})));
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "outerRect", x: 0, y: 0, draggable: false, fill: null, stroke: config.color, strokeWidth: .5})));
             this.add(new Kinetic.Rect(AgidoMockups.extend(config, {name: "innerRect", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));

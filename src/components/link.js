@@ -22,6 +22,8 @@
         ]);
         //noinspection JSUnresolvedFunction
         line.setStroke(color);
+        item.setWidth(textChild.getWidth());
+        item.setHeight(textChild.getHeight());
     }
 
     Kinetic.Link = function (config)
@@ -33,7 +35,8 @@
         {
             this.className = "Link";
             Kinetic.Group.call(this, config);
-            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "text", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
+            this.add(new Kinetic.Text(AgidoMockups.extend(config,
+                    {name: "text", x: 0, y: 0, width: "auto", height: "auto", draggable: false, fill: config.color, stroke: null})));
             this.add(new Kinetic.Line(AgidoMockups.extend(config, {name: "line", x: 0, y: 0, draggable: false, stroke: config.color})));
             var propertyChangeListener = function (event)
             {
@@ -51,14 +54,6 @@
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        },
-        getHeight: function ()
-        {
-            return this.find(".text")[0].getHeight();
-        },
-        getWidth: function ()
-        {
-            return this.find(".text")[0].getWidth();
         }
     };
     Kinetic.Util.extend(Kinetic.Link, Kinetic.Group);

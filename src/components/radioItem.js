@@ -40,6 +40,8 @@
         } else {
             innerCircle.hide();
         }
+        item.setHeight(label.getHeight());
+        item.setWidth(label.getWidth() + label.getX());
     }
 
     Kinetic.RadioItem = function (config)
@@ -51,7 +53,8 @@
         {
             Kinetic.Group.call(this, config);
             this.className = "RadioItem";
-            this.add(new Kinetic.Text(AgidoMockups.extend(config, {name: "label", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
+            this.add(new Kinetic.Text(AgidoMockups.extend(config,
+                    {name: "label", x: 0, y: 0, width: "auto", height: "auto", draggable: false, fill: config.color, stroke: null})));
             this.add(new Kinetic.Circle(AgidoMockups.extend(config,
                     {name: "outerCircle", x: 0, y: 0, draggable: false, fill: null, stroke: config.color, strokeWidth: .5})));
             this.add(new Kinetic.Circle(AgidoMockups.extend(config, {name: "innerCircle", x: 0, y: 0, draggable: false, fill: config.color, stroke: null})));
@@ -72,9 +75,6 @@
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        }, getHeight: function ()
-        {
-            return this.find(".label")[0].getHeight();
         }
     };
     Kinetic.Util.extend(Kinetic.RadioItem, Kinetic.Group);
