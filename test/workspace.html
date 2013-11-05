@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        #stage canvas {
+            border: 1px solid #555 !important;
+        }
+    </style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="../vendor/kineticjs/kinetic-v4.7.1.js"></script>
+<script src="../src/icons/backButton.icon.js"></script>
+<script src="../src/icons/nextButton.icon.js"></script>
+<script src="../src/icons/home.icon.js"></script>
+<script src="../src/icons/search.icon.js"></script>
+<script src="../src/icons/datepicker.icon.js"></script>
+<script src="../src/icons/calendar.icon.js"></script>
+<script src="../src/icons/arrowDown.icon.js"></script>
+<script src="../src/icons/arrowRight.icon.js"></script>
+<script src="../src/icons/arrowLeft.icon.js"></script>
+<script src="../src/icons/arrowUp.icon.js"></script>
+<script src="../src/components/_util.js"></script>
+<script src="../src/components/arrow.js"></script>
+<script src="../src/components/checkbox.js"></script>
+<script src="../src/components/checkboxGroup.js"></script>
+<script src="../src/components/comment.js"></script>
+<script src="../src/components/grid.js"></script>
+<script src="../src/components/link.js"></script>
+<script src="../src/components/panel.js"></script>
+<script src="../src/components/paragraph.js"></script>
+<script src="../src/components/pagination.js"></script>
+<script src="../src/components/radioGroup.js"></script>
+<script src="../src/components/radioItem.js"></script>
+<script src="../src/components/input.js"></script>
+<script src="../src/components/select.js"></script>
+<script src="../src/components/button.js"></script>
+<script src="../src/components/table.js"></script>
+<script src="../src/components/window.js"></script>
+<script src="../src/components/datepicker.js"></script>
+<script src="../src/components/imageItem.js"></script>
+<script src="../src/components/menuBar.js"></script>
+<script src="../src/components/menu.js"></script>
+<script src="../src/components/textArea.js"></script>
+<script>
+    //noinspection JSValidateTypes
+    var stage = new Kinetic.Stage({
+        container: document.getElementById("stage"),
+        width: window.document.body.offsetWidth,
+        height: 700
+    });
+    var componentsLayer = new Kinetic.Layer({name: "componentsLayer"});
+    stage.add(componentsLayer);
+
+    var grid = new Kinetic.Grid({width: stage.getWidth(), height: stage.getHeight(), stroke: "#00f", strokeWidth: 0.5, opacity: .2});
+    componentsLayer.add(grid);
+
+    stage.draw();
+
+    window.onresize = function ()
+    {
+        stage.setWidth(window.document.body.offsetWidth);
+        grid.setSize(stage.getWidth(), stage.getHeight());
+    };
+</script>
+</body>
+</html>

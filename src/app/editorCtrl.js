@@ -337,10 +337,25 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         $scope.stageSource = $scope.stage.toJSON();
     };
 
+    $scope.toggleGrid = function ()
+    {
+        $scope.stage.toggleGrid();
+    };
+
     $scope.toggleSnapToGrid = function ()
     {
-//        TODO implement this method
-        alert("Not implemented yet")
+        $scope.stage.toggleSnapToGrid();
+    };
+
+    $scope.decreaseGridDensity = function ()
+    {
+        $scope.stage.decreaseGridDensity();
+    };
+
+
+    $scope.increaseGridDensity = function ()
+    {
+        $scope.stage.increaseGridDensity();
     };
 
     $scope.getComponentType = function (component)

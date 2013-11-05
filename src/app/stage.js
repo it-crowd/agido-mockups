@@ -303,6 +303,7 @@ agidoMockups.directive('stage', function ($timeout, $window)
             var windowResizeHandler = scope.$apply.bind(scope, function ()
             {
                 stage.setWidth($window.document.body.offsetWidth);
+                grid.setSize(stage.getWidth(), stage.getHeight());
             });
             angular.element($window).bind("resize", windowResizeHandler);
 
@@ -314,6 +315,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
             stage.add(backgroundLayer);
             var backgroundRect = new Kinetic.Rect({fill: "#fff", width: stage.getWidth(), height: stage.getHeight()});
             backgroundLayer.add(backgroundRect);
+            var grid = new Kinetic.Grid({width: stage.getWidth(), height: stage.getHeight(), stroke: "#00f", strokeWidth: 0.5, opacity: .2});
+            backgroundLayer.add(grid);
             var componentsLayer = new Kinetic.Layer({name: "componentsLayer"});
             stage.add(componentsLayer);
             var selectionLayer = new Kinetic.Layer({});
@@ -395,6 +398,22 @@ agidoMockups.directive('stage', function ($timeout, $window)
                     scope.editingSource = false;
                 }
             };
+            var snapToGrid = false;
+
+            function snapToGridEnforcer()
+            {
+                var spacing = grid.getSpacing();
+                this.setAttr("x", parseInt(this.attrs.x / spacing) * spacing);
+                this.setAttr("y", parseInt(this.attrs.y / spacing) * spacing);
+            }
+
+            componentsLayer.on("add", function (event)
+            {
+                if (snapToGrid) {
+                    event.child.on("dragmove.snapToGrid", snapToGridEnforcer);
+                }
+            });
+
             /**
              * Expose stage proxy. We do not want external controllers to mess with stage internals directly.
              */
@@ -408,6 +427,37 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 unselectAll: function ()
                 {
                     componentsLayer.getChildren().each(ungroup);
+                },
+                toggleGrid: function ()
+                {
+                    if (grid.isVisible()) {
+                        grid.hide();
+                    } else {
+                        grid.show();
+                    }
+                    grid.getLayer().draw();
+                },
+                toggleSnapToGrid: function ()
+                {
+                    snapToGrid = !snapToGrid;
+                    componentsLayer.getChildren().each(function (node)
+                    {
+                        if (snapToGrid) {
+                            node.on("dragmove.snapToGrid", snapToGridEnforcer);
+                        } else {
+                            node.off("dragmove.snapToGrid");
+                        }
+                    });
+                },
+                decreaseGridDensity: function ()
+                {
+                    grid.setSpacing(grid.getSpacing() * 2);
+                    grid.getLayer().draw();
+                },
+                increaseGridDensity: function ()
+                {
+                    grid.setSpacing(Math.max(5, grid.getSpacing() / 2));
+                    grid.getLayer().draw();
                 },
                 toDataURL: stage.toDataURL.bind(stage),
                 toJSON: stage.toJSON.bind(stage)
