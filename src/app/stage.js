@@ -418,6 +418,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
              * Expose stage proxy. We do not want external controllers to mess with stage internals directly.
              */
             scope.stage = {
+                getHeight: stage.getHeight.bind(stage),
+                getWidth: stage.getWidth.bind(stage),
                 draw: stage.draw.bind(stage),
                 add: function (node)
                 {

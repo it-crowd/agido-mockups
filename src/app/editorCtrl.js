@@ -257,6 +257,12 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
         if (isAtomic) {
             markForUndo();
         }
+        if (undefined == component.attrs.x) {
+            component.setX(($scope.stage.getWidth() - component.getWidth()) / 2);
+        }
+        if (undefined == component.attrs.y) {
+            component.setY(($scope.stage.getHeight() - component.getHeight()) / 2);
+        }
         $scope.stage.add(component);
     }
 
