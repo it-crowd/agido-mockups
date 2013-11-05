@@ -49,9 +49,6 @@
         toObject: function ()
         {
             return Kinetic.Node.prototype.toObject.call(this);
-        }, getHeight: function ()
-        {
-            return this.find(".border")[0].getHeight();
         }
     };
     Kinetic.Util.extend(Kinetic.Input, Kinetic.Group);

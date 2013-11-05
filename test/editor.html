@@ -12,6 +12,10 @@
         .input-xs {
             width: 40px;
         }
+
+        .stage-source {
+            width: 100%;
+        }
     </style>
 </head>
 <body ng-controller="EditorCtrl">
@@ -22,6 +26,7 @@
             <ul class="dropdown-menu">
                 <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
                 <li><a href="#" ng-click="downloadImage()">Download PNG</a></li>
+                <li><a ng-click="importJSON()" data-toggle="modal" data-target="#importJSONModal">Import JSON</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -153,13 +158,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Stage source</h4>
+                <h4 class="modal-title">Exported stage source</h4>
             </div>
             <div class="modal-body">
-                {{ stageSource }}
+                <!--suppress HtmlFormInputWithoutLabel -->
+                <textarea rows="20" class="stage-source">{{ stageSource }}</textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="importJSONModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Import stage source</h4>
+            </div>
+            <div class="modal-body">
+                <!--suppress HtmlFormInputWithoutLabel -->
+                <textarea rows="20" class="stage-source" ng-model="jsonToImport"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="importJSON(jsonToImport)">Import</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

@@ -236,6 +236,12 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         }
     };
 
+    for (var key in components) {
+        if (components.hasOwnProperty(key)) {
+            components[key].options.componentName = key;
+        }
+    }
+
     function addToStage(component)
     {
         $scope.stage.add(component);
@@ -332,8 +338,19 @@ agidoMockups.controller("EditorCtrl", function ($scope)
         }})
     };
 
+    $scope.importJSON = function (json)
+    {
+        var deserializedObjects = JSON.parse(json);
+        for (var i = 0; i < deserializedObjects.length; i++) {
+            var component = Kinetic.Node.create(JSON.stringify(deserializedObjects[i]));
+            component.mockupComponent = components[component.attrs.componentName];
+            addToStage(component);
+        }
+    };
+
     $scope.exportToJSON = function ()
     {
+        $scope.stage.unselectAll();
         $scope.stageSource = $scope.stage.toJSON();
     };
 

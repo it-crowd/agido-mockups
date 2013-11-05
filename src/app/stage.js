@@ -427,6 +427,7 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 unselectAll: function ()
                 {
                     componentsLayer.getChildren().each(ungroup);
+                    componentsLayer.draw();
                 },
                 toggleGrid: function ()
                 {
@@ -458,9 +459,11 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 {
                     grid.setSpacing(Math.max(5, grid.getSpacing() / 2));
                     grid.getLayer().draw();
-                },
-                toDataURL: stage.toDataURL.bind(stage),
-                toJSON: stage.toJSON.bind(stage)
+                }, toDataURL: stage.toDataURL.bind(stage),
+                toJSON: function ()
+                {
+                    return JSON.stringify(componentsLayer.toObject().children);
+                }
             }
         }
     }
