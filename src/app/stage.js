@@ -28,8 +28,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
                     child.destroy();
                 } else {
                     child.remove();
-                    child.setX((child.getAttr("x") || 0) + node.getAttr("x"));
-                    child.setY((child.getAttr("y") || 0) + node.getAttr("y"));
+                    child.setX((child.getX() || 0) + node.getX());
+                    child.setY((child.getY() || 0) + node.getY());
                     child.setAttr("draggable", true);
                     node.getParent().add(child);
                     children.push(child);
@@ -78,8 +78,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
             /**
              * Calculate which components to include in selection and actual selection boundries.
              */
-            var sx = selectionRect.getAttr("x");
-            var sy = selectionRect.getAttr("y");
+            var sx = selectionRect.getX();
+            var sy = selectionRect.getY();
             var ex = sx + selectionRect.getWidth();
             var ey = sy + selectionRect.getHeight();
             var tmpxy;
@@ -97,8 +97,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
             var selectedComponents = [];
             componentsLayer.getChildren().each(function (node)
             {
-                var nsx = node.getAttr("x");
-                var nsy = node.getAttr("y");
+                var nsx = node.getX();
+                var nsy = node.getY();
                 var nex = nsx + node.getWidth();
                 var ney = nsy + node.getHeight();
                 if (sx <= nsx && nsx <= ex && sy <= nsy && nsy <= ey) {
@@ -137,8 +137,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 {
                     node.remove();
                     node.setAttr("draggable", false);
-                    node.setX(node.getAttr("x") - minx);
-                    node.setY(node.getAttr("y") - miny);
+                    node.setX(node.getX() - minx);
+                    node.setY(node.getY() - miny);
                     selectionGroup.add(node);
                 });
                 selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, selectionBorder: true}));
@@ -255,7 +255,7 @@ agidoMockups.directive('stage', function ($timeout, $window)
         }
 
         if (!(node.getParent() instanceof Kinetic.Group)) {
-            var selectionGroup = new Kinetic.Group({draggable: true, x: node.getAttr("x"), y: node.getAttr("y"), selectionGroup: true});
+            var selectionGroup = new Kinetic.Group({draggable: true, x: node.getX(), y: node.getY(), selectionGroup: true});
             selectionGroup.mainComponent = node;
             node.originalZIndex = node.getZIndex();
             node.remove();
@@ -372,7 +372,7 @@ agidoMockups.directive('stage', function ($timeout, $window)
             stage.on("nodeSelected", function (node)
             {
                 scope.mockupComponentSelected({component: node});
-                scope.editorStyle = {position: "absolute", top: node.getParent().getAttr('y') + 'px', left: node.getParent().getAttr('x') + 'px'};
+                scope.editorStyle = {position: "absolute", top: node.getParent().getY() + 'px', left: node.getParent().getX() + 'px'};
                 if (scope.hasText({component: node})) {
                     scope.componentSource = node.getText();
                     $timeout(function ()

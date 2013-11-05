@@ -32,7 +32,7 @@
         } else {
             innerRect.hide();
         }
-        item.setWidth(label.getAttr("x") + label.getWidth());
+        item.setWidth(label.getX() + label.getWidth());
         item.setHeight(label.getHeight());
     }
 

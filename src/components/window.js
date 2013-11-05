@@ -19,7 +19,7 @@
         toolbar.setAttr("width", item.getWidth() - frameStrokeWidth * 2);
         toolbar.setAttr("height", 60);
 
-        toolbarBorder.setPoints([toolbar.getAttr("x"), toolbar.getAttr("y") + toolbar.getHeight(), toolbar.getAttr("x") + toolbar.getWidth(),
+        toolbarBorder.setPoints([toolbar.getX(), toolbar.getAttr("y") + toolbar.getHeight(), toolbar.getX() + toolbar.getWidth(),
             toolbar.getAttr("y") + toolbar.getHeight()]);
 
         statusbar.setX(frameStrokeWidth);
@@ -27,7 +27,7 @@
         statusbar.setAttr("width", item.getWidth() - frameStrokeWidth * 2);
         statusbar.setAttr("height", 20);
 
-        statusbarBorder.setPoints([statusbar.getAttr("x"), statusbar.getAttr("y") , statusbar.getAttr("x") + statusbar.getWidth(), statusbar.getAttr("y")]);
+        statusbarBorder.setPoints([statusbar.getX(), statusbar.getAttr("y") , statusbar.getX() + statusbar.getWidth(), statusbar.getAttr("y")]);
 
         var lines = item.getText().split("\n");
         title.setText(lines[0]);
