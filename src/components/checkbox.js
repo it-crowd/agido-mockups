@@ -5,16 +5,11 @@
         var label = item.find(".label")[0];
         var outerRect = item.find(".outerRect")[0];
         var innerRect = item.find(".innerRect")[0];
-        //noinspection JSUnresolvedFunction
         var color = true === item.getDisabled() ? '#aaa' : config.color;
         label.setText(item.getText());
-        //noinspection JSUnresolvedFunction
         label.setFontFamily(item.getFontFamily());
-        //noinspection JSUnresolvedFunction
         label.setFontStyle(item.getFontStyle());
-        //noinspection JSUnresolvedFunction
         label.setFontSize(item.getFontSize());
-        //noinspection JSUnresolvedFunction
         label.setFill(color);
         var strokeWidth = 1;
         var outerSize = (label.getHeight() - 4 * strokeWidth);
@@ -22,14 +17,11 @@
         outerRect.setHeight(outerSize);
         outerRect.setAttr("x", 0 + strokeWidth);
         outerRect.setAttr("y", 0 + strokeWidth);
-        //noinspection JSUnresolvedFunction
         outerRect.setStroke(color);
 
         label.setAttr("x", outerSize * 1.5);
 
-        //noinspection JSUnresolvedFunction
         innerRect.setFill(color);
-        //noinspection JSUnresolvedFunction
         if (item.getSelected()) {
             innerRect.show();
             var innerSize = outerSize * .6;

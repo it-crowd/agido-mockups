@@ -4,23 +4,16 @@
     {
         var textChild = item.find(".text")[0];
         textChild.setText(item.getText());
-        //noinspection JSUnresolvedFunction
         textChild.setFontFamily(item.getFontFamily());
-        //noinspection JSUnresolvedFunction
         textChild.setFontStyle(item.getFontStyle());
-        //noinspection JSUnresolvedFunction
         textChild.setFontSize(item.getFontSize());
-        //noinspection JSUnresolvedFunction
         var color = true === item.getDisabled() ? '#aaa' : item.color;
-        //noinspection JSUnresolvedFunction
         textChild.setFill(color);
         var line = item.find(".line")[0];
-        //noinspection JSUnresolvedFunction
         line.setPoints([
             {x: 0, y: textChild.getTextHeight()},
             {x: textChild.getWidth(), y: textChild.getTextHeight()}
         ]);
-        //noinspection JSUnresolvedFunction
         line.setStroke(color);
         item.setWidth(textChild.getWidth());
         item.setHeight(textChild.getHeight());

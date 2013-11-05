@@ -13,14 +13,12 @@
         var searchIcon = item.find(".searchIcon")[0];
         frame.setAttr("width", item.getWidth());
         frame.setAttr("height", item.getHeight());
-        //noinspection JSUnresolvedFunction
         var frameStrokeWidth = frame.getStrokeWidth();
         toolbar.setAttr("x", frameStrokeWidth);
         toolbar.setAttr("y", frameStrokeWidth);
         toolbar.setAttr("width", item.getWidth() - frameStrokeWidth * 2);
         toolbar.setAttr("height", 60);
 
-        //noinspection JSUnresolvedFunction
         toolbarBorder.setPoints([toolbar.getAttr("x"), toolbar.getAttr("y") + toolbar.getHeight(), toolbar.getAttr("x") + toolbar.getWidth(),
             toolbar.getAttr("y") + toolbar.getHeight()]);
 
@@ -29,7 +27,6 @@
         statusbar.setAttr("width", item.getWidth() - frameStrokeWidth * 2);
         statusbar.setAttr("height", 20);
 
-        //noinspection JSUnresolvedFunction
         statusbarBorder.setPoints([statusbar.getAttr("x"), statusbar.getAttr("y") , statusbar.getAttr("x") + statusbar.getWidth(), statusbar.getAttr("y")]);
 
         var lines = item.getText().split("\n");

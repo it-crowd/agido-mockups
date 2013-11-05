@@ -3,7 +3,6 @@
     function updateChildren(item)
     {
         item.removeChildren();
-        //noinspection JSUnresolvedFunction
         var config = {
             fontFamily: item.getFontFamily(),
             fontStyle: item.getFontStyle(),
@@ -26,7 +25,6 @@
             }
         }
 
-        //noinspection JSUnresolvedFunction
         var table = AgidoMockups.parseTable(item.getText(), item.getShowHeader());
         /**
          * Convert tokens into Kinetic shapes and calculate max row and column heights
@@ -65,7 +63,6 @@
                     var component = column.tokens[tokenIndex];
                     getColumn(columnIndex).add(component);
                     if (isIcon) {
-                        //noinspection JSUnresolvedFunction
                         component.setAttr("y", row.y + item.getPadding());
                     } else {
                         component.setAttr("y", row.y);
@@ -109,7 +106,6 @@
             column.setAttr("x", left);
             left += column.getWidth();
             totalWidth += column.getWidth();
-            //noinspection JSUnresolvedFunction
             column.setClip(0, 0, column.getWidth(), totalHeight);
         }
         /**
@@ -118,7 +114,6 @@
         for (rowIndex = 0; rowIndex < table.rows.length; rowIndex++) {
             row = table.rows[rowIndex];
             var rowColor = rowIndex % 2 == 0 ? '#fafafa' : '#eee';
-            //noinspection JSUnresolvedFunction
             if (0 == rowIndex && item.getShowHeader()) {
                 rowColor = '#aaa';
             }

@@ -18,16 +18,12 @@
                 } else {
                     component = new Kinetic.Text(config);
                     if (AgidoMockups.FORMATTED_TOKEN_TYPE_BOLD == token.type) {
-                        //noinspection JSUnresolvedFunction
                         component.setFontStyle("bold");
                     } else if (AgidoMockups.FORMATTED_TOKEN_TYPE_ITALIC == token.type) {
-                        //noinspection JSUnresolvedFunction
                         component.setFontStyle("italic");
                     }
                 }
-                //noinspection JSUnresolvedFunction
                 component.setFontFamily(item.getFontFamily());
-                //noinspection JSUnresolvedFunction
                 component.setFontSize(item.getFontSize());
                 item.add(component);
                 height = component.getHeight();

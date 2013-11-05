@@ -16,11 +16,8 @@
             } else {
                 component = new Kinetic.Text({text: lines[i], fill: '#000', fontSize: 14, y: height});
             }
-            //noinspection JSUnresolvedFunction
             component.setFontFamily(item.getFontFamily());
-            //noinspection JSUnresolvedFunction
             component.setFontStyle(item.getFontStyle());
-            //noinspection JSUnresolvedFunction
             component.setFontSize(item.getFontSize());
             item.add(component);
             //noinspection JSUnusedAssignment

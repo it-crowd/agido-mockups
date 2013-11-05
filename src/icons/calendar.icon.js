@@ -30,13 +30,11 @@
         fill: '#000',
         stroke: null
     });
-    //noinspection JSUnresolvedFunction
     arrowRight.setRotationDeg(90);
     AgidoMockups.icons.calendar.add(arrowRight);
 
     var arrowLeft = arrowRight.clone();
     arrowLeft._setAttr('x', 10);
-    //noinspection JSUnresolvedFunction
     arrowLeft.setRotationDeg(270);
     AgidoMockups.icons.calendar.add(arrowLeft);
 

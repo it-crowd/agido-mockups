@@ -16,7 +16,6 @@
             context.beginPath();
             var height = this.getHeight();
             var width = this.getWidth();
-            //noinspection JSUnresolvedFunction
             if (this.getLeftDown()) {
                 context.moveTo(0, 0);
                 context.quadraticCurveTo(width * 3 / 4, height / 4, width, height);

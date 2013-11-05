@@ -5,35 +5,25 @@
         var label = item.find(".label")[0];
         var outerCircle = item.find(".outerCircle")[0];
         var innerCircle = item.find(".innerCircle")[0];
-        //noinspection JSUnresolvedFunction
         var color = true === item.getDisabled() ? '#aaa' : config.color;
         label.setText(item.getText());
-        //noinspection JSUnresolvedFunction
         label.setFontFamily(item.getFontFamily());
-        //noinspection JSUnresolvedFunction
         label.setFontStyle(item.getFontStyle());
-        //noinspection JSUnresolvedFunction
         label.setFontSize(item.getFontSize());
-        //noinspection JSUnresolvedFunction
         label.setFill(color);
         var strokeWidth = 1;
         var outerRadius = (label.getHeight() - 2 * strokeWidth) / 4;
-        //noinspection JSUnresolvedFunction
         outerCircle.setRadius(outerRadius);
         outerCircle.setAttr("x", outerRadius + strokeWidth);
         outerCircle.setAttr("y", outerRadius * 2 + strokeWidth);
-        //noinspection JSUnresolvedFunction
         outerCircle.setStroke(color);
 
         label.setAttr("x", outerRadius * 3);
 
-        //noinspection JSUnresolvedFunction
         innerCircle.setFill(color);
-        //noinspection JSUnresolvedFunction
         if (item.getSelected()) {
             innerCircle.show();
             var innerRadius = outerRadius * .6;
-            //noinspection JSUnresolvedFunction
             innerCircle.setRadius(innerRadius);
             innerCircle.setAttr("x", outerRadius + strokeWidth);
             innerCircle.setAttr("y", outerRadius * 2 + strokeWidth);

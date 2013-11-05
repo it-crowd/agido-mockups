@@ -11,7 +11,6 @@
         var textY = (background.getHeight() - text.getHeight()) / 2;
         text.setAttr('y', textY);
         text.setWidth(background.getWidth());
-        //noinspection JSUnresolvedFunction
         item.setClip([0, 0, item.getWidth(), item.getHeight()]);
     }
 

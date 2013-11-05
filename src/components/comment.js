@@ -6,19 +6,14 @@
         var tape = item.find(".tape")[0];
         var card = item.find(".card")[0];
         text.setText(item.getText());
-        //noinspection JSUnresolvedFunction
         text.setFontFamily(item.getFontFamily());
-        //noinspection JSUnresolvedFunction
         text.setFontStyle(item.getFontStyle());
-        //noinspection JSUnresolvedFunction
         text.setFontSize(item.getFontSize());
-        //noinspection JSUnresolvedFunction
         text.setFill(config.color);
         text.setWidth(item.getWidth());
         card.setWidth(item.getWidth());
         card.setHeight(item.getHeight());
         tape.setAttr("x", (card.getWidth() - tape.getWidth()) / 2);
-        //noinspection JSUnresolvedFunction
         item.setRotationDeg(3);
     }
 
