@@ -16,6 +16,19 @@
         .stage-source {
             width: 100%;
         }
+
+        .navbar-form .btn-xs {
+            margin-top: 6px;
+        }
+
+        .component-properties {
+            width: 300px;
+            height: 0;
+        }
+
+        .show-no-matter-what {
+            display: block !important;
+        }
     </style>
 </head>
 <body ng-controller="EditorCtrl">
@@ -40,6 +53,29 @@
             </ul>
         </li>
     </ul>
+    <span class="navbar-form navbar-right">
+       <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
+           <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+       </button>
+       <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
+           <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+       </button>
+       <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
+           <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
+       </button>
+       <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
+           <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
+       </button>
+       <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
+           <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
+       </button>
+       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
+           <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
+       </button>
+       <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
+           <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
+       </button>
+    </span>
 </nav>
 
 <div class="palette">
@@ -69,98 +105,82 @@
         <button class="btn btn-default" ng-click="addToStage('Window')">Window</button>
     </div>
 </div>
-<span>
-   <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-       <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
-   </button>
-   <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-       <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
-   </button>
-   <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-       <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
-   </button>
-   <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-       <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
-   </button>
-   <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-       <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
-   </button>
-   <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
-       <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
-   </button>
-   <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-       <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
-   </button>
-</span>
 
 <stage stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)" mockup-component-selected="mockupComponentSelected(component)"
        selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)" is-component-resizable="isComponentResizable(component)"
        has-text="hasSource(component)" editing-source="editingSource"></stage>
 
-<form ng-show="selectedComponent" class="panel panel-default">
-    <div class="panel-heading">{{ getComponentType(selectedComponent) }}</div>
-    <div>
-        <span class="label label-default">Editing</span>
-        <span>
-            <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-                <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
-            </button>
-            <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-                <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
-            </button>
-            <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-                <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
-            </button>
-            <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-                <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
-            </button>
-            <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-                <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
-            </button>
-            <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
-                <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
-            </button>
-            <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-                <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
-            </button>
-        </span>
-    </div>
-    <div>
-        <span class="label label-default">Layering</span>
-        <span>
-            <button class="btn btn-default btn-xs" ng-click="moveToTop()"><span class="glyphicon glyphicon-chevron-up" tooltip="Bring to front"></span></button>
-            <button class="btn btn-default btn-xs" ng-click="moveUp()"><span class="glyphicon glyphicon-arrow-up" tooltip="Move up"></span></button>
-            <button class="btn btn-default btn-xs" ng-click="moveDown()"><span class="glyphicon glyphicon-arrow-down" tooltip="Move down"></span></button>
-            <button class="btn btn-default btn-xs" ng-click="moveToBottom()"><span class="glyphicon glyphicon-chevron-down" tooltip="Move to bottom"></span>
-            </button>
-            <label for="positionX">Pos</label>
-            <input id="positionX" class="input-xs" ng-model="selectedComponentProperties.x"/>
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <input id="positionY" class="input-xs" ng-model="selectedComponentProperties.y"/>
-            <label for="width">Size</label>
-            <input id="width" class="input-xs" ng-model="selectedComponentProperties.width" readonly/>
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <input id="height" class="input-xs" ng-model="selectedComponentProperties.height" readonly/>
-        </span>
-    </div>
-    <div ng-repeat="property in getProperties(selectedComponent)" ng-hide="property.hidden">
-        <span class="label label-default">{{ property.name }}</span>
-        <span>
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <input type="text" ng-model="selectedComponentProperties[property.name]" ng-show="'text'==property.type"/>
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <select ng-model="selectedComponentProperties[property.name]" ng-show="'enum'==property.type">
-                <option ng-repeat="option in property.options" value="{{ option }}" ng-selected="option==selectedComponentProperties[property.name]">
-                    {{ option }}
-                </option>
-            </select>
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <input type="checkbox" ng-model="selectedComponentProperties[property.name]" ng-show="'boolean'==property.type"/>
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <input type="number" ng-model="selectedComponentProperties[property.name]" ng-show="'number'==property.type" class="input-xs"/>
-        </span>
-    </div>
-</form>
+<div class="component-properties">
+    <form ng-show="selectedComponent" class="panel panel-default">
+        <div class="panel-heading">{{ getComponentType(selectedComponent) }}</div>
+        <div class="panel-body">
+            <div>
+                <span class="label label-default">Editing</span>
+                <span>
+                    <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
+                        <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
+                        <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
+                        <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
+                        <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
+                        <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
+                        <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
+                        <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
+                    </button>
+                </span>
+            </div>
+            <div>
+                <span class="label label-default">Layering</span>
+                <span>
+                    <button class="btn btn-default btn-xs" ng-click="moveToTop()"><span class="glyphicon glyphicon-chevron-up" tooltip="Bring to front"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="moveUp()"><span class="glyphicon glyphicon-arrow-up" tooltip="Move up"></span></button>
+                    <button class="btn btn-default btn-xs" ng-click="moveDown()"><span class="glyphicon glyphicon-arrow-down" tooltip="Move down"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="moveToBottom()"><span class="glyphicon glyphicon-chevron-down"
+                                                                                           tooltip="Move to bottom"></span>
+                    </button>
+                    <label for="positionX">Pos</label>
+                    <input id="positionX" class="input-xs" ng-model="selectedComponentProperties.x"/>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input id="positionY" class="input-xs" ng-model="selectedComponentProperties.y"/>
+                    <label for="width">Size</label>
+                    <input id="width" class="input-xs" ng-model="selectedComponentProperties.width" readonly/>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input id="height" class="input-xs" ng-model="selectedComponentProperties.height" readonly/>
+                </span>
+            </div>
+            <div ng-repeat="property in getProperties(selectedComponent)" ng-hide="property.hidden">
+                <span class="label label-default">{{ property.name }}</span>
+                <span>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input type="text" ng-model="selectedComponentProperties[property.name]" ng-show="'text'==property.type"/>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <select ng-model="selectedComponentProperties[property.name]" ng-show="'enum'==property.type">
+                        <option ng-repeat="option in property.options" value="{{ option }}" ng-selected="option==selectedComponentProperties[property.name]">
+                            {{ option }}
+                        </option>
+                    </select>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input type="checkbox" ng-model="selectedComponentProperties[property.name]" ng-show="'boolean'==property.type"/>
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input type="number" ng-model="selectedComponentProperties[property.name]" ng-show="'number'==property.type" class="input-xs"/>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
 
 <div class="modal fade" id="stageSourceModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -247,6 +267,18 @@
 <script src="../src/app/editorCtrl.js"></script>
 <script src="js/ui-bootstrap-tpls-0.6.0.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.10.3.js"></script>
 <script src="js/bootstrap.js"></script>
+<script>
+    jQuery(function ()
+    {
+        var stage = jQuery(".stage");
+        var form = jQuery(".component-properties");
+        form.draggable();
+        form.addClass("show-no-matter-what");
+        form.offset({top: stage.offset().top + 20, left: stage.width() - form.width() - 20});
+        form.removeClass("show-no-matter-what");
+    });
+</script>
 </body>
 </html>
