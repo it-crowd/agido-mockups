@@ -1,4 +1,4 @@
-agidoMockups.controller("EditorCtrl", function ($scope)
+agidoMockups.controller("EditorCtrl", function ($scope, $window)
 {
     $scope.selectedComponent = null;
     $scope.editingSource = false;
@@ -450,6 +450,13 @@ agidoMockups.controller("EditorCtrl", function ($scope)
             $scope.selectedComponent = null;
             $scope.editingSource = false;
             $scope.stage.draw();
+        }
+    };
+
+    $scope.clearStage = function ()
+    {
+        if ($window.confirm("Are you sure you want to clear stage?")) {
+            $scope.stage.clear();
         }
     };
 

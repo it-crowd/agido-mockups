@@ -429,6 +429,11 @@ agidoMockups.directive('stage', function ($timeout, $window)
                     componentsLayer.getChildren().each(ungroup);
                     componentsLayer.draw();
                 },
+                clear: function ()
+                {
+                    componentsLayer.destroyChildren();
+                    componentsLayer.draw();
+                },
                 toggleGrid: function ()
                 {
                     if (grid.isVisible()) {
