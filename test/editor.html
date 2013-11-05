@@ -70,8 +70,12 @@
     </div>
 </div>
 <span>
-   <button class="btn btn-default btn-xs" ng-click="undo()"><span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span></button>
-   <button class="btn btn-default btn-xs" ng-click="redo()"><span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span></button>
+   <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
+       <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+   </button>
+   <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
+       <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+   </button>
    <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
        <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
    </button>
@@ -98,8 +102,12 @@
     <div>
         <span class="label label-default">Editing</span>
         <span>
-            <button class="btn btn-default btn-xs" ng-click="undo()"><span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span></button>
-            <button class="btn btn-default btn-xs" ng-click="redo()"><span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span></button>
+            <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
+                <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+            </button>
+            <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
+                <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+            </button>
             <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
                 <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
             </button>

@@ -431,6 +431,7 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 },
                 clear: function ()
                 {
+                    scope.editingSource = false;
                     componentsLayer.destroyChildren();
                     componentsLayer.draw();
                 },

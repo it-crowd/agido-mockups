@@ -3,7 +3,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.selectedComponent = null;
     $scope.editingSource = false;
 
-    var clipboard;
+    var clipboard, undoStack = [], redoStack = [];
     var availableFonts = $scope.availableFonts =
             ["Arial", "Bigelow Rules", "Georgia", "Cherry Swash", "Comic Sans MS", "Helvetica", "Lucida Console", "Prosto One", "Stint Ultra Expanded",
                 "Times New Roman"];
@@ -242,8 +242,21 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
         }
     }
 
-    function addToStage(component)
+    function markForUndo()
     {
+        $scope.exportToJSON();
+        undoStack.push($scope.stageSource);
+        redoStack.length = 0;
+        while (undoStack.length > 30) {
+            undoStack.shift();
+        }
+    }
+
+    function addToStage(component, isAtomic)
+    {
+        if (isAtomic) {
+            markForUndo();
+        }
         $scope.stage.add(component);
     }
 
@@ -255,13 +268,14 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
         }
         var component = new scheme.constructor(scheme.options);
         component.mockupComponent = scheme;
-        addToStage(component);
+        addToStage(component, true);
     };
 
 
     function applyComponentSource(source)
     {
         if (null != $scope.selectedComponent && null != source && "" != source.trim()) {
+            markForUndo();
             $scope.selectedComponent.setText(source);
             $scope.stage.draw();
             return true;
@@ -293,6 +307,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
                         if ("number" == property.type && property.min && property.min > value) {
                             return;
                         }
+                        markForUndo();
                         $scope.selectedComponent["set" + Kinetic.Util._capitalize(property.name)](value);
                     }
                     $scope.stage.draw();
@@ -369,7 +384,6 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
         $scope.stage.decreaseGridDensity();
     };
 
-
     $scope.increaseGridDensity = function ()
     {
         $scope.stage.increaseGridDensity();
@@ -387,14 +401,32 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
 
     $scope.undo = function ()
     {
-//        TODO implement this method
-        alert("Not implemented yet");
+        if (undoStack.length > 0) {
+            $scope.exportToJSON();
+            redoStack.push($scope.stageSource);
+            $scope.stage.clear();
+            $scope.importJSON(undoStack.pop());
+        }
+    };
+
+    $scope.isUndoAvailable = function ()
+    {
+        return undoStack.length > 0;
     };
 
     $scope.redo = function ()
     {
-//        TODO implement this method
-        alert("Not implemented yet");
+        if (redoStack.length > 0) {
+            $scope.exportToJSON();
+            undoStack.push($scope.stageSource);
+            $scope.stage.clear();
+            $scope.importJSON(redoStack.pop());
+        }
+    };
+
+    $scope.isRedoAvailable = function ()
+    {
+        return redoStack.length > 0;
     };
 
     $scope.duplicate = function ()
@@ -411,13 +443,14 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
             }
             clone.mockupComponent = $scope.selectedComponent.mockupComponent;
             $scope.selectedComponent = clone;
-            addToStage(clone);
+            addToStage(clone, true);
         }
     };
 
     $scope.cut = function ()
     {
         if (null != $scope.selectedComponent) {
+            markForUndo();
             clipboard = $scope.selectedComponent;
             clipboard.remove();
             $scope.selectedComponent = null;
@@ -442,6 +475,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.delete = function ()
     {
         if (null != $scope.selectedComponent) {
+            markForUndo();
             if ($scope.selectedComponent.getParent() instanceof Kinetic.Layer) {
                 $scope.selectedComponent.destroy();
             } else {
@@ -456,6 +490,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.clearStage = function ()
     {
         if ($window.confirm("Are you sure you want to clear stage?")) {
+            markForUndo();
             $scope.stage.clear();
         }
     };
@@ -469,6 +504,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.moveToTop = function ()
     {
         if (null != $scope.selectedComponent) {
+            markForUndo();
             $scope.selectedComponent.getParent().moveToTop();
             $scope.stage.draw();
         }
@@ -477,6 +513,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.moveUp = function ()
     {
         if (null != $scope.selectedComponent) {
+            markForUndo();
             $scope.selectedComponent.getParent().moveUp();
             $scope.stage.draw();
         }
@@ -485,6 +522,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.moveDown = function ()
     {
         if (null != $scope.selectedComponent) {
+            markForUndo();
             $scope.selectedComponent.getParent().moveDown();
             $scope.stage.draw();
         }
@@ -493,6 +531,7 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
     $scope.moveToBottom = function ()
     {
         if (null != $scope.selectedComponent) {
+            markForUndo();
             $scope.selectedComponent.getParent().moveToBottom();
             $scope.stage.draw();
         }
