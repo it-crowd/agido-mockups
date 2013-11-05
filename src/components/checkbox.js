@@ -15,11 +15,11 @@
         var outerSize = (label.getHeight() - 4 * strokeWidth);
         outerRect.setWidth(outerSize);
         outerRect.setHeight(outerSize);
-        outerRect.setAttr("x", 0 + strokeWidth);
-        outerRect.setAttr("y", 0 + strokeWidth);
+        outerRect.setX(0 + strokeWidth);
+        outerRect.setY(0 + strokeWidth);
         outerRect.setStroke(color);
 
-        label.setAttr("x", outerSize * 1.5);
+        label.setX(outerSize * 1.5);
 
         innerRect.setFill(color);
         if (item.getSelected()) {
@@ -27,8 +27,8 @@
             var innerSize = outerSize * .6;
             innerRect.setWidth(innerSize);
             innerRect.setHeight(innerSize);
-            innerRect.setAttr("x", (outerSize - innerSize) / 2 + strokeWidth);
-            innerRect.setAttr("y", (outerSize - innerSize) / 2 + strokeWidth);
+            innerRect.setX((outerSize - innerSize) / 2 + strokeWidth);
+            innerRect.setY((outerSize - innerSize) / 2 + strokeWidth);
         } else {
             innerRect.hide();
         }

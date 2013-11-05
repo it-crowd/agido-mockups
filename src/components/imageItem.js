@@ -9,7 +9,7 @@
         background.setHeight(item.getHeight());
         text.setText(textContent);
         var textY = (background.getHeight() - text.getHeight()) / 2;
-        text.setAttr('y', textY);
+        text.setY(textY);
         text.setWidth(background.getWidth());
         item.setClip([0, 0, item.getWidth(), item.getHeight()]);
     }

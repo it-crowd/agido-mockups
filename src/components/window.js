@@ -14,16 +14,16 @@
         frame.setAttr("width", item.getWidth());
         frame.setAttr("height", item.getHeight());
         var frameStrokeWidth = frame.getStrokeWidth();
-        toolbar.setAttr("x", frameStrokeWidth);
-        toolbar.setAttr("y", frameStrokeWidth);
+        toolbar.setX(frameStrokeWidth);
+        toolbar.setY(frameStrokeWidth);
         toolbar.setAttr("width", item.getWidth() - frameStrokeWidth * 2);
         toolbar.setAttr("height", 60);
 
         toolbarBorder.setPoints([toolbar.getAttr("x"), toolbar.getAttr("y") + toolbar.getHeight(), toolbar.getAttr("x") + toolbar.getWidth(),
             toolbar.getAttr("y") + toolbar.getHeight()]);
 
-        statusbar.setAttr("x", frameStrokeWidth);
-        statusbar.setAttr("y", item.getHeight() - 20 - frameStrokeWidth);
+        statusbar.setX(frameStrokeWidth);
+        statusbar.setY(item.getHeight() - 20 - frameStrokeWidth);
         statusbar.setAttr("width", item.getWidth() - frameStrokeWidth * 2);
         statusbar.setAttr("height", 20);
 
@@ -31,20 +31,20 @@
 
         var lines = item.getText().split("\n");
         title.setText(lines[0]);
-        title.setAttr("x", frameStrokeWidth + (toolbar.getWidth() - title.getWidth()) / 2);
-        title.setAttr("y", 0);
+        title.setX(frameStrokeWidth + (toolbar.getWidth() - title.getWidth()) / 2);
+        title.setY(0);
 
         var controlPadding = 20;
         var searchX = toolbar.getWidth() - 50 - controlPadding;
         var searchY = frameStrokeWidth + title.getHeight();
-        search.setAttr("x", searchX - 5);
-        search.setAttr("y", searchY);
-        searchIcon.setAttr("x", searchX);
-        searchIcon.setAttr("y", searchY + 9);
+        search.setX(searchX - 5);
+        search.setY(searchY);
+        searchIcon.setX(searchX);
+        searchIcon.setY(searchY + 9);
 
         var urlX = frameStrokeWidth + 110;
-        url.setAttr("x", urlX);
-        url.setAttr("y", frameStrokeWidth + title.getHeight());
+        url.setX(urlX);
+        url.setY(frameStrokeWidth + title.getHeight());
 
         url.setText(lines.length > 0 ? lines[1] : "");
         url.setWidth(searchX - urlX - controlPadding);

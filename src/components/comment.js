@@ -13,7 +13,7 @@
         text.setWidth(item.getWidth());
         card.setWidth(item.getWidth());
         card.setHeight(item.getHeight());
-        tape.setAttr("x", (card.getWidth() - tape.getWidth()) / 2);
+        tape.setX((card.getWidth() - tape.getWidth()) / 2);
         item.setRotationDeg(3);
     }
 

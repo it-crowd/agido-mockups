@@ -441,11 +441,11 @@ agidoMockups.controller("EditorCtrl", function ($scope, $window)
             //noinspection JSValidateTypes
             var clone = new $scope.selectedComponent.mockupComponent.constructor($scope.selectedComponent.attrs);
             if ($scope.selectedComponent.getParent() instanceof Kinetic.Layer) {
-                clone.setAttr("x", clone.getAttr("x") + 15);
-                clone.setAttr("y", clone.getAttr("y") + 15);
+                clone.setX(clone.getAttr("x") + 15);
+                clone.setY(clone.getAttr("y") + 15);
             } else {
-                clone.setAttr("x", $scope.selectedComponent.getParent().getAttr("x") + 15);
-                clone.setAttr("y", $scope.selectedComponent.getParent().getAttr("y") + 15);
+                clone.setX($scope.selectedComponent.getParent().getAttr("x") + 15);
+                clone.setY($scope.selectedComponent.getParent().getAttr("y") + 15);
             }
             clone.mockupComponent = $scope.selectedComponent.mockupComponent;
             $scope.selectedComponent = clone;

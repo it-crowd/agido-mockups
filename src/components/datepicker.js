@@ -18,8 +18,8 @@
         border.setHeight(borderHeight);
         border.setStroke(color);
         var datepickerOffset = 2;
-        datepicker.setAttr("x", item.getWidth() - datepicker.getWidth() + (2 * datepickerOffset));
-        datepicker.setAttr("y", datepickerOffset);
+        datepicker.setX(item.getWidth() - datepicker.getWidth() + (2 * datepickerOffset));
+        datepicker.setY(datepickerOffset);
         var datepickerScale = (borderHeight - 2 * datepickerOffset) / datepicker.getHeight();
         datepicker.setScale(datepickerScale);
         datepicker.setStroke(color);

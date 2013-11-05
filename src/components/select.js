@@ -39,17 +39,17 @@
         border.setWidth(borderWidth - arrow.getWidth());
         border.setHeight(firstLineHeightWithOffset);
         border.setStroke(color);
-        arrowBorder.setAttr("x", borderWidth - arrow.getWidth());
+        arrowBorder.setX(borderWidth - arrow.getWidth());
         arrowBorder.setHeight(firstLineHeightWithOffset);
         arrowBorder.setStroke(color);
         var arrowX = borderWidth - arrow.getWidth() + 13;
         var arrowY = firstLineHeightWithOffset / 2;
-        arrow.setAttr("x", arrowX);
-        arrow.setAttr("y", arrowY);
+        arrow.setX(arrowX);
+        arrow.setY(arrowY);
         arrow.setFill(color);
         if (item.getOpened()) {
             expansion.show();
-            expansion.setAttr("y", firstLineHeightWithOffset);
+            expansion.setY(firstLineHeightWithOffset);
             expansion.setWidth(item.getWidth());
             expansion.setHeight(totalLinesHeight - firstLineHeightWithOffset + lineOffset);
             expansion.setStroke(color);

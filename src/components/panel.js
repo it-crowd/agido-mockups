@@ -8,8 +8,8 @@
         frame.setAttr("width", item.getWidth());
         frame.setAttr("height", item.getHeight());
         var frameStrokeWidth = frame.getStrokeWidth();
-        title.setAttr("x", frameStrokeWidth);
-        title.setAttr("y", 0);
+        title.setX(frameStrokeWidth);
+        title.setY(0);
         title.setText(item.getText());
         headerBorder.setPoints([frameStrokeWidth, title.getHeight(), frame.getWidth() - frameStrokeWidth, title.getHeight()]);
     }

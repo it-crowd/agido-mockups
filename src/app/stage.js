@@ -28,8 +28,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
                     child.destroy();
                 } else {
                     child.remove();
-                    child.setAttr("x", (child.getAttr("x") || 0) + node.getAttr("x"));
-                    child.setAttr("y", (child.getAttr("y") || 0) + node.getAttr("y"));
+                    child.setX((child.getAttr("x") || 0) + node.getAttr("x"));
+                    child.setY((child.getAttr("y") || 0) + node.getAttr("y"));
                     child.setAttr("draggable", true);
                     node.getParent().add(child);
                     children.push(child);
@@ -50,8 +50,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
         var startX = event.layerX, startY = event.layerY;
         var selectionLayer = selectionRect.getLayer();
         var stage = selectionRect.getStage();
-        selectionRect.setAttr("x", startX);
-        selectionRect.setAttr("y", startY);
+        selectionRect.setX(startX);
+        selectionRect.setY(startY);
         selectionRect.setWidth(0);
         selectionRect.setHeight(0);
         selectionRect.show();
@@ -137,8 +137,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
                 {
                     node.remove();
                     node.setAttr("draggable", false);
-                    node.setAttr("x", node.getAttr("x") - minx);
-                    node.setAttr("y", node.getAttr("y") - miny);
+                    node.setX(node.getAttr("x") - minx);
+                    node.setY(node.getAttr("y") - miny);
                     selectionGroup.add(node);
                 });
                 selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, selectionBorder: true}));
@@ -260,8 +260,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
             node.originalZIndex = node.getZIndex();
             node.remove();
             node.setAttr("draggable", false);
-            node.setAttr("x", 0);
-            node.setAttr("y", 0);
+            node.setX(0);
+            node.setY(0);
             selectionGroup.add(node);
             componentsLayer.add(selectionGroup);
             selectionGroup.setZIndex(node.originalZIndex);
@@ -403,8 +403,8 @@ agidoMockups.directive('stage', function ($timeout, $window)
             function snapToGridEnforcer()
             {
                 var spacing = grid.getSpacing();
-                this.setAttr("x", parseInt(this.attrs.x / spacing) * spacing);
-                this.setAttr("y", parseInt(this.attrs.y / spacing) * spacing);
+                this.setX(parseInt(this.attrs.x / spacing) * spacing);
+                this.setY(parseInt(this.attrs.y / spacing) * spacing);
             }
 
             componentsLayer.on("add", function (event)

@@ -14,19 +14,19 @@
         var strokeWidth = 1;
         var outerRadius = (label.getHeight() - 2 * strokeWidth) / 4;
         outerCircle.setRadius(outerRadius);
-        outerCircle.setAttr("x", outerRadius + strokeWidth);
-        outerCircle.setAttr("y", outerRadius * 2 + strokeWidth);
+        outerCircle.setX(outerRadius + strokeWidth);
+        outerCircle.setY(outerRadius * 2 + strokeWidth);
         outerCircle.setStroke(color);
 
-        label.setAttr("x", outerRadius * 3);
+        label.setX(outerRadius * 3);
 
         innerCircle.setFill(color);
         if (item.getSelected()) {
             innerCircle.show();
             var innerRadius = outerRadius * .6;
             innerCircle.setRadius(innerRadius);
-            innerCircle.setAttr("x", outerRadius + strokeWidth);
-            innerCircle.setAttr("y", outerRadius * 2 + strokeWidth);
+            innerCircle.setX(outerRadius + strokeWidth);
+            innerCircle.setY(outerRadius * 2 + strokeWidth);
         } else {
             innerCircle.hide();
         }

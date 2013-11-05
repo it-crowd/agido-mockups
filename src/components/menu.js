@@ -57,7 +57,7 @@
         var borderHeight = totalLinesHeight < 150 ? 150 : totalLinesHeight;
         for (i = 0; i < rightAlignedComponents.length; i++) {
             component = rightAlignedComponents[i];
-            component.setAttr('x', maxLineWidth - component.getWidth() - lineXOffsetRight);
+            component.setX(maxLineWidth - component.getWidth() - lineXOffsetRight);
         }
         border.setWidth(maxLineWidth);
         border.setHeight(borderHeight + lineYOffset);

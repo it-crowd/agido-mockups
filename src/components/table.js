@@ -63,12 +63,12 @@
                     var component = column.tokens[tokenIndex];
                     getColumn(columnIndex).add(component);
                     if (isIcon) {
-                        component.setAttr("y", row.y + item.getPadding());
+                        component.setY(row.y + item.getPadding());
                     } else {
-                        component.setAttr("y", row.y);
+                        component.setY(row.y);
                     }
                     if (tokenIndex > 0) {
-                        component.setAttr("x", columnMaxWidth);
+                        component.setX(columnMaxWidth);
                     }
                     columnMaxWidth += component.getWidth();
                     rowHeight = Math.max(rowHeight, component.getHeight());
@@ -103,7 +103,7 @@
         var left = 0, totalWidth = 0;
         for (columnIndex = 0; columnIndex < columns.length; columnIndex++) {
             column = getColumn(columnIndex);
-            column.setAttr("x", left);
+            column.setX(left);
             left += column.getWidth();
             totalWidth += column.getWidth();
             column.setClip(0, 0, column.getWidth(), totalHeight);

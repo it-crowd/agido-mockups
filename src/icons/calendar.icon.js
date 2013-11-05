@@ -34,7 +34,7 @@
     AgidoMockups.icons.calendar.add(arrowRight);
 
     var arrowLeft = arrowRight.clone();
-    arrowLeft._setAttr('x', 10);
+    arrowLeft.setX(10);
     arrowLeft.setRotationDeg(270);
     AgidoMockups.icons.calendar.add(arrowLeft);
 
