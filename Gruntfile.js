@@ -4,7 +4,38 @@ module.exports = function (grunt)
         'src/app/_agidoMockups.js', 'src/app/editorCtrl.js', 'src/app/stage.js'
     ];
     var kineticFiles = [
-        'src/components/_util.js', 'src/components/link.js', 'src/components/radioGroup.js', 'src/components/radioItem.js'
+        'src/icons/arrowDown.icon.js',
+        'src/icons/arrowLeft.icon.js',
+        'src/icons/arrowRight.icon.js',
+        'src/icons/arrowUp.icon.js',
+        'src/icons/backButton.icon.js',
+        'src/icons/calendar.icon.js',
+        'src/icons/datepicker.icon.js',
+        'src/icons/home.icon.js',
+        'src/icons/nextButton.icon.js',
+        'src/icons/search.icon.js',
+        'src/components/_util.js',
+        'src/components/arrow.js',
+        'src/components/button.js',
+        'src/components/checkbox.js',
+        'src/components/checkboxGroup.js',
+        'src/components/comment.js',
+        'src/components/datepicker.js',
+        'src/components/grid.js',
+        'src/components/imageItem.js',
+        'src/components/input.js',
+        'src/components/link.js',
+        'src/components/menu.js',
+        'src/components/menuBar.js',
+        'src/components/pagination.js',
+        'src/components/panel.js',
+        'src/components/paragraph.js',
+        'src/components/radioGroup.js',
+        'src/components/radioItem.js',
+        'src/components/select.js',
+        'src/components/table.js',
+        'src/components/textArea.js',
+        'src/components/window.js'
     ];
     var sourceFiles = kineticFiles.concat(angularFiles);
 
