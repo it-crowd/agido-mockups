@@ -244,15 +244,11 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
 
     function markForUndo()
     {
-        var selectedComponent = $scope.selectedComponent;
         $scope.exportToJSON();
         undoStack.push($scope.stageSource);
         redoStack.length = 0;
         while (undoStack.length > 30) {
             undoStack.shift();
-        }
-        if (undefined != selectedComponent) {
-            $scope.stage.select(selectedComponent);
         }
     }
 
@@ -394,7 +390,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
         }})
     };
 
-    $scope.importJSON = function (json)
+    function doImportJSON(json)
     {
         var deserializedObjects = JSON.parse(json);
         for (var i = 0; i < deserializedObjects.length; i++) {
@@ -402,11 +398,16 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             component.mockupComponent = components[component.attrs.componentName];
             addToStage(component);
         }
+    }
+
+    $scope.importJSON = function (json)
+    {
+        markForUndo();
+        doImportJSON(json);
     };
 
     $scope.exportToJSON = function ()
     {
-        $scope.stage.unselectAll();
         $scope.stageSource = $scope.stage.toJSON();
     };
 
@@ -446,7 +447,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             $scope.exportToJSON();
             redoStack.push($scope.stageSource);
             $scope.stage.clear();
-            $scope.importJSON(undoStack.pop());
+            doImportJSON(undoStack.pop());
         }
     };
 
@@ -461,7 +462,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             $scope.exportToJSON();
             undoStack.push($scope.stageSource);
             $scope.stage.clear();
-            $scope.importJSON(redoStack.pop());
+            doImportJSON(redoStack.pop());
         }
     };
 

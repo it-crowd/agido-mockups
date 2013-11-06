@@ -17,6 +17,11 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
         event.cancelBubble = true;
     }
 
+    function isEditorialShape(node)
+    {
+        return  true === node.attrs.selectionGroup || node.attrs.resizeAnchor === true || node.attrs.name == "editorSelectionBorder";
+    }
+
     function ungroup(node)
     {
         if (node instanceof Kinetic.Group && node.attrs.selectionGroup === true) {
@@ -24,7 +29,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             var nodeZIndex = node.getZIndex();
             while (node.getChildren().length > 0) {
                 var child = node.getChildren()[0];
-                if (child.attrs.resizeAnchor === true || child.attrs.name == "editorSelectionBorder") {
+                if (isEditorialShape(child)) {
                     child.destroy();
                 } else {
                     child.remove();
@@ -142,8 +147,8 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                     selectionGroup.add(node);
                 });
                 selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, name: "editorSelectionBorder"}));
-                selectionGroup.originalZIndex = selectionGroup.getZIndex();
                 componentsLayer.add(selectionGroup);
+                selectionGroup.originalZIndex = selectionGroup.getZIndex();
                 componentsLayer.fire("nodeGroupSelected", selectionGroup, true);
             }
             selectionRect.hide();
@@ -382,7 +387,9 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             {
                 var component = getComponent(event, scope.isMockupComponent);
                 if (null != component) {
-                    select(component, scope.isComponentResizable({component: component}));
+                    if (component != scope.selectedComponent) {
+                        select(component, scope.isComponentResizable({component: component}));
+                    }
                 } else {
                     scope.editingSource = false;
                     scope.stageClicked({source: scope.componentSource});
@@ -464,11 +471,6 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                     componentsLayer.add(node);
                     select(node, scope.isComponentResizable({component: node}));
                 },
-                unselectAll: function ()
-                {
-                    componentsLayer.getChildren().each(ungroup);
-                    componentsLayer.draw();
-                },
                 clear: function ()
                 {
                     scope.editingSource = false;
@@ -508,7 +510,33 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 }, toDataURL: stage.toDataURL.bind(stage),
                 toJSON: function ()
                 {
-                    return JSON.stringify(componentsLayer.toObject().children);
+                    var children = [];
+                    var groupedChildren = new Kinetic.Collection();
+                    componentsLayer.getChildren().each(function (node)
+                    {
+                        if (isEditorialShape(node)) {
+                            var nodeX = node.getX();
+                            var nodeY = node.getY();
+                            node.getChildren().each(function (child)
+                            {
+                                if (!isEditorialShape(child)) {
+                                    var object = child.toObject();
+                                    object.attrs.x = (object.attrs.x || 0) + nodeX;
+                                    object.attrs.y = (object.attrs.y || 0) + nodeY;
+                                    object.originalZIndex = child.originalZIndex;
+                                    groupedChildren.push(object);
+                                }
+                            });
+                        } else {
+                            children.push(node.toObject());
+                        }
+                    });
+                    groupedChildren.each(function (child)
+                    {
+                        children.splice(child.originalZIndex, 0, child);
+                        delete child.originalZIndex;
+                    });
+                    return JSON.stringify(children);
                 },
                 select: function (component)
                 {
