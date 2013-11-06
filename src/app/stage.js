@@ -24,7 +24,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             var nodeZIndex = node.getZIndex();
             while (node.getChildren().length > 0) {
                 var child = node.getChildren()[0];
-                if (child.attrs.selectionBorder === true || child.attrs.resizeAnchor === true) {
+                if (child.attrs.resizeAnchor === true || child.attrs.name == "editorSelectionBorder") {
                     child.destroy();
                 } else {
                     child.remove();
@@ -45,7 +45,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
         }
     }
 
-    function startSelection(selectionRect, componentsLayer, event)
+    function startSelection(selectionRect, componentsLayer, isComponentResizable, event)
     {
         var startX = event.layerX, startY = event.layerY;
         var selectionLayer = selectionRect.getLayer();
@@ -121,7 +121,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             });
 
             if (1 == selectedComponents.length) {
-                select(selectedComponents[0]);
+                select(selectedComponents[0], isComponentResizable({component: selectedComponents[0]}));
             } else if (undefined != minx && undefined != miny && undefined != maxx && undefined != maxy) {
                 //noinspection JSValidateTypes
                 /**
@@ -141,7 +141,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                     node.setY(node.getY() - miny);
                     selectionGroup.add(node);
                 });
-                selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, selectionBorder: true}));
+                selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, name: "editorSelectionBorder"}));
                 selectionGroup.originalZIndex = selectionGroup.getZIndex();
                 componentsLayer.add(selectionGroup);
                 componentsLayer.fire("nodeGroupSelected", selectionGroup, true);
@@ -197,11 +197,14 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             }
 
             group.mainComponent.setPosition(topLeft.getPosition());
+            var selectionBorder = group.find(".editorSelectionBorder")[0];
+            selectionBorder.setPosition(topLeft.getPosition());
 
             var width = topRight.getX() - topLeft.getX();
             var height = bottomLeft.getY() - topLeft.getY();
             if (width && height) {
                 group.mainComponent.setSize(width, height);
+                selectionBorder.setSize(width, height);
             }
             group.getStage().draw()
         }
@@ -274,6 +277,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 addAnchor(selectionGroup, node.getWidth(), node.getHeight(), 'bottomRight');
                 addAnchor(selectionGroup, 0, node.getHeight(), 'bottomLeft');
             }
+            selectionGroup.add(new Kinetic.Rect({name: "editorSelectionBorder", stroke: "#f00", width: node.getWidth(), height: node.getHeight()}));
         }
         componentsLayer.draw();
         node.fire("nodeSelected", node, true);
@@ -330,7 +334,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             selectionLayer.add(selectionRect);
             stage.draw();
 
-            backgroundRect.on("mousedown", startSelection.bind(null, selectionRect, componentsLayer));
+            backgroundRect.on("mousedown", startSelection.bind(null, selectionRect, componentsLayer, scope.isComponentResizable));
 
             var sourceTextearea = element.find("textarea");
             var sourceInput = element.find("input");
@@ -499,7 +503,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 {
                     select(component, scope.isComponentResizable({component: component}));
                 }
-            }
+            };
         }
     }
 }]);
