@@ -1,13 +1,16 @@
 module.exports = function (grunt)
 {
     var angularFiles = [
-        'src/app/_agidoMockups.js', 'src/app/editorCtrl.js', 'src/app/stage.js'
+        'src/app/_agidoMockups.js',
+        'src/app/editorCtrl.js',
+        'src/app/stage.js'
     ];
     var kineticFiles = [
         'src/icons/arrowDown.icon.js',
         'src/icons/arrowLeft.icon.js',
         'src/icons/arrowRight.icon.js',
         'src/icons/arrowUp.icon.js',
+        'src/icons/arrowUpDown.icon.js',
         'src/icons/backButton.icon.js',
         'src/icons/calendar.icon.js',
         'src/icons/datepicker.icon.js',
