@@ -260,6 +260,16 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             },
             noSource: true,
             properties: dimensionProperties
+        },
+        "NumericStepper": {constructor: Kinetic.NumericStepper,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: false,
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"}
+            ])
         }
     };
 
