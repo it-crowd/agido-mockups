@@ -233,6 +233,16 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             multilineSource: true,
             resizable: false,
             properties: fontProperties.concat(dimensionProperties)
+        },
+        "RichEditor": {constructor: Kinetic.RichEditor,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            multilineSource: true,
+            properties: fontProperties.concat(dimensionProperties, [
+                {name: "disabled", type: "boolean"}
+            ])
         }
     };
 
