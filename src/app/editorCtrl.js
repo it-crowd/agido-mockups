@@ -285,6 +285,25 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
         })
     };
 
+    $scope.addToStageFromSearch = function (selection)
+    {
+        $scope.addToStage(selection.value);
+    };
+
+    $scope.search = function (query, callback)
+    {
+        var results = [];
+        var term = query.term.toLowerCase();
+        for (var name in components) {
+            if (components.hasOwnProperty(name)) {
+                if (name.toLowerCase().indexOf(term) > -1) {
+                    results.push(name);
+                }
+            }
+        }
+        callback(results);
+    };
+
     function applyComponentSource(source)
     {
         if (null != $scope.selectedComponent && null != source && "" != source.trim()) {

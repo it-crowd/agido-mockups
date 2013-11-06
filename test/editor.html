@@ -3,6 +3,7 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=Prosto+One|Cherry+Swash:400,700|Bigelow+Rules|Stint+Ultra+Expanded&subset=latin,latin-ext'
           rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/jquery-ui.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <style>
         .stage canvas {
@@ -28,6 +29,10 @@
 
         .show-no-matter-what {
             display: block !important;
+        }
+
+        .ui-front {
+            z-index: 1000;
         }
     </style>
 </head>
@@ -76,6 +81,11 @@
            <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
        </button>
     </span>
+
+    <form class="navbar-form navbar-right">
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input type="text" class="form-control" placeholder="Search" suggest="search" suggest-select="addToStageFromSearch">
+    </form>
 </nav>
 
 <div class="palette">
@@ -267,6 +277,7 @@
 <script src="../vendor/angular/angular.js"></script>
 <script src="../src/app/_agidoMockups.js"></script>
 <script src="../src/app/stage.js"></script>
+<script src="../src/app/suggest.js"></script>
 <script src="../src/app/editorCtrl.js"></script>
 <script src="js/ui-bootstrap-tpls-0.6.0.js"></script>
 <script src="js/jquery-ui-1.10.3.js"></script>

@@ -3,6 +3,7 @@ module.exports = function (grunt)
     var angularFiles = [
         'src/app/_agidoMockups.js',
         'src/app/editorCtrl.js',
+        'src/app/suggest.js',
         'src/app/stage.js'
     ];
     var kineticFiles = [
