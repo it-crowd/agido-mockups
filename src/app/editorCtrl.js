@@ -253,6 +253,13 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             properties: dimensionProperties.concat([
                 {name: "disabled", type: "boolean"}
             ])
+        },
+        "ModalOverlay": {constructor: Kinetic.ModalOverlay,
+            options: {
+                draggable: true
+            },
+            noSource: true,
+            properties: dimensionProperties
         }
     };
 
