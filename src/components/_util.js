@@ -109,9 +109,9 @@ AgidoMockups.parseTable = function (text, withHeader)
     {
         var column = {tokens: []};
         if (firstLine && withHeader !== false) {
-            var matchArrowDown = line.match(/(\S+\s+)v\s*$/);
-            var matchArrowUp = line.match(/(\S+\s+)\^\s*$/);
-            var matchArrowUpDown = line.match(/(\S+\s+)\^v\s*$/);
+            var matchArrowDown = line.match(/(.+\s+)v\s*$/);
+            var matchArrowUp = line.match(/(.+\s+)\^\s*$/);
+            var matchArrowUpDown = line.match(/(.+\s+)\^v\s*$/);
             if (matchArrowDown) {
                 column.tokens.push({text: matchArrowDown[1]});
                 column.tokens.push({icon: "arrowDown"});

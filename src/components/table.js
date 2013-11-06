@@ -83,21 +83,21 @@
         /**
          * Calculate column widths
          */
-        var floatingColumns = 0;
+        var fixedWidth = 0, columnComponent;
         for (columnIndex = 0; columnIndex < columns.length; columnIndex++) {
             columnSettings = table.columns[columnIndex];
-            if (undefined == columnSettings || undefined == columnSettings.width || 0 < columnSettings.width) {
-                floatingColumns++;
+            columnComponent = getColumn(columnIndex);
+            if (undefined == columnSettings || undefined == columnSettings.width || 0 >= columnSettings.width) {
+                columnComponent.setWidth(Math.max(1, columnSettings.maxWidth));
+                fixedWidth += columnComponent.getWidth();
             }
         }
         for (columnIndex = 0; columnIndex < columns.length; columnIndex++) {
             columnSettings = table.columns[columnIndex];
-            var columnComponent = getColumn(columnIndex);
-            if (undefined == columnSettings || undefined == columnSettings.width || 0 < columnSettings.width) {
-                var percentage = (undefined == columnSettings || undefined == columnSettings.width) ? 1 / floatingColumns : columnSettings.width / 100;
-                columnComponent.setWidth(Math.max(1, item.getWidth() * percentage));
-            } else {
-                columnComponent.setWidth(Math.max(1, columnSettings.maxWidth));
+            columnComponent = getColumn(columnIndex);
+            if (!(undefined == columnSettings || undefined == columnSettings.width || 0 >= columnSettings.width)) {
+                var percentage = columnSettings.width / 100;
+                columnComponent.setWidth(Math.max(1, (item.getWidth() - fixedWidth) * percentage));
             }
         }
         var left = 0, totalWidth = 0;
@@ -129,6 +129,7 @@
             item.add(rowBackground);
             rowBackground.moveToBottom();
         }
+        item.setHeight(row.y + row.height);
     }
 
     Kinetic.Table = function (config)

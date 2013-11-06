@@ -235,4 +235,17 @@ describe("parseTable", function ()
         expect(resultB.columns[4].align).toBe("L");
     });
 
+    it("should handle \\r", function ()
+    {
+//        Given
+        var textA = "First\\rlast name ^,b,[]";
+
+//        When
+        var resultA = AgidoMockups.parseTable(textA, true);
+
+//        Then
+        expect(resultA.rows.length).toBe(1);
+        expect(resultA.rows[0].columns[0].tokens[0].text).toBe("First\\rlast name ");
+    });
+
 });
