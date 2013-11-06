@@ -47,7 +47,7 @@
     Kinetic.RichEditor.prototype = {
         ____init: function (config)
         {
-            Kinetic.Group.call(this, AgidoMockups.extend({width: 370, height: 200}, config));
+            Kinetic.Group.call(this, AgidoMockups.extend({width: 395, height: 200}, config));
             this.className = "RichEditor";
             this.add(new Kinetic.Rect(AgidoMockups.extend(config,
                     {name: "frame", x: 0, y: 0, draggable: false, fill: '#fff', stroke: '#000', strokeWidth: 1.5})));
@@ -60,6 +60,7 @@
             toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.comboBox.clone(), iconHeight, iconPadding));
             toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.bold.clone(), iconHeight, iconPadding));
             toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.italic.clone(), iconHeight, iconPadding));
+            toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.underline.clone(), iconHeight, iconPadding));
             toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.alignLeft.clone(), iconHeight, iconPadding));
             toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.alignCenter.clone(), iconHeight, iconPadding));
             toolbarGroup.add(AgidoMockups.borderedIcon(AgidoMockups.icons.alignRight.clone(), iconHeight, iconPadding));
