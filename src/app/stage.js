@@ -277,7 +277,18 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 addAnchor(selectionGroup, node.getWidth(), node.getHeight(), 'bottomRight');
                 addAnchor(selectionGroup, 0, node.getHeight(), 'bottomLeft');
             }
-            selectionGroup.add(new Kinetic.Rect({name: "editorSelectionBorder", stroke: "#f00", width: node.getWidth(), height: node.getHeight()}));
+            var selectionBorder = new Kinetic.Rect({name: "editorSelectionBorder", stroke: "#f00", width: node.getWidth(), height: node.getHeight()});
+            selectionGroup.add(selectionBorder);
+            selectionBorder.on("click", function (event)
+            {
+                cancelBubble(event);
+                node.fire("click", {targetNode: node}, true);
+            });
+            selectionBorder.on("dblclick", function (event)
+            {
+                cancelBubble(event);
+                node.fire("dblclick", {targetNode: node}, true);
+            });
         }
         componentsLayer.draw();
         node.fire("nodeSelected", node, true);
