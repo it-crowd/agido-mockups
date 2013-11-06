@@ -144,6 +144,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 selectionGroup.add(selectionRect.clone({x: 0, y: 0, width: maxx - minx, height: maxy - miny, draggable: false, selectionBorder: true}));
                 selectionGroup.originalZIndex = selectionGroup.getZIndex();
                 componentsLayer.add(selectionGroup);
+                componentsLayer.fire("nodeGroupSelected", selectionGroup, true);
             }
             selectionRect.hide();
             selectionLayer.getParent().draw();
@@ -175,6 +176,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             var anchorY = activeAnchor.getY();
 
             // update anchor positions
+            //noinspection JSCheckFunctionSignatures
             switch (activeAnchor.getName()) {
                 case 'topLeft':
                     topRight.setY(anchorY);
@@ -288,6 +290,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             saveSource: '&',
             stageClicked: '&',
             mockupComponentSelected: '&',
+            mockupComponentGroupSelected: '&',
             selectedComponent: '='
         },
         template: '<div class="stageContainer"><div class="stage"></div><form ng-submit = "saveSource()"><input ng-model="componentSource" ng-show="editingSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"/><textarea ng-model="componentSource" ng-show="editingSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)" rows="5" cols="50"></textarea></form></div>',
@@ -299,6 +302,8 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 width: $window.document.body.offsetWidth,
                 height: 700
             });
+
+            var $stage = angular.element(element[0].firstChild);
 
             var windowResizeHandler = scope.$apply.bind(scope, function ()
             {
@@ -363,7 +368,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
                 var component = getComponent(event, scope.isMockupComponent);
                 if (null != component) {
                     select(component, scope.isComponentResizable({component: component}));
-                } else if (scope.editingSource) {
+                } else {
                     scope.editingSource = false;
                     scope.stageClicked({source: scope.componentSource});
                 }
@@ -372,14 +377,32 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             stage.on("nodeSelected", function (node)
             {
                 scope.mockupComponentSelected({component: node});
-                scope.editorStyle = {position: "absolute", top: node.getParent().getY() + 'px', left: node.getParent().getX() + 'px'};
+                scope.editorStyle = {position: "absolute", top: ($stage.offset().top + node.getParent().getY()) + 'px', left: node.getParent().getX() + 'px'};
+                scope.editingSource = false;
                 if (scope.hasText({component: node})) {
                     scope.componentSource = node.getText();
+                }
+            });
+            stage.on("dblclick", function ()
+            {
+                var selectedComponent = scope.selectedComponent;
+                if (null != selectedComponent) {
+                    scope.editingSource = true;
                     $timeout(function ()
                     {
-                        scope.editingSource = true;
+                        if (selectedComponent.mockupComponent.multilineSource) {
+                            sourceTextearea[0].focus();
+                            sourceTextearea[0].select(sourceTextearea[0]);
+                        } else {
+                            sourceInput[0].focus();
+                            sourceInput[0].select(sourceInput[0]);
+                        }
                     });
                 }
+            });
+            stage.on("nodeGroupSelected", function (node)
+            {
+                scope.mockupComponentGroupSelected({component: node});
             });
             /**
              * Handle Escape and Enter keys.

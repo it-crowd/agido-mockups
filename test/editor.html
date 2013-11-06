@@ -69,7 +69,7 @@
        <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
            <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
+       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup">
            <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
        </button>
        <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
@@ -107,8 +107,9 @@
 </div>
 
 <stage stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)" mockup-component-selected="mockupComponentSelected(component)"
-       selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)" is-component-resizable="isComponentResizable(component)"
-       has-text="hasSource(component)" editing-source="editingSource"></stage>
+       mockup-component-group-selected="mockupComponentGroupSelected(component)" selected-component="selectedComponent"
+       is-mockup-component="isMockupComponent(component)" is-component-resizable="isComponentResizable(component)" has-text="hasSource(component)"
+       editing-source="editingSource"></stage>
 
 <div class="component-properties">
     <form ng-show="selectedComponent" class="panel panel-default">
@@ -132,7 +133,7 @@
                     <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
                         <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
+                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup">
                         <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
@@ -261,12 +262,12 @@
 <script src="../src/components/menuBar.js"></script>
 <script src="../src/components/menu.js"></script>
 <script src="../src/components/textArea.js"></script>
+<script src="js/jquery-1.10.2.min.js"></script>
 <script src="../vendor/angular/angular.js"></script>
 <script src="../src/app/_agidoMockups.js"></script>
 <script src="../src/app/stage.js"></script>
 <script src="../src/app/editorCtrl.js"></script>
 <script src="js/ui-bootstrap-tpls-0.6.0.js"></script>
-<script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/jquery-ui-1.10.3.js"></script>
 <script src="js/bootstrap.js"></script>
 <script>

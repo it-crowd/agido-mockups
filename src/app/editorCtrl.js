@@ -1,4 +1,4 @@
-agidoMockups.controller("EditorCtrl", ["$scope", "$window", function ($scope, $window)
+agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function ($scope, $timeout, $window)
 {
     $scope.selectedComponent = null;
     $scope.editingSource = false;
@@ -279,8 +279,11 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$window", function ($scope, $w
         var component = new scheme.constructor(scheme.options);
         component.mockupComponent = scheme;
         addToStage(component, true);
+        $timeout(function ()
+        {
+            $scope.editingSource = true;
+        })
     };
-
 
     function applyComponentSource(source)
     {
@@ -326,13 +329,22 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$window", function ($scope, $w
         }
     };
 
+    $scope.mockupComponentGroupSelected = function (component)
+    {
+        $scope.selectedComponent = null;
+        $scope.selectedComponentProperties = {};
+        $scope.selectedComponentGroup = component;
+        $scope.editingSource = false;
+    };
+
     $scope.stageClicked = function (source)
     {
         if (null != $scope.selectedComponent) {
             if ($scope.selectedComponent.mockupComponent.multilineSource) {
                 applyComponentSource(source);
             }
-            $scope.selectedComponent = null
+            $scope.selectedComponent = null;
+            $scope.editingSource = false;
         }
     };
 
@@ -492,6 +504,20 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$window", function ($scope, $w
                 $scope.selectedComponent.getParent().destroy();
             }
             $scope.selectedComponent = null;
+            $scope.editingSource = false;
+            $scope.stage.draw();
+        } else if (null != $scope.selectedComponentGroup) {
+            /**
+             * markForUndo will remove all children from selection group so we need to copy references to them
+             */
+            var children = $scope.selectedComponentGroup.getChildren().toArray();
+            markForUndo();
+            Kinetic.Collection.toCollection(children).each(function (child)
+            {
+                child.destroy();
+            });
+            $scope.selectedComponentGroup.destroy();
+            $scope.selectedComponentGroup = null;
             $scope.editingSource = false;
             $scope.stage.draw();
         }
