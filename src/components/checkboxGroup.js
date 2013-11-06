@@ -2,7 +2,7 @@
 {
     function updateChildren(item)
     {
-        item.removeChildren();
+        item.destroyChildren();
         var lines = item.getText().split("\n");
         var height = 0, maxWidth;
         for (var i = 0; i < lines.length; i++) {

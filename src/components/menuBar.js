@@ -7,7 +7,7 @@
         var itemXOffset = 15;
         var itemYOffset = 5;
 
-        itemsGroup.removeChildren();
+        itemsGroup.destroyChildren();
         var component;
         var totalBarWidth = 0;
         var borderHeight = 0;

@@ -3,7 +3,7 @@
 
     function updateChildren(item)
     {
-        item.removeChildren();
+        item.destroyChildren();
         var tokenizedLines = AgidoMockups.tokenizeFormattedText(item.getText());
         var height = 0, y = 0, maxRowWidth;
         for (var i = 0; i < tokenizedLines.length; i++) {

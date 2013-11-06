@@ -2,7 +2,7 @@
 {
     function updateChildren(item)
     {
-        item.removeChildren();
+        item.destroyChildren();
         var config = {
             fontFamily: item.getFontFamily(),
             fontStyle: item.getFontStyle(),

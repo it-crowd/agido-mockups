@@ -16,7 +16,7 @@
         var lineWidth;
         var maxLineWidth = 250;
         var totalLinesHeight = lineYOffset;
-        itemsGroup.removeChildren();
+        itemsGroup.destroyChildren();
         var lines = item.getText().split("\n");
         for (var i = 0; i < lines.length; i++) {
             totalLinesHeight += lineYOffset;
