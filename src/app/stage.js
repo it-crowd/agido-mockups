@@ -313,7 +313,7 @@ agidoMockups.directive('stage', [ "$timeout", "$window", function ($timeout, $wi
             mockupComponentGroupSelected: '&',
             selectedComponent: '='
         },
-        template: '<div class="stageContainer"><div class="stage"></div><form ng-submit = "saveSource()"><input ng-model="componentSource" ng-show="editingSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"/><textarea ng-model="componentSource" ng-show="editingSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)" rows="5" cols="50"></textarea></form></div>',
+        template: '<div class="stageContainer"><div class="stage"></div><form ng-submit = "saveSource()" ng-hide="selectedComponent.mockupComponent.noSource"><input ng-model="componentSource" ng-show="editingSource && !selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)"/><textarea ng-model="componentSource" ng-show="editingSource && selectedComponent.mockupComponent.multilineSource" ng-style="editorStyle" ng-keyup="onComponentSourceKeyPress($event)" rows="5" cols="50"></textarea></form></div>',
         replace: true,
         link: function (scope, element)
         {

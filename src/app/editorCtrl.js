@@ -243,6 +243,16 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             properties: fontProperties.concat(dimensionProperties, [
                 {name: "disabled", type: "boolean"}
             ])
+        },
+        "ColorPicker": {constructor: Kinetic.ColorPicker,
+            options: {
+                color: 'red',
+                draggable: true
+            },
+            noSource: true,
+            properties: dimensionProperties.concat([
+                {name: "disabled", type: "boolean"}
+            ])
         }
     };
 

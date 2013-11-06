@@ -94,6 +94,7 @@
         <button class="btn btn-default" ng-click="addToStage('Button')">Button</button>
         <button class="btn btn-default" ng-click="addToStage('Checkbox')">Checkbox</button>
         <button class="btn btn-default" ng-click="addToStage('CheckboxGroup')">Checkbox group</button>
+        <button class="btn btn-default" ng-click="addToStage('ColorPicker')">Color picker</button>
         <button class="btn btn-default" ng-click="addToStage('Comment')">Comment</button>
         <button class="btn btn-default" ng-click="addToStage('Datepicker')">Datepicker</button>
         <button class="btn btn-default" ng-click="addToStage('ImageItem')">Image</button>
@@ -130,25 +131,25 @@
                 <span class="label label-default">Editing</span>
                 <span>
                     <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-                        <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+                        <span class="glyphicon glyphicon-arrow-left" tooltip="Undo" tooltip-placement="bottom"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-                        <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+                        <span class="glyphicon glyphicon-arrow-right" tooltip="Redo" tooltip-placement="bottom"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
+                        <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate" tooltip-placement="bottom"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
+                        <span class="glyphicon glyphicon-cutlery" tooltip="Cut" tooltip-placement="bottom"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-                        <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
+                        <span class="glyphicon glyphicon-floppy-save" tooltip="Paste" tooltip-placement="bottom"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup">
-                        <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
+                        <span class="glyphicon glyphicon-trash" tooltip="Delete" tooltip-placement="bottom"></span>
                     </button>
                     <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
+                        <span class="glyphicon glyphicon-lock" tooltip="Lock" tooltip-placement="bottom"></span>
                     </button>
                 </span>
             </div>
@@ -289,6 +290,7 @@
 <script src="../src/components/menuBar.js"></script>
 <script src="../src/components/menu.js"></script>
 <script src="../src/components/textArea.js"></script>
+<script src="../src/components/colorPicker.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="../src/components/richEditor.js"></script>
 <script src="../vendor/angular/angular.js"></script>

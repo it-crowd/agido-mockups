@@ -4,8 +4,8 @@
     AgidoMockups.icons = AgidoMockups.icons || {};
     AgidoMockups.icons.arrowDown = new Kinetic.RegularPolygon({
         name: "arrowDown",
-        width: 20,
-        height: 20,
+        width: 11,
+        height: 11,
         sides: 3,
         radius: 7,
         fill: '#000',
