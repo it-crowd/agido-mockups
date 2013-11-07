@@ -270,6 +270,13 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             properties: fontProperties.concat(dimensionProperties, [
                 {name: "disabled", type: "boolean"}
             ])
+        },
+        "FieldSet": {constructor: Kinetic.FieldSet,
+            options: {
+                draggable: true
+            },
+            multilineSource: false,
+            properties: dimensionProperties
         }
     };
 
