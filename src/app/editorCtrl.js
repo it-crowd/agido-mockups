@@ -277,6 +277,22 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             },
             multilineSource: false,
             properties: dimensionProperties
+        },
+        "HorizontalRule": {constructor: Kinetic.HorizontalRule,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            noSource: true,
+            properties: dimensionProperties
+        },
+        "VerticalRule": {constructor: Kinetic.VerticalRule,
+            options: {
+                color: '#000',
+                draggable: true
+            },
+            noSource: true,
+            properties: dimensionProperties
         }
     };
 
