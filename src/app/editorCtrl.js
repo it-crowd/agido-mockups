@@ -293,6 +293,20 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
             },
             noSource: true,
             properties: dimensionProperties
+        },
+        "VerticalScrollBar": {constructor: Kinetic.VerticalScrollBar,
+            options: {
+                draggable: true
+            },
+            noSource: true,
+            properties: dimensionProperties
+        },
+        "HorizontalScrollBar": {constructor: Kinetic.HorizontalScrollBar,
+            options: {
+                draggable: true
+            },
+            noSource: true,
+            properties: dimensionProperties
         }
     };
 
