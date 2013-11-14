@@ -17,3 +17,23 @@ I don't want user to interact with Text or Line, just with Link (i.e. link.setTe
 When should I update Text and Line children? In drawScene (Link extends Group)?
 
 #Nesting components is so cool, cause it takes rendering off of me, but I don't want it in toJSON
+
+
+#Articles
+
+## Kinetic text (auto vs fixed size)
+## Shape vs Group
+ * Why does drawFunc in object extending Group does not work?
+ * When to update children
+ * Nesting components is so cool, cause it takes rendering off of me, but I don't want it in toJSON
+ * Setter vs setAttr vs attrs
+ * destory vs remove
+
+## Editor
+ * Integrating KineticJS with AngularJS (controller->stage, stage->controller)
+ * Undo/redo
+ * Why do we need background layer?
+ * Selection group - for better performance
+ * Avoid selection group in toJSON
+ * mockupComponentSelected+selectedComponentProperties : proxy for delegation and validation
+
