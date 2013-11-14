@@ -47,7 +47,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
-                <li><a href="#" ng-click="downloadImage()">Download PNG</a></li>
+                <li><a ng-click="downloadImage()">Download PNG</a></li>
                 <li><a data-toggle="modal" data-target="#importJSONModal">Import JSON</a></li>
                 <li><a ng-click="clearStage()">Clear stage</a></li>
                 <li><a ng-click="save()">Save</a></li>
@@ -64,26 +64,26 @@
         </li>
     </ul>
     <span class="navbar-form navbar-right">
-       <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-           <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+       <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()" title="Undo">
+           <span class="glyphicon glyphicon-arrow-left"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-           <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+       <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()" title="Redo">
+           <span class="glyphicon glyphicon-arrow-right"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
+       <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent" title="Duplicate">
+           <span class="glyphicon glyphicon-floppy-save"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
+       <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent" title="Cut">
+           <span class="glyphicon glyphicon-cutlery"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-           <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
+       <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()" title="Paste">
+           <span class="glyphicon glyphicon-floppy-save"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup">
-           <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
+       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup" title="Delete">
+           <span class="glyphicon glyphicon-trash"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
+       <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent" title="Lock">
+           <span class="glyphicon glyphicon-lock"></span>
        </button>
     </span>
 
@@ -142,48 +142,53 @@
             <div>
                 <span class="label label-default">Editing</span>
                 <span>
-                    <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-                        <span class="glyphicon glyphicon-arrow-left" tooltip="Undo" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()" title="Undo">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-                        <span class="glyphicon glyphicon-arrow-right" tooltip="Redo" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()" title="Redo">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent" title="Duplicate">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-cutlery" tooltip="Cut" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent" title="Cut">
+                        <span class="glyphicon glyphicon-cutlery"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-                        <span class="glyphicon glyphicon-floppy-save" tooltip="Paste" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()" title="Paste">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup">
-                        <span class="glyphicon glyphicon-trash" tooltip="Delete" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup"
+                            title="Delete">
+                        <span class="glyphicon glyphicon-trash"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-lock" tooltip="Lock" tooltip-placement="bottom"></span>
+                    <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent" title="Lock">
+                        <span class="glyphicon glyphicon-lock"></span>
                     </button>
                 </span>
             </div>
             <div>
                 <span class="label label-default">Layering</span>
                 <span>
-                    <button class="btn btn-default btn-xs" ng-click="moveToTop()"><span class="glyphicon glyphicon-chevron-up" tooltip="Bring to front"></span>
-                    </button>
-                    <button class="btn btn-default btn-xs" ng-click="moveUp()"><span class="glyphicon glyphicon-arrow-up" tooltip="Move up"></span></button>
-                    <button class="btn btn-default btn-xs" ng-click="moveDown()"><span class="glyphicon glyphicon-arrow-down" tooltip="Move down"></span>
-                    </button>
-                    <button class="btn btn-default btn-xs" ng-click="moveToBottom()"><span class="glyphicon glyphicon-chevron-down"
-                                                                                           tooltip="Move to bottom"></span>
-                    </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveToTop()" title="Bring to front">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveUp()" title="Move up">
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveDown()" title="Move down">
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveToBottom()" title="Move to bottom">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
                     <label for="positionX">Pos</label>
-                    <input id="positionX" class="input-xs" ng-model="selectedComponentProperties.x"/>
+                    <input type="text" id="positionX" class="input-xs" ng-model="selectedComponentProperties.x"/>
                     <!--suppress HtmlFormInputWithoutLabel -->
-                    <input id="positionY" class="input-xs" ng-model="selectedComponentProperties.y"/>
+                    <input type="text" id="positionY" class="input-xs" ng-model="selectedComponentProperties.y"/>
                     <label for="width">Size</label>
-                    <input id="width" class="input-xs" ng-model="selectedComponentProperties.width" readonly/>
+                    <input type="text" id="width" class="input-xs" ng-model="selectedComponentProperties.width" readonly/>
                     <!--suppress HtmlFormInputWithoutLabel -->
-                    <input id="height" class="input-xs" ng-model="selectedComponentProperties.height" readonly/>
+                        <input type="text" id="height" class="input-xs" ng-model="selectedComponentProperties.height" readonly/>
                 </span>
             </div>
             <div ng-repeat="property in getProperties(selectedComponent)" ng-hide="property.hidden">
