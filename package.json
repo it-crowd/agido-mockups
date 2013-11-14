@@ -1,6 +1,6 @@
 {
     "name": "agido-mockups",
-    "version": "0.1.1",
+    "version": "0.1.2-SNAPSHOT",
     "devDependencies": {
         "grunt": "~0.4.1",
         "grunt-contrib-uglify": "~0.2.2",
