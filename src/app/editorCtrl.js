@@ -458,9 +458,13 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
         $scope.stage.toDataURL({callback: function (data)
         {
             var pom = document.createElement('a');
-            pom.setAttribute('href', data);
+//            replace is a hack to force file download in firefox
+            pom.setAttribute('href', data.replace(/^data:image\/[^;]/, 'data:application/octet-stream'));
             pom.setAttribute('download', "AgidoMockup.png");
+            pom.setAttribute('style', "display:none");
+            document.body.appendChild(pom);
             pom.click();
+            document.body.removeChild(pom);
         }})
     };
 
@@ -631,6 +635,21 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", function
     {
 //        TODO implement this method
         alert("Not implemented yet");
+    };
+
+    $scope.$on("AgidoMockups.sourceReady", function (event, json)
+    {
+        $scope.importJSON(json);
+    });
+
+    $scope.save = function ()
+    {
+        $scope.exportToJSON();
+        $scope.$emit("AgidoMockups.save", $scope.stageSource);
+        $scope.stage.toDataURL({callback: function (data)
+        {
+            $scope.$emit("AgidoMockups.saveImage", data);
+        }})
     };
 
     $scope.moveToTop = function ()
