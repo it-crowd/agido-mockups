@@ -1,4 +1,4 @@
-agidoMockups.directive('suggest', function ($timeout)
+agidoMockups.directive('suggest', ["$timeout", function ($timeout)
 {
     return {
         restrict: 'A',
@@ -28,4 +28,4 @@ agidoMockups.directive('suggest', function ($timeout)
             });
         }
     };
-});
+}]);
