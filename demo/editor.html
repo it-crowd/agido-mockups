@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html ng-app="AgidoMockups">
+<html ng-app="CustomApp" ng-controller="ExternalCtrl">
 <head>
     <link href='http://fonts.googleapis.com/css?family=Prosto+One|Cherry+Swash:400,700|Bigelow+Rules|Stint+Ultra+Expanded&subset=latin,latin-ext'
           rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/jquery-ui.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <style>
         .stage canvas {
@@ -29,6 +30,14 @@
         .show-no-matter-what {
             display: block !important;
         }
+
+        .ui-front {
+            z-index: 1000;
+        }
+
+        .form-control {
+            width: auto;
+        }
     </style>
 </head>
 <body ng-controller="EditorCtrl">
@@ -38,9 +47,10 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
-                <li><a href="#" ng-click="downloadImage()">Download PNG</a></li>
+                <li><a ng-click="downloadImage()">Download PNG</a></li>
                 <li><a data-toggle="modal" data-target="#importJSONModal">Import JSON</a></li>
                 <li><a ng-click="clearStage()">Clear stage</a></li>
+                <li><a ng-click="save()">Save</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -54,28 +64,33 @@
         </li>
     </ul>
     <span class="navbar-form navbar-right">
-       <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-           <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+       <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()" title="Undo">
+           <span class="glyphicon glyphicon-arrow-left"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-           <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+       <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()" title="Redo">
+           <span class="glyphicon glyphicon-arrow-right"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
+       <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent" title="Duplicate">
+           <span class="glyphicon glyphicon-floppy-save"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
+       <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent" title="Cut">
+           <span class="glyphicon glyphicon-cutlery"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-           <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
+       <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()" title="Paste">
+           <span class="glyphicon glyphicon-floppy-save"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
+       <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup" title="Delete">
+           <span class="glyphicon glyphicon-trash"></span>
        </button>
-       <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-           <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
+       <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent" title="Lock">
+           <span class="glyphicon glyphicon-lock"></span>
        </button>
     </span>
+
+    <form class="navbar-form navbar-right">
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input type="text" class="form-control" placeholder="Search" suggest="search" suggest-select="addToStageFromSearch">
+    </form>
 </nav>
 
 <div class="palette">
@@ -84,31 +99,41 @@
         <button class="btn btn-default" ng-click="addToStage('Button')">Button</button>
         <button class="btn btn-default" ng-click="addToStage('Checkbox')">Checkbox</button>
         <button class="btn btn-default" ng-click="addToStage('CheckboxGroup')">Checkbox group</button>
+        <button class="btn btn-default" ng-click="addToStage('ColorPicker')">Color picker</button>
         <button class="btn btn-default" ng-click="addToStage('Comment')">Comment</button>
         <button class="btn btn-default" ng-click="addToStage('Datepicker')">Datepicker</button>
+        <button class="btn btn-default" ng-click="addToStage('FieldSet')">Field set</button>
+        <button class="btn btn-default" ng-click="addToStage('HorizontalRule')">Horizontal rule</button>
+        <button class="btn btn-default" ng-click="addToStage('HorizontalScrollBar')">Horizontal scroll bar</button>
         <button class="btn btn-default" ng-click="addToStage('ImageItem')">Image</button>
         <button class="btn btn-default" ng-click="addToStage('Input')">Input</button>
         <button class="btn btn-default" ng-click="addToStage('Label')">Label</button>
         <button class="btn btn-default" ng-click="addToStage('Link')">Link</button>
         <button class="btn btn-default" ng-click="addToStage('Menu')">Menu</button>
         <button class="btn btn-default" ng-click="addToStage('MenuBar')">Menu bar</button>
+        <button class="btn btn-default" ng-click="addToStage('ModalOverlay')">Modal overlay</button>
+        <button class="btn btn-default" ng-click="addToStage('NumericStepper')">Numeric stepper</button>
         <button class="btn btn-default" ng-click="addToStage('Pagination')">Pagination</button>
         <button class="btn btn-default" ng-click="addToStage('Panel')">Panel</button>
         <button class="btn btn-default" ng-click="addToStage('Paragraph')">Paragraph</button>
         <button class="btn btn-default" ng-click="addToStage('RadioItem')">Radio item</button>
         <button class="btn btn-default" ng-click="addToStage('RadioGroup')">Radio group</button>
+        <button class="btn btn-default" ng-click="addToStage('RichEditor')">Rich editor</button>
         <button class="btn btn-default" ng-click="addToStage('Select')">Select</button>
         <button class="btn btn-default" ng-click="addToStage('Subtitle')">Subtitle</button>
         <button class="btn btn-default" ng-click="addToStage('Table')">Table</button>
         <button class="btn btn-default" ng-click="addToStage('TextArea')">Text area</button>
         <button class="btn btn-default" ng-click="addToStage('Title')">Title</button>
+        <button class="btn btn-default" ng-click="addToStage('VerticalRule')">Vertical rule</button>
+        <button class="btn btn-default" ng-click="addToStage('VerticalScrollBar')">Vertical scroll bar</button>
         <button class="btn btn-default" ng-click="addToStage('Window')">Window</button>
     </div>
 </div>
 
 <stage stage="stage" save-source="saveSource(source)" stage-clicked="stageClicked(source)" mockup-component-selected="mockupComponentSelected(component)"
-       selected-component="selectedComponent" is-mockup-component="isMockupComponent(component)" is-component-resizable="isComponentResizable(component)"
-       has-text="hasSource(component)" editing-source="editingSource"></stage>
+       mockup-component-group-selected="mockupComponentGroupSelected(component)" selected-component="selectedComponent"
+       is-mockup-component="isMockupComponent(component)" is-component-resizable="isComponentResizable(component)" has-text="hasSource(component)"
+       editing-source="editingSource"></stage>
 
 <div class="component-properties">
     <form ng-show="selectedComponent" class="panel panel-default">
@@ -117,48 +142,53 @@
             <div>
                 <span class="label label-default">Editing</span>
                 <span>
-                    <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()">
-                        <span class="glyphicon glyphicon-arrow-left" tooltip="Undo"></span>
+                    <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()" title="Undo">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()">
-                        <span class="glyphicon glyphicon-arrow-right" tooltip="Redo"></span>
+                    <button class="btn btn-default btn-xs" ng-click="redo()" ng-disabled="!isRedoAvailable()" title="Redo">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-floppy-save" tooltip="Duplicate"></span>
+                    <button class="btn btn-default btn-xs" ng-click="duplicate()" ng-disabled="null==selectedComponent" title="Duplicate">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-cutlery" tooltip="Cut"></span>
+                    <button class="btn btn-default btn-xs" ng-click="cut()" ng-disabled="null==selectedComponent" title="Cut">
+                        <span class="glyphicon glyphicon-cutlery"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()">
-                        <span class="glyphicon glyphicon-floppy-save" tooltip="Paste"></span>
+                    <button class="btn btn-default btn-xs" ng-click="paste()" ng-disabled="isClipboardEmpty()" title="Paste">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-trash" tooltip="Delete"></span>
+                    <button class="btn btn-default btn-xs" ng-click="delete()" ng-disabled="null==selectedComponent && null==selectedComponentGroup"
+                            title="Delete">
+                        <span class="glyphicon glyphicon-trash"></span>
                     </button>
-                    <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent">
-                        <span class="glyphicon glyphicon-lock" tooltip="Lock"></span>
+                    <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent" title="Lock">
+                        <span class="glyphicon glyphicon-lock"></span>
                     </button>
                 </span>
             </div>
             <div>
                 <span class="label label-default">Layering</span>
                 <span>
-                    <button class="btn btn-default btn-xs" ng-click="moveToTop()"><span class="glyphicon glyphicon-chevron-up" tooltip="Bring to front"></span>
-                    </button>
-                    <button class="btn btn-default btn-xs" ng-click="moveUp()"><span class="glyphicon glyphicon-arrow-up" tooltip="Move up"></span></button>
-                    <button class="btn btn-default btn-xs" ng-click="moveDown()"><span class="glyphicon glyphicon-arrow-down" tooltip="Move down"></span>
-                    </button>
-                    <button class="btn btn-default btn-xs" ng-click="moveToBottom()"><span class="glyphicon glyphicon-chevron-down"
-                                                                                           tooltip="Move to bottom"></span>
-                    </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveToTop()" title="Bring to front">
+                            <span class="glyphicon glyphicon-chevron-up"></span>
+                        </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveUp()" title="Move up">
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveDown()" title="Move down">
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        </button>
+                        <button class="btn btn-default btn-xs" ng-click="moveToBottom()" title="Move to bottom">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
                     <label for="positionX">Pos</label>
-                    <input id="positionX" class="input-xs" ng-model="selectedComponentProperties.x"/>
+                    <input type="text" id="positionX" class="input-xs" ng-model="selectedComponentProperties.x"/>
                     <!--suppress HtmlFormInputWithoutLabel -->
-                    <input id="positionY" class="input-xs" ng-model="selectedComponentProperties.y"/>
+                    <input type="text" id="positionY" class="input-xs" ng-model="selectedComponentProperties.y"/>
                     <label for="width">Size</label>
-                    <input id="width" class="input-xs" ng-model="selectedComponentProperties.width" readonly/>
+                    <input type="text" id="width" class="input-xs" ng-model="selectedComponentProperties.width" readonly/>
                     <!--suppress HtmlFormInputWithoutLabel -->
-                    <input id="height" class="input-xs" ng-model="selectedComponentProperties.height" readonly/>
+                        <input type="text" id="height" class="input-xs" ng-model="selectedComponentProperties.height" readonly/>
                 </span>
             </div>
             <div ng-repeat="property in getProperties(selectedComponent)" ng-hide="property.hidden">
@@ -182,12 +212,12 @@
     </form>
 </div>
 
-<div class="modal fade" id="stageSourceModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="stageSourceModal" tabindex="-1" role="dialog" aria-labelledby="stageSourceModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Exported stage source</h4>
+                <h4 class="modal-title" id="stageSourceModalTitle">Exported stage source</h4>
             </div>
             <div class="modal-body">
                 <!--suppress HtmlFormInputWithoutLabel -->
@@ -200,12 +230,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="importJSONModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="importJSONModal" tabindex="-1" role="dialog" aria-labelledby="importJSONModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Import stage source</h4>
+                <h4 class="modal-title" id="importJSONModalTitle">Import stage source</h4>
             </div>
             <div class="modal-body">
                 <!--suppress HtmlFormInputWithoutLabel -->
@@ -228,15 +258,18 @@
     {{ font }}
 </div>
 
-<script src="js/kinetic-v4.7.1.js"></script>
-<script src="../agido-mockups-v0.1.0.kinetic.min.js"></script>
-<script src="js/angular.js"></script>
-<script src="../agido-mockups-v0.1.0.angular.min.js"></script>
-<script src="js/ui-bootstrap-tpls-0.6.0.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery-ui-1.10.3.js"></script>
+<script src="js/jquery-ui-1.9.2.js"></script>
+<script src="js/kinetic-v4.7.1.js"></script>
+<script src="../agido-mockups-v0.1.2.kinetic.min.js"></script>
+<script src="js/angular.js"></script>
+<script src="js/externalCtrl.js"></script>
+<script src="../agido-mockups-v0.1.2.angular.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <script>
+    /**
+     * This is a hack to position component-properties panel properly.
+     */
     jQuery(function ()
     {
         var stage = jQuery(".stage");
@@ -245,29 +278,6 @@
         form.addClass("show-no-matter-what");
         form.offset({top: stage.offset().top + 20, left: stage.width() - form.width() - 20});
         form.removeClass("show-no-matter-what");
-        var json = '[{"attrs":{"width":141,"height":100,"color":"#000","draggable":true,"componentName":"Comment","rotation":0.05235987755982989,"x":1132,"y":232,"text":"Isn\'t this wonderful"},"className":"Comment"},'
-                + '{"attrs":{"draggable":true,"componentName":"Window","x":20,"y":20,"text":"A Web Page\\nhttp://itcrowd.pl","width":1036,"height":586},"className":"Window"},'
-                + '{"attrs":{"stroke":"#000","draggable":true,"width":200,"height":50,"componentName":"Arrow","x":967,"y":209,"strokeWidth":5},"className":"Arrow"},'
-                + '{"attrs":{"color":"#000","draggable":true,"componentName":"Checkbox","width":100,"height":18,"x":40,"y":100},"className":"Checkbox"},'
-                + '{"attrs":{"color":"#000","draggable":true,"componentName":"CheckboxGroup","height":90,"width":118,"x":40,"y":160},"className":"CheckboxGroup"},'
-                + '{"attrs":{"color":"#000","draggable":true,"componentName":"RadioItem","height":18,"width":127,"x":220,"y":100},"className":"RadioItem"},'
-                + '{"attrs":{"color":"#000","draggable":true,"componentName":"RadioGroup","height":90,"width":115,"x":220,"y":160},"className":"RadioGroup"},'
-                + '{"attrs":{"width":150,"color":"#000","draggable":true,"componentName":"Datepicker","height":28,"x":120,"y":280},"className":"Datepicker"},'
-                + '{"attrs":{"width":80,"height":80,"draggable":true,"componentName":"ImageItem","clipX":0,"clipY":0,"clipWidth":80,"clipHeight":80,"x":380,"y":100,"text":"Some image"},"className":"ImageItem"},'
-                + '{"attrs":{"text":"Label","fill":"#000","draggable":true,"componentName":"Label","width":"auto","height":"auto","x":40,"y":300},"className":"Text"},'
-                + '{"attrs":{"draggable":true,"componentName":"Menu","height":170,"width":250,"x":720,"y":120},"className":"Menu"},'
-                + '{"attrs":{"width":300,"draggable":true,"componentName":"MenuBar","height":28,"x":720,"y":100},"className":"MenuBar"},'
-                + '{"attrs":{"draggable":true,"componentName":"Pagination","width":160,"height":20,"x":820,"y":560},"className":"Pagination"},'
-                + '{"attrs":{"width":146,"height":136,"draggable":true,"componentName":"Panel","x":40,"y":320},"className":"Panel"},'
-                + '{"attrs":{"color":"#5df","draggable":true,"componentName":"Link","width":64,"height":18,"x":60,"y":360},"className":"Link"},'
-                + '{"attrs":{"color":"#000","draggable":true,"componentName":"Button","width":92,"height":28,"x":60,"y":400},"className":"Button"},'
-                + '{"attrs":{"draggable":true,"componentName":"Paragraph","height":36,"width":166,"x":380,"y":340},"className":"Paragraph"},'
-                + '{"attrs":{"width":150,"color":"#000","draggable":true,"componentName":"Select","height":79,"x":200,"y":320,"opened":true,"text":"Select\\nOption 1\\nOption 2"},"className":"Select"},'
-                + '{"attrs":{"fontSize":32,"text":"Subtitle","fill":"#000","draggable":true,"componentName":"Subtitle","width":"auto","height":"auto","x":500,"y":220},"className":"Text"},'
-                + '{"attrs":{"draggable":true,"componentName":"Table","x":560,"y":300},"className":"Table"},'
-                + '{"attrs":{"width":200,"height":100,"color":"#000","draggable":true,"componentName":"TextArea","x":200,"y":420},"className":"TextArea"},'
-                + '{"attrs":{"fontSize":48,"text":"Title","fill":"#000","draggable":true,"componentName":"Title","width":"auto","height":"auto","x":500,"y":160},"className":"Text"}]';
-        angular.element(stage[0]).scope().$parent.importJSON(json);
     });
 </script>
 </body>
